@@ -1,0 +1,146 @@
+[tool.poetry]
+package-mode = true
+name = "junglescout"
+version = "0.2.0"
+license = "MIT"
+authors = ["Jungle Scout <support@junglescout.com>"]
+description = "Jungle Scout API Client"
+readme = "README.md"
+repository = "https://github.com/Junglescout/jungle-scout-python-client"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydantic = "^2.6.3"
+requests = "^2.31.0"
+python-dateutil = "^2.8.2"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.2"
+pytest-sugar = "^1.0.0"
+black = "22.3.0"
+isort = "5.13.2"
+ipython = {version = "^8.22.2", python = ">=3.10,<4.0"}
+pytest-dotenv = "^0.5.2"
+pyright = "^1.1.352"
+ruff = "^0.3.0"
+requests-mock = "^1.11.0"
+factory-boy = "^3.3.0"
+sphinx = "^7.2.6"
+sphinx-autodoc-typehints = "^2.0.0"
+sphinx-rtd-theme = "^2.0.0"
+python-semantic-release = "^9.1.1"
+autodoc-pydantic = "^2.1.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+target-version = ['py39']
+skip-numeric-underscore-normalization = true
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+env_override_existing_values = 1
+env_files = [".env", ".env.test"]
+markers = [
+    "integration: mark a test as an integration test",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+
+[tool.ruff.lint]
+preview = true
+select = [
+    "A",
+    "ARG",
+    "B",
+    "C4",
+    "D",
+    "DTZ",
+    "E",
+    "EM",
+    "ERA",
+    "F",
+    "FLY",
+    "FURB",
+    "INP",
+    "ISC",
+    "LOG",
+    "N",
+    "PERF",
+    "PIE",
+    "PL",
+    "PT",
+    "PYI",
+    "Q",
+    "RET",
+    "RUF",
+    "S",
+    "SIM",
+    "T10",
+    "T20",
+    "TD004",
+    "TD005",
+    "TD006",
+    "TD007",
+    "TRY",
+    "W",
+]
+ignore = [
+    "D203",
+    "D213",
+    "D100",
+    "S101",
+    "PLR0913",
+    "PLR0917",
+    "RET503",  # TODO: reenable this check once we figure out a better way to manage exceptions
+    "TRY003",  # TODO: reenable this check once we figure out a better way to manage exceptions
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"__init_.py" = ["E402", "F401"]
+"tests/*.py" = ["D"]
+"docs/*.py" = ["D"]
+"src/junglescout/models/requests/*.py" = ["D101", "D102"]
+
+[tool.semantic_release]
+major_on_zero = false
+build_command = "poetry build"
+version_variables = [
+    "src/junglescout/__init__.py:__version__",
+    "docs/conf.py:release",
+]
+version_toml = [
+    "pyproject.toml:tool.poetry.version"
+]
+
+[tool.semantic_release.branches.main]
+match = "main"
+prerelease = false
+
+[tool.semantic_release.commit_parser_options]
+allowed_tags = ["build", "chore", "ci", "docs", "feat", "fix", "perf", "style", "refactor", "test"]
+minor_tags = ["feat"]
+patch_tags = ["fix", "perf"]
+
+[tool.semantic_release.remote]
+name = "origin"
+type = "github"
+
+[tool.semantic_release.remote.token]
+env = "GH_TOKEN"
+
+[tool.semantic_release.publish]
+dist_glob_patterns = ["dist/*"]
+upload_to_vcs_release = true
