@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jungle-scout"
+dynamic = ["version"]
+description = "Jungle Scout API client"
+readme = "README.md"
+url = "https://github.com/Junglescout/jungle-scout-python-client"
+requires-python = ">=3.7"
+dependencies = [
+    "python-dateutil>=2.6.0",
+    "requests>=2.18",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "pytest-sugar",
+]
+dev = [
+    "github3.py[test]",
+    "tox>=4",
+    "black==22.3.0",
+    "isort",
+    "ipython",
+]
+
+[tool.hatch.version]
+path = "src/jungle_scout/__about__.py"
+
+[tool.black]
+line-length = 120
+target-version = ['py37']
+skip-numeric-underscore-normalization = true
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+env_override_existing_values = 1
+
+[tool.ruff]
+line-length = 120
+target-version = "py37"
