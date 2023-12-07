@@ -7,15 +7,22 @@ name = "jungle-scout"
 dynamic = ["version"]
 description = "Jungle Scout API client"
 readme = "README.md"
+url = "https://github.com/Junglescout/jungle-scout-python-client"
 requires-python = ">=3.7"
 dependencies = [
     "python-dateutil>=2.6.0",
     "requests>=2.18",
 ]
 
-[project.urls]
-Documentation = "https://github.com/Junglescout/jungle-scout-python-client#README.md"
-Source = "https://github.com/Junglescout/jungle-scout-python-client"
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "pytest-sugar",
+]
+dev = [
+    "github3.py[test]",
+    "tox>=4",
+]
 
 [tool.hatch.version]
 path = "src/jungle_scout/__about__.py"
