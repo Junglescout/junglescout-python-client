@@ -1,9 +1,10 @@
 import json
-from typing import NoReturn, Optional
+from typing import List, NoReturn, Optional
 
 import requests
 
 from jungle_scout.marketplace import Marketplace
+from jungle_scout.models.keyword_by_asin import KeywordByASIN
 from jungle_scout.session import Session
 
 
@@ -11,9 +12,11 @@ class Client:
     def __init__(self, api_key_name: str, api_key: str, marketplace: Optional[Marketplace] = None):
         self.session = Session()
         self.session.login(api_key_name=api_key_name, api_key=api_key)
-        self._marketplace = marketplace
+        self.marketplace = marketplace
 
-    def keywords_by_asin(self, asin: str, marketplace: Optional[Marketplace] = None):
+    def keywords_by_asin(self, asin: str, marketplace: Optional[Marketplace] = None) -> List[KeywordByASIN]:
+        # TODO: this is a simple way to demonstrate the concept but is lacking many features including
+        #       pagination/iteration, retries, more usable interfaces, etc.
         url = self.session.build_url(
             "keywords",
             "keywords_by_asin_query",
@@ -30,16 +33,14 @@ class Client:
                 }
             }
         )
-        # TODO: move logic to session??
         response = self.session.request("POST", url, data=payload)
         if response.ok:
-            # TODO: translate to model
-            return response.json()
+            return [KeywordByASIN(each) for each in response.json()["data"]]
         else:
             self._raise_for_status(response)
 
     def _resolve_marketplace(self, provided_marketplace: Optional[Marketplace] = None) -> Marketplace:
-        resolved_marketplace = provided_marketplace or self._marketplace
+        resolved_marketplace = provided_marketplace or self.marketplace
         if isinstance(resolved_marketplace, Marketplace):
             return resolved_marketplace
         else:
@@ -48,7 +49,7 @@ class Client:
     @staticmethod
     def _raise_for_status(response: requests.Response) -> NoReturn:
         """
-        Method the explicitly raises an exception so type checking tools inference works correctly.
+        Method the explicitly raises an exception so type checking inference works correctly.
         """
         http_error_message = "Something went wrong"
         try:

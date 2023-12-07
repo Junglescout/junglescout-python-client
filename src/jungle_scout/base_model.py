@@ -1,9 +1,9 @@
 import json
+from abc import ABC, abstractmethod
 from typing import Dict
-from abc import abstractmethod
 
 
-class BaseModel:
+class BaseModel(ABC):
     def __init__(self, json_data):
         self._json_data = json_data
         self._update_attributes(json_data)
