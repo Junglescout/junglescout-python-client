@@ -1,5 +1,7 @@
 import json
-from typing import Optional, NoReturn
+from typing import NoReturn, Optional
+
+import requests
 
 from jungle_scout.marketplace import Marketplace
 from jungle_scout.session import Session
@@ -8,8 +10,8 @@ from jungle_scout.session import Session
 class Client:
     def __init__(self, api_key_name: str, api_key: str, marketplace: Optional[Marketplace] = None):
         self.session = Session()
+        self.session.login(api_key_name=api_key_name, api_key=api_key)
         self._marketplace = marketplace
-        self._login(api_key_name, api_key)
 
     def keywords_by_asin(self, asin: str, marketplace: Optional[Marketplace] = None):
         url = self.session.build_url(
@@ -35,10 +37,6 @@ class Client:
             return response.json()
         else:
             self._raise_for_status(response)
-
-    def _login(self, api_key_name: str, api_key: str):
-        # TODO: implement the `basic_auth` method
-        self.session.basic_auth(api_key_name, api_key)
 
     def _resolve_marketplace(self, provided_marketplace: Optional[Marketplace] = None) -> Marketplace:
         resolved_marketplace = provided_marketplace or self._marketplace

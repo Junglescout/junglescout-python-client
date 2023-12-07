@@ -1,5 +1,5 @@
-from typing import Optional, Dict
 import urllib.parse
+from typing import Dict, Optional
 
 import requests
 
@@ -25,3 +25,10 @@ class Session(requests.Session):
         if params:
             return f"{url}?{urllib.parse.urlencode(params)}"
         return url
+
+    def login(self, api_key_name: str, api_key: str):
+        self.headers.update(
+            {
+                "Authorization": f"{api_key_name}:{api_key}",
+            }
+        )
