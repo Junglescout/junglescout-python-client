@@ -6,7 +6,7 @@ Jungle Scout API Python Client.
 
 ```bash
 # install using Github personal access token for authentication
-pip install git+https://${GITHUB_PERSONAL_TOKEN}@github.com/Junglescout/gong-client.git@main
+pip install git+https://${GITHUB_PERSONAL_TOKEN}@github.com/Junglescout/jungle-scout-python-client.git@main
 ```
 
 ## Usage
