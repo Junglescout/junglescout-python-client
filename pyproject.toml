@@ -12,6 +12,7 @@ requires-python = ">=3.7"
 dependencies = [
     "python-dateutil>=2.6.0",
     "requests>=2.18",
+    "tenacity>=8.0.0",
 ]
 
 [project.optional-dependencies]
