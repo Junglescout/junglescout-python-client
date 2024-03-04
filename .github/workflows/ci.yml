@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  pull_request:
+
+jobs:
+  ci-checks:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
+      - name: Install tox
+        run: pipx install tox
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+          cache: 'poetry'
+      - name: Run tox checks
+        run: tox run
