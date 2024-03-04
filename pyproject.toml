@@ -9,7 +9,7 @@ readme = "README.md"
 repository = "https://github.com/Junglescout/jungle-scout-python-client"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 tenacity = "^8.2.3"
 
 [tool.poetry.group.dev.dependencies]
@@ -27,7 +27,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 120
-target-version = ['py38']
+target-version = ['py39']
 skip-numeric-underscore-normalization = true
 
 [tool.isort]
@@ -40,4 +40,4 @@ env_override_existing_values = 1
 
 [tool.ruff]
 line-length = 120
-target-version = "py38"
+target-version = "py39"

@@ -20,13 +20,13 @@ test = ["astroid (>=1,<2)", "astroid (>=2,<4)", "pytest"]
 
 [[package]]
 name = "betamax"
-version = "0.8.1"
+version = "0.9.0"
 description = "A VCR imitation for python-requests"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8.1"
 files = [
-    {file = "betamax-0.8.1-py2.py3-none-any.whl", hash = "sha256:aa5ad34cc8d018b35814fb0557d15c78ced9ac56fdc43ccacdb882aa7a5217c1"},
-    {file = "betamax-0.8.1.tar.gz", hash = "sha256:5bf004ceffccae881213fb722f34517166b84a34919b92ffc14d1dbd050b71c2"},
+    {file = "betamax-0.9.0-py2.py3-none-any.whl", hash = "sha256:880d6da87eaf7e61c42bdc4240f0ac04ab5365bd7f2798784c18d37d8cf747bc"},
+    {file = "betamax-0.9.0.tar.gz", hash = "sha256:82316e1679bc6879e3c83318d016b54b7c9225ff08c4462de4813e22038d5f94"},
 ]
 
 [package.dependencies]
@@ -1096,5 +1096,5 @@ files = [
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.8"
-content-hash = "106899514bb25ff9872ef0f639e853d1f791fe98e1abbafa44eae580940685e7"
+python-versions = "^3.9"
+content-hash = "ea20b9c721b6f4ca133a12874a069e550963ca7f5ca62a3e9e3da3592a036ea4"
