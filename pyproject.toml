@@ -1,39 +1,33 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[project]
+[tool.poetry]
+package-mode = true
 name = "jungle-scout"
-dynamic = ["version"]
-description = "Jungle Scout API client"
+version = "0.1.0"
+license = "MIT"
+authors = ["Jungle Scout <support@junglescout.com>"]
+description = "Jungle Scout API Client"
 readme = "README.md"
-url = "https://github.com/Junglescout/jungle-scout-python-client"
-requires-python = ">=3.7"
-dependencies = [
-    "python-dateutil>=2.6.0",
-    "requests>=2.18",
-    "tenacity>=8.0.0",
-]
+repository = "https://github.com/Junglescout/jungle-scout-python-client"
 
-[project.optional-dependencies]
-test = [
-    "pytest>=7.0",
-    "pytest-sugar",
-]
-dev = [
-    "github3.py[test]",
-    "tox>=4",
-    "black==22.3.0",
-    "isort",
-    "ipython",
-]
+[tool.poetry.dependencies]
+python = "^3.8"
+tenacity = "^8.2.3"
 
-[tool.hatch.version]
-path = "src/jungle_scout/__about__.py"
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.2"
+pytest-sugar = "^1.0.0"
+github3-py = {extras = ["test"], version = "^4.0.1"}
+tox = ">=4"
+black = "22.3.0"
+isort = "5.13.2"
+ipython = {version = "^8.22.2", python = ">=3.10,<4.0"}
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 120
-target-version = ['py37']
+target-version = ['py39']
 skip-numeric-underscore-normalization = true
 
 [tool.isort]
@@ -46,4 +40,4 @@ env_override_existing_values = 1
 
 [tool.ruff]
 line-length = 120
-target-version = "py37"
+target-version = "py39"

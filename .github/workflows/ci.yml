@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  pull_request:
+
+jobs:
+  tests:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os:
+          - 'ubuntu-latest'
+          - 'windows-latest'
+          - 'macos-latest'
+        python-version:
+          - '3.8'
+          - '3.9'
+          - '3.10'
+          - '3.11'
+          - '3.12'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
+      - name: Install tox
+        run: pipx install tox
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'poetry'
+      - name: Run tests
+        run: tox -e py${{ matrix.python-version }}
+
+  formatting:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
+      - name: Install tox
+        run: pipx install tox
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: 'poetry'
+      - name: Run formatting checks
+        run: tox -e format

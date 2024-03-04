@@ -1,17 +1,25 @@
 import json
 from typing import List, NoReturn, Optional
+
 import requests
 import tenacity
-from jungle_scout.models.parameters.marketplace import Marketplace
-from jungle_scout.models.parameters.sort import Sort
-from jungle_scout.models.parameters.api_type import ApiType
+
 from jungle_scout.models.keyword_by_asin import KeywordByASIN
 from jungle_scout.models.keyword_by_keyword import KeywordByKeyword
+from jungle_scout.models.parameters.api_type import ApiType
+from jungle_scout.models.parameters.marketplace import Marketplace
+from jungle_scout.models.parameters.sort import Sort
 from jungle_scout.session import Session
 
 
 class Client:
-    def __init__(self, api_key_name: str, api_key: str, api_type: Optional[ApiType] = ApiType.JS, marketplace: Optional[Marketplace] = None):
+    def __init__(
+        self,
+        api_key_name: str,
+        api_key: str,
+        api_type: Optional[ApiType] = ApiType.JS,
+        marketplace: Optional[Marketplace] = None,
+    ):
         self.session = Session()
         self.session.login(api_key_name=api_key_name, api_key=api_key)
         self.marketplace = marketplace
@@ -19,8 +27,7 @@ class Client:
     @tenacity.retry(
         wait=tenacity.wait_fixed(1),  # Wait 1 second between retries
         stop=tenacity.stop_after_attempt(3),  # Retry 3 times
-        retry=tenacity.retry_if_exception_type(
-            requests.exceptions.RequestException)  # Retry on RequestException
+        retry=tenacity.retry_if_exception_type(requests.exceptions.RequestException),  # Retry on RequestException
     )
     def keywords_by_asin(self, asin: str, marketplace: Optional[Marketplace] = None) -> List[KeywordByASIN]:
         # TODO: this is a simple way to demonstrate the concept but is lacking many features including

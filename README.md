@@ -13,7 +13,7 @@ pip install git+https://${GITHUB_PERSONAL_TOKEN}@github.com/Junglescout/jungle-s
 
 ```python
 from jungle_scout.client import Client
-from jungle_scout.marketplace import Marketplace
+from jungle_scout.models.parameters.marketplace import Marketplace
 
 API_KEY_NAME = "api_key_name"
 API_KEY = "api_key"
@@ -31,10 +31,16 @@ keywords = client.keywords_by_asin('B005IHSKYS')
 # install tox
 pipx install tox
 
-# install python versions for tox environments
+# install poetry
+pipx install poetry
+
+# install project python versions
 pyenv install
 
-# run quality tests against python versions
+# install dependencies
+poetry install
+
+# run tests
 tox run
 ```
 
