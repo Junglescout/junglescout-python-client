@@ -50,8 +50,8 @@ tox run
 # its recommended to install the project in a virtual environment for local development
 # the example commands use `pyenv virtualenv` to create the virtual environment
 # see https://github.com/pyenv/pyenv-virtualenv for more information
-pyenv virtualenv 3.7 jungle-scout-python-client-3.7
-pyenv activate jungle-scout-python-client-3.7
+pyenv virtualenv 3.8 jungle-scout-python-client-3.8
+pyenv activate jungle-scout-python-client-3.8
 
 # install project in editable mode with dev dependencies in the virtual environment
 pip install -e .[dev]
