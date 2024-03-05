@@ -12,6 +12,7 @@ from jungle_scout.models.parameters.sort import Sort
 from jungle_scout.models.parameters.filter_options import FilterOptions
 from jungle_scout.session import Session
 from jungle_scout.models.requests.keyword_by_asin_request import KeywordByAsinRequest, KeywordByAsinParams, KeywordByAsinAttributes
+from jungle_scout.models.requests.keywords_by_keyword_request import KeywordsByKeywordRequest, KeywordsByKeywordParams, KeywordsByKeywordAttributes
 
 
 class Client:
@@ -34,9 +35,14 @@ class Client:
     )
     def keywords_by_asin(self, asin: Union[str, List[str]], include_variants: bool = True, filterOptions: Optional[FilterOptions] = None, sortOption: Optional[Sort] = None, marketplace: Optional[Marketplace] = None) -> List[KeywordByASIN]:
 
-        keyword_by_asin_request = KeywordByAsinRequest(asin=asin, params=KeywordByAsinParams(
-            marketplace=self._resolve_marketplace(marketplace).country_code, sort=sortOption.value), attributes=KeywordByAsinAttributes(
-            asins=asin, filter_options=filterOptions, include_variants=include_variants))
+        params = KeywordByAsinParams(
+            marketplace=self._resolve_marketplace(marketplace), sort=sortOption.value)
+
+        attributes = KeywordByAsinAttributes(
+            asins=asin, filter_options=filterOptions, include_variants=include_variants)
+
+        keyword_by_asin_request = KeywordByAsinRequest(
+            asin=asin, params=params, attributes=attributes)
 
         url = self.session.build_url(
             "keywords",
@@ -52,31 +58,24 @@ class Client:
         else:
             self._raise_for_status(response)
 
-    def keywords_by_keyword(self, search_terms: str, filterOptions: Optional[FilterOptions] = None, marketplace: Optional[Marketplace] = None) -> List[KeywordByKeyword]:
+    def keywords_by_keyword(self, search_terms: str, categories: Optional[List[str]] = None, filterOptions: Optional[FilterOptions] = None, marketplace: Optional[Marketplace] = None) -> List[KeywordByKeyword]:
+
+        params = KeywordsByKeywordParams(marketplace=self._resolve_marketplace(
+            marketplace), sort=Sort.monthly_search_volume_exact)
+
+        attributes = KeywordsByKeywordAttributes(
+            search_terms=search_terms, filter_options=filterOptions, categories=categories)
+
+        keywords_by_keyword_request = KeywordsByKeywordRequest(
+            params, attributes)
+
         url = self.session.build_url(
             "keywords",
             "keywords_by_keyword_query",
-            params={
-                "marketplace": self._resolve_marketplace(marketplace).country_code,
-                "sort": Sort.monthly_search_volume_exact.value,
-                "page[size]": 50,
-            },
+            params=keywords_by_keyword_request.params
         )
 
-        attributes = {"categories": self._resolve_marketplace(marketplace).categories,
-                      "search_terms": search_terms}
-
-        if filterOptions is not None:
-            attributes.update(vars(filterOptions))
-
-        payload = json.dumps(
-            {
-                "data": {
-                    "type": "keywords_by_keyword_query",
-                    "attributes": attributes,
-                }
-            }
-        )
+        payload = keywords_by_keyword_request.payload
 
         response = self.session.request("POST", url, data=payload)
 

@@ -2,11 +2,12 @@ from jungle_scout.base_request import BaseRequest
 from typing import Dict, List, Optional, Union, TypedDict
 from jungle_scout.models.parameters.filter_options import FilterOptions
 from jungle_scout.models.parameters.sort import Sort
+from jungle_scout.models.parameters.marketplace import Marketplace
 import json
 
 
 class KeywordByAsinParams(TypedDict):
-    marketplace: str
+    marketplace: Marketplace
     sort: Optional[Sort]
     page_size: int = 50
     page: Optional[str]
@@ -48,14 +49,14 @@ class KeywordByAsinRequest(BaseRequest):
 
     def build_params(self, params: KeywordByAsinParams) -> Dict:
         params_dict = {
-            "marketplace": params.get('marketplace'),
+            "marketplace": params.get('marketplace').country_code,
             "sort": params.get('sort'),
             "page[size]": params.get('page_size', 50),
             "page[cursor]": params.get('page')
         }
 
         clean_params = {k: v for k,
-                        v in params.items() if v is not None}
+                        v in params_dict.items() if v is not None}
 
         return clean_params
 

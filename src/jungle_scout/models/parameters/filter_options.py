@@ -2,7 +2,7 @@ from typing import TypedDict, Optional
 
 
 class Options(TypedDict):
-    min_monthly_search_volume_exact: Optional[int]  # required field
+    min_monthly_search_volume_exact: Optional[int]
     max_monthly_search_volume_exact: Optional[int]
     min_monthly_search_volume_broad: Optional[int]
     max_monthly_search_volume_broad: Optional[int]
