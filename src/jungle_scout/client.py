@@ -52,16 +52,17 @@ class Client:
 
         payload = keyword_by_asin_request.payload
 
-        response = self.session.request("POST", url, data=payload)
+        response = self.session.request(
+            keyword_by_asin_request.method, url, data=payload)
         if response.ok:
             return [KeywordByASIN(each) for each in response.json()["data"]]
         else:
             self._raise_for_status(response)
 
-    def keywords_by_keyword(self, search_terms: str, categories: Optional[List[str]] = None, filterOptions: Optional[FilterOptions] = None, marketplace: Optional[Marketplace] = None) -> List[KeywordByKeyword]:
+    def keywords_by_keyword(self, search_terms: str, categories: Optional[List[str]] = None, filterOptions: Optional[FilterOptions] = None, sortOption: Optional[Sort] = None, marketplace: Optional[Marketplace] = None) -> List[KeywordByKeyword]:
 
         params = KeywordsByKeywordParams(marketplace=self._resolve_marketplace(
-            marketplace), sort=Sort.monthly_search_volume_exact)
+            marketplace), sort=sortOption.value)
 
         attributes = KeywordsByKeywordAttributes(
             search_terms=search_terms, filter_options=filterOptions, categories=categories)
@@ -77,7 +78,8 @@ class Client:
 
         payload = keywords_by_keyword_request.payload
 
-        response = self.session.request("POST", url, data=payload)
+        response = self.session.request(
+            keywords_by_keyword_request.method, url, data=payload)
 
         if response.ok:
             return [KeywordByKeyword(each) for each in response.json()["data"]]

@@ -35,8 +35,8 @@ class KeywordsByKeywordRequest(BaseRequest):
             attributes_dict.update(vars(attributes.get('filter_options')))
 
         if attributes.get('categories'):
-            validate_categories(attributes.get('categories'),
-                                marketplace)
+            self._validate_categories(attributes.get('categories'),
+                                      marketplace)
             attributes_dict.update(
                 {'categories': attributes.get('categories')})
 
@@ -54,7 +54,7 @@ class KeywordsByKeywordRequest(BaseRequest):
 
     def build_params(self, params: KeywordsByKeywordParams) -> Dict:
         params_dict = {
-            "marketplace": params.get('marketplace'),
+            "marketplace": params.get('marketplace').country_code,
             "sort": params.get('sort'),
             "page[size]": params.get('page_size', 50),
             "page[cursor]": params.get('page')
@@ -65,7 +65,7 @@ class KeywordsByKeywordRequest(BaseRequest):
 
         return clean_params
 
-    def validate_categories(self, categories: Optional[List[str]], marketplace: Marketplace) -> List[str]:
+    def _validate_categories(self, categories: Optional[List[str]], marketplace: Marketplace) -> List[str]:
         # check if the objects in the categories lists are inside the current marketplace categories
         categories = categories or marketplace.categories
 
