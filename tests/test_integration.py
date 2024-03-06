@@ -9,7 +9,7 @@ API_KEY_NAME = os.environ["API_KEY_NAME"]
 API_KEY = os.environ["API_KEY"]
 
 
-@pytest.mark.skip(reason="Integration tests are run manually for now.")
+@pytest.mark.integration
 def test_integration():
 
     client = Client(api_key_name=API_KEY_NAME, api_key=API_KEY, marketplace=Marketplace.US)

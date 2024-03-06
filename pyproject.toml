@@ -43,6 +43,9 @@ testpaths = ["tests"]
 pythonpath = ["src"]
 env_override_existing_values = 1
 env_files = [".env.test"]
+markers = [
+    "integration: mark a test as an integration test",
+]
 
 [tool.ruff]
 line-length = 120
