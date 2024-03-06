@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Union
 
 from pydantic import computed_field, field_validator, model_serializer
 
-from jungle_scout.base_request import BaseRequest
+from jungle_scout.models.requests.base_request import BaseRequest
 from jungle_scout.models.parameters import Attributes, Params
 from jungle_scout.models.requests import Method, RequestType
 
