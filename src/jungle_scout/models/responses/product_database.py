@@ -1,10 +1,10 @@
 from dateutil.parser import parse
 
-from jungle_scout.base_model import BaseModel
+from jungle_scout.models.responses.base_response import BaseResponse
 
 
 # TODO: replace with pydantic model
-class ProductDatabase(BaseModel):
+class ProductDatabase(BaseResponse):
     def _update_attributes(self, json_data):
         self.data_type = json_data["type"]
         self.id = json_data["id"]
@@ -49,13 +49,13 @@ class ProductDatabase(BaseModel):
             self.fee_breakdown = FeeBreakdown(fee_breakdown_data)
 
 
-class SubcategoryRanks(BaseModel):
+class SubcategoryRanks(BaseResponse):
     def _update_attributes(self, json_data):
         self.subcategory = json_data["subcategory"]
         self.rank = json_data["rank"]
 
 
-class FeeBreakdown(BaseModel):
+class FeeBreakdown(BaseResponse):
     def _update_attributes(self, json_data):
         self.fba_fee = json_data["fba_fee"]
         self.referral_fee = json_data["referral_fee"]

@@ -1,12 +1,10 @@
-import json
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Dict
 
-from pydantic import ValidationInfo, field_validator, model_serializer, validator
+from pydantic import field_validator
 
 from jungle_scout.base_request import BaseRequest
 from jungle_scout.models.parameters.attributes import Attributes
-from jungle_scout.models.parameters.marketplace import Marketplace
 from jungle_scout.models.parameters.params import Params
 from jungle_scout.models.requests.method import Method
 from jungle_scout.models.requests.request_type import RequestType
@@ -36,7 +34,7 @@ class HistoricalSearchVolumeParams(Params):
             raise ValueError("Date must be in the format YYYY-MM-DD")
         return date
 
-    @validator("end_date", always=True)
+    @field_validator("end_date")
     @classmethod
     def check_dates(cls, v, values, **kwargs):
         if "start_date" in values and v < values["start_date"]:

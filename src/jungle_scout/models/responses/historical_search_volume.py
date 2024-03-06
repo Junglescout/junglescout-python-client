@@ -1,8 +1,8 @@
-from jungle_scout.base_model import BaseModel
+from jungle_scout.models.responses.base_response import BaseResponse
 
 
 # TODO: replace with pydantic model
-class HistoricalSearchVolume(BaseModel):
+class HistoricalSearchVolume(BaseResponse):
     def _update_attributes(self, json_data):
         self.data_type = json_data["type"]
         self.id = json_data["id"]

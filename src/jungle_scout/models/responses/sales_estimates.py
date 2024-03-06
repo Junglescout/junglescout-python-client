@@ -1,14 +1,14 @@
-from jungle_scout.base_model import BaseModel
+from jungle_scout.models.responses.base_response import BaseResponse
 
 
-class SalesEstimateData(BaseModel):
+class SalesEstimateData(BaseResponse):
     def _update_attributes(self, json_data):
         self.date = json_data["date"]
         self.estimated_units_sold = json_data["estimated_units_sold"]
         self.last_known_price = json_data["last_known_price"]
 
 
-class SalesEstimates(BaseModel):
+class SalesEstimates(BaseResponse):
     def _update_attributes(self, json_data):
         self.id = json_data["id"]
         self.data_type = json_data["type"]
