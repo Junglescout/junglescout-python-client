@@ -1,14 +1,24 @@
 import json
-from typing import List, NoReturn, Optional
+from typing import List, NoReturn, Optional, Union
 
 import requests
-import tenacity
 
 from jungle_scout.models.keyword_by_asin import KeywordByASIN
 from jungle_scout.models.keyword_by_keyword import KeywordByKeyword
 from jungle_scout.models.parameters.api_type import ApiType
+from jungle_scout.models.parameters.filter_options import FilterOptions
 from jungle_scout.models.parameters.marketplace import Marketplace
 from jungle_scout.models.parameters.sort import Sort
+from jungle_scout.models.requests.keyword_by_asin_request import (
+    KeywordByAsinAttributes,
+    KeywordByAsinParams,
+    KeywordByAsinRequest,
+)
+from jungle_scout.models.requests.keywords_by_keyword_request import (
+    KeywordsByKeywordAttributes,
+    KeywordsByKeywordParams,
+    KeywordsByKeywordRequest,
+)
 from jungle_scout.session import Session
 
 
@@ -24,61 +34,67 @@ class Client:
         self.session.login(api_key_name=api_key_name, api_key=api_key)
         self.marketplace = marketplace
 
-    @tenacity.retry(
-        wait=tenacity.wait_fixed(1),  # Wait 1 second between retries
-        stop=tenacity.stop_after_attempt(3),  # Retry 3 times
-        retry=tenacity.retry_if_exception_type(requests.exceptions.RequestException),  # Retry on RequestException
-    )
-    def keywords_by_asin(self, asin: str, marketplace: Optional[Marketplace] = None) -> List[KeywordByASIN]:
-        # TODO: this is a simple way to demonstrate the concept but is lacking many features including
-        #       pagination/iteration, retries, more usable interfaces, etc.
+    def keywords_by_asin(
+        self,
+        asin: Union[str, List[str]],
+        include_variants: bool = True,
+        filter_options: Optional[FilterOptions] = None,
+        sort_option: Optional[Sort] = None,
+        marketplace: Optional[Marketplace] = None,
+    ) -> List[KeywordByASIN]:
+
+        params = KeywordByAsinParams(
+            marketplace=self._resolve_marketplace(marketplace), sort=sort_option)
+
+        attributes = KeywordByAsinAttributes(
+            asin=asin, filter_options=filter_options, include_variants=include_variants
+        )
+
+        keyword_by_asin_request = KeywordByAsinRequest(
+            params=params, attributes=attributes)
+
         url = self.session.build_url(
-            "keywords",
-            "keywords_by_asin_query",
-            params={
-                "marketplace": self._resolve_marketplace(marketplace).value,
-                "page[size]": 100,
-            },
-        )
-        payload = json.dumps(
-            {
-                "data": {
-                    "type": "keywords_by_asin_query",
-                    "attributes": {"asins": [asin], "include_variants": True, "include_variants_rank": True},
-                }
-            }
-        )
-        response = self.session.request("POST", url, data=payload)
+            "keywords", "keywords_by_asin_query", params=keyword_by_asin_request.params)
+
+        payload = keyword_by_asin_request.payload
+
+        response = self.session.request(
+            keyword_by_asin_request.method.value, url, data=payload)
         if response.ok:
             return [KeywordByASIN(each) for each in response.json()["data"]]
         else:
             self._raise_for_status(response)
 
-    def keywords_by_keyword(self, keyword: str, marketplace: Optional[Marketplace] = None) -> List[KeywordByKeyword]:
+    def keywords_by_keyword(
+        self,
+        search_terms: str,
+        categories: Optional[List[str]] = None,
+        filter_options: Optional[FilterOptions] = None,
+        sort_option: Optional[Sort] = None,
+        marketplace: Optional[Marketplace] = None,
+    ) -> List[KeywordByKeyword]:
+
+        marketplace = self._resolve_marketplace(marketplace)
+
+        params = KeywordsByKeywordParams(
+            marketplace=marketplace, sort=sort_option)
+
+        attributes = KeywordsByKeywordAttributes(
+            marketplace=marketplace, search_terms=search_terms, filter_options=filter_options, categories=categories
+        )
+
+        keywords_by_keyword_request = KeywordsByKeywordRequest(
+            params, attributes)
+
         url = self.session.build_url(
-            "keywords",
-            "keywords_by_keyword_query",
-            params={
-                "marketplace": self._resolve_marketplace(marketplace).value,
-                "sort": Sort.monthly_search_volume_exact.value,
-                "page[size]": 100,
-            },
-        )
+            "keywords", "keywords_by_keyword_query", params=keywords_by_keyword_request.params)
 
-        print(self.session.headers)
-        payload = json.dumps(
-            {
-                "data": {
-                    "type": "keywords_by_keyword_query",
-                    "attributes": {"keywords": [keyword], "include_variants": True, "include_variants_rank": True},
-                }
-            }
-        )
-        response = self.session.request("POST", url, data=payload)
+        payload = keywords_by_keyword_request.payload
 
-        print(response)
+        response = self.session.request(
+            keywords_by_keyword_request.method.value, url, data=payload)
+
         if response.ok:
-            print(response.json()["data"])
             return [KeywordByKeyword(each) for each in response.json()["data"]]
         else:
             self._raise_for_status(response)

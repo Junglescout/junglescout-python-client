@@ -3,6 +3,7 @@ from dateutil.parser import parse
 from jungle_scout.base_model import BaseModel
 
 
+# TODO: replace with pydantic model
 class KeywordByASIN(BaseModel):
     def _update_attributes(self, data):
         self.data_type = data["type"]
