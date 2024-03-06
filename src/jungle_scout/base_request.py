@@ -12,8 +12,15 @@ AttributesType = TypeVar("AttributesType", bound=Attributes)
 
 
 class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
-    type: RequestType = Field(..., use_enum_values=True)
-    method: Method = Field(..., use_enum_values=True)
+    @property
+    @abstractmethod
+    def type(self) -> RequestType:
+        pass
+
+    @property
+    @abstractmethod
+    def method(self) -> Method:
+        pass
 
     def __init__(self, params: ParamsType, attributes: AttributesType):
         self.params = self.build_params(params)
