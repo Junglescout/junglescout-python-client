@@ -2,8 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field, field_serializer
 
-from jungle_scout.models.parameters.marketplace import Marketplace
-from jungle_scout.models.parameters.sort import Sort
+from jungle_scout.models.parameters import Marketplace, Sort
 
 
 class Params(BaseModel):

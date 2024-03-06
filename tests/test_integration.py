@@ -3,9 +3,7 @@ import os
 import pytest
 
 from jungle_scout.client import Client
-from jungle_scout.models.parameters.filter_options import FilterOptions
-from jungle_scout.models.parameters.marketplace import Marketplace
-from jungle_scout.models.parameters.sort import Sort
+from jungle_scout.models.parameters import FilterOptions, Marketplace, Sort
 
 API_KEY_NAME = os.environ["API_KEY_NAME"]
 API_KEY = os.environ["API_KEY"]

@@ -42,7 +42,9 @@ from jungle_scout.models.requests.share_of_voice_request import (
     ShareOfVoiceParams,
     ShareOfVoiceRequest,
 )
-from jungle_scout.models.responses.historical_search_volume import HistoricalSearchVolume
+from jungle_scout.models.responses.historical_search_volume import (
+    HistoricalSearchVolume,
+)
 from jungle_scout.models.responses.keyword_by_asin import KeywordByASIN
 from jungle_scout.models.responses.keyword_by_keyword import KeywordByKeyword
 from jungle_scout.models.responses.product_database import ProductDatabase
