@@ -14,8 +14,7 @@ API_KEY = os.environ["API_KEY"]
 @pytest.mark.skip(reason="Integration tests are run manually for now.")
 def test_integration():
 
-    client = Client(api_key_name=API_KEY_NAME, api_key=API_KEY,
-                    marketplace=Marketplace.US)
+    client = Client(api_key_name=API_KEY_NAME, api_key=API_KEY, marketplace=Marketplace.US)
 
     #  Defines the filter options
     filter_options = FilterOptions(min_monthly_search_volume_exact=150)

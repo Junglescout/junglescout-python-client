@@ -59,6 +59,5 @@ class KeywordByAsinRequest(BaseRequest[KeywordByAsinParams, KeywordByAsinAttribu
 
     def build_payload(self, attributes: KeywordByAsinAttributes) -> str:
         return json.dumps(
-            {"data": {"type": self.type.value, "attributes": attributes.model_dump(
-                by_alias=True, exclude_none=True)}}
+            {"data": {"type": self.type.value, "attributes": attributes.model_dump(by_alias=True, exclude_none=True)}}
         )

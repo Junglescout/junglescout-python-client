@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Generic, TypeVar
+
 from pydantic import Field
 
 from jungle_scout.models.parameters.attributes import Attributes
