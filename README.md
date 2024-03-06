@@ -23,6 +23,16 @@ client = Client(api_key_name=API_KEY_NAME, api_key=API_KEY, marketplace=Marketpl
 keywords = client.keywords_by_asin('B005IHSKYS')
 ```
 
+### Pydantic Models
+
+Notes to get autocomplete working when creating models.
+https://github.com/pydantic/pydantic/pull/2721
+https://github.com/pydantic/pydantic/issues/650
+
+
+
+
+
 ## Development
 
 ### Running Tests
@@ -42,17 +52,4 @@ poetry install
 
 # run tests
 tox run
-```
-
-### Creating Local Development Environment
-
-```bash
-# its recommended to install the project in a virtual environment for local development
-# the example commands use `pyenv virtualenv` to create the virtual environment
-# see https://github.com/pyenv/pyenv-virtualenv for more information
-pyenv virtualenv 3.8 jungle-scout-python-client-3.8
-pyenv activate jungle-scout-python-client-3.8
-
-# install project in editable mode with dev dependencies in the virtual environment
-pip install -e .[dev]
 ```

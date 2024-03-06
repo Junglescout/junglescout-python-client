@@ -1,61 +1,67 @@
 import json
-from typing import Dict, List, Optional, TypedDict, Union
+from typing import Dict, List, Union, Any
+
+from pydantic import computed_field, field_validator, model_serializer
 
 from jungle_scout.base_request import BaseRequest
-from jungle_scout.models.parameters.filter_options import FilterOptions
-from jungle_scout.models.parameters.marketplace import Marketplace
-from jungle_scout.models.parameters.sort import Sort
+from jungle_scout.models.parameters.attributes import Attributes
+from jungle_scout.models.parameters.params import Params
+from jungle_scout.models.requests.method import Method
 
 
-class KeywordByAsinParams(TypedDict):
-    marketplace: Marketplace
-    sort: Optional[Sort]
-    page_size: int = 50
-    page: Optional[str]
+class KeywordByAsinParams(Params):
+    pass
 
 
-class KeywordByAsinAttributes(TypedDict):
-    asins: List[str]
+class KeywordByAsinAttributes(Attributes):
+    asin: Union[List[str], str]
     include_variants: bool
-    filter_options: Optional[FilterOptions]
 
+    @computed_field
+    def asins(self) -> List[str]:
+        if isinstance(self.asin, str):
+            return [self.asin]
+        return self.asin
 
-class KeywordByAsinRequest(BaseRequest):
-    def __init__(self, asin: Union[str, List[str]], params: KeywordByAsinParams, attributes: KeywordByAsinAttributes):
-        self.method = "POST"
-        self.type = "keywords_by_asin_query"
-        self.asin = self._resolve_asin(asin)
-        self.params = self.build_params(params)
-        self.payload = self.build_payload(attributes)
+    @field_validator("asin")
+    @classmethod
+    def validate_asin(cls, v: Union[List[str], str]) -> Union[List[str], str]:
+        if isinstance(v, str):
+            cls.__validate_individual_asin(v)
+        elif isinstance(v, list):
+            assert len(v) <= 10, "ASIN list cannot exceed 10"
+            for asin in v:
+                cls.__validate_individual_asin(asin)
+        else:
+            raise ValueError("asin must be a string or a list of strings")
+        return v
 
-    def build_payload(self, attributes: KeywordByAsinAttributes) -> str:
-        attributes_dict = {"asins": self.asin, "include_variants": attributes.get("include_variants")}
+    @staticmethod
+    def __validate_individual_asin(asin: str):
+        assert len(asin) == 10, "ASIN must be 10 characters long"
 
-        if attributes.get("filter_options"):
-            attributes_dict.update(vars(attributes.get("filter_options")))
-
-        clean_attributes = {k: v for k, v in attributes_dict.items() if v is not None}
-
-        return json.dumps({"data": {"type": self.type, "attributes": clean_attributes}})
-
-    def build_params(self, params: KeywordByAsinParams) -> Dict:
-        params_dict = {
-            "marketplace": params.get("marketplace").country_code,
-            "sort": params.get("sort"),
-            "page[size]": params.get("page_size", 50),
-            "page[cursor]": params.get("page"),
+    @model_serializer
+    def serialize_model(self) -> Dict[str, Any]:
+        return {
+            "asins": self.asins,
+            "include_variants": self.include_variants,
+            **self.filter_options.model_dump(exclude_none=True),
         }
 
-        clean_params = {k: v for k, v in params_dict.items() if v is not None}
 
-        return clean_params
+class KeywordByAsinRequest(BaseRequest[KeywordByAsinParams, KeywordByAsinAttributes]):
+    @property
+    def method(self) -> Method:
+        return Method.POST
 
-    def _resolve_asin(self, provided_asin: Union[str, List[str]]) -> List[str]:
-        if isinstance(provided_asin, str):
-            return [provided_asin]
-        elif isinstance(provided_asin, list):
-            if len(provided_asin) > 10:
-                raise AttributeError("ASIN list cannot exceed 10")
-            return provided_asin
-        else:
-            raise AttributeError("ASIN cannot be resolved")
+    @property
+    def type(self) -> str:
+        return "keywords_by_asin_query"
+
+    def build_params(self, params: KeywordByAsinParams) -> Dict:
+        return params.model_dump(by_alias=True, exclude_none=True)
+
+    def build_payload(self, attributes: KeywordByAsinAttributes) -> str:
+        return json.dumps(
+            {"data": {"type": self.type, "attributes": attributes.model_dump(by_alias=True, exclude_none=True)}}
+        )

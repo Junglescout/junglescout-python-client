@@ -36,32 +36,32 @@ class Client:
         self.marketplace = marketplace
 
     @tenacity.retry(
-        wait=tenacity.wait_fixed(1),  # Wait 1 second between retries
-        stop=tenacity.stop_after_attempt(3),  # Retry 3 times
-        retry=tenacity.retry_if_exception_type(requests.exceptions.RequestException),  # Retry on RequestException
+        wait=tenacity.wait_fixed(1),
+        stop=tenacity.stop_after_attempt(3),
+        retry=tenacity.retry_if_exception_type(requests.exceptions.RequestException),
     )
     def keywords_by_asin(
         self,
         asin: Union[str, List[str]],
         include_variants: bool = True,
-        filterOptions: Optional[FilterOptions] = None,
-        sortOption: Optional[Sort] = None,
+        filter_options: Optional[FilterOptions] = None,
+        sort_option: Optional[Sort] = None,
         marketplace: Optional[Marketplace] = None,
     ) -> List[KeywordByASIN]:
 
-        params = KeywordByAsinParams(marketplace=self._resolve_marketplace(marketplace), sort=sortOption.value)
+        params = KeywordByAsinParams(marketplace=self._resolve_marketplace(marketplace), sort=sort_option)
 
         attributes = KeywordByAsinAttributes(
-            asins=asin, filter_options=filterOptions, include_variants=include_variants
+            asin=asin, filter_options=filter_options, include_variants=include_variants
         )
 
-        keyword_by_asin_request = KeywordByAsinRequest(asin=asin, params=params, attributes=attributes)
+        keyword_by_asin_request = KeywordByAsinRequest(params=params, attributes=attributes)
 
         url = self.session.build_url("keywords", "keywords_by_asin_query", params=keyword_by_asin_request.params)
 
         payload = keyword_by_asin_request.payload
 
-        response = self.session.request(keyword_by_asin_request.method, url, data=payload)
+        response = self.session.request(keyword_by_asin_request.method.value, url, data=payload)
         if response.ok:
             return [KeywordByASIN(each) for each in response.json()["data"]]
         else:
@@ -71,15 +71,17 @@ class Client:
         self,
         search_terms: str,
         categories: Optional[List[str]] = None,
-        filterOptions: Optional[FilterOptions] = None,
-        sortOption: Optional[Sort] = None,
+        filter_options: Optional[FilterOptions] = None,
+        sort_option: Optional[Sort] = None,
         marketplace: Optional[Marketplace] = None,
     ) -> List[KeywordByKeyword]:
 
-        params = KeywordsByKeywordParams(marketplace=self._resolve_marketplace(marketplace), sort=sortOption.value)
+        marketplace = self._resolve_marketplace(marketplace)
+
+        params = KeywordsByKeywordParams(marketplace=marketplace, sort=sort_option)
 
         attributes = KeywordsByKeywordAttributes(
-            search_terms=search_terms, filter_options=filterOptions, categories=categories
+            marketplace=marketplace, search_terms=search_terms, filter_options=filter_options, categories=categories
         )
 
         keywords_by_keyword_request = KeywordsByKeywordRequest(params, attributes)
@@ -88,7 +90,7 @@ class Client:
 
         payload = keywords_by_keyword_request.payload
 
-        response = self.session.request(keywords_by_keyword_request.method, url, data=payload)
+        response = self.session.request(keywords_by_keyword_request.method.value, url, data=payload)
 
         if response.ok:
             return [KeywordByKeyword(each) for each in response.json()["data"]]
