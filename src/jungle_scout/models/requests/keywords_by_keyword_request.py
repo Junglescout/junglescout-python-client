@@ -43,8 +43,13 @@ class KeywordsByKeywordAttributes(Attributes):
 
 
 class KeywordsByKeywordRequest(BaseRequest[KeywordsByKeywordParams, KeywordsByKeywordAttributes]):
-    type: RequestType = RequestType.KEYWORDS_BY_KEYWORD
-    method: Method = Method.POST
+    @property
+    def type(self):
+        return RequestType.KEYWORDS_BY_KEYWORD
+
+    @property
+    def method(self) -> Method:
+        return Method.POST
 
     def build_params(self, params: KeywordsByKeywordParams) -> Dict:
         return params.model_dump(by_alias=True, exclude_none=True)
