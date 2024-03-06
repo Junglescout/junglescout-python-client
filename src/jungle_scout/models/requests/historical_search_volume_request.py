@@ -49,8 +49,13 @@ class HistoricalSearchVolumeAttributes(Attributes):
 
 
 class HistoricalSearchVolumeRequest(BaseRequest[HistoricalSearchVolumeParams, HistoricalSearchVolumeAttributes]):
-    type: RequestType = RequestType.HISTORICAL_SEARCH_VOLUME
-    method: Method = Method.GET
+    @property
+    def type(self) -> RequestType:
+        return RequestType.HISTORICAL_SEARCH_VOLUME
+
+    @property
+    def method(self) -> Method:
+        return Method.GET
 
     def build_params(self, params: HistoricalSearchVolumeParams) -> Dict:
         return params.model_dump(by_alias=True, exclude_none=True)

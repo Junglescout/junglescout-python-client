@@ -56,8 +56,13 @@ class SalesEstimatesAttributes(Attributes):
 
 
 class SalesEstimatesRequest(BaseRequest[SalesEstimatesParams, SalesEstimatesAttributes]):
-    type: RequestType = RequestType.SALES_ESTIMATES
-    method: Method = Method.GET
+    @property
+    def type(self) -> RequestType:
+        return RequestType.SALES_ESTIMATES
+
+    @property
+    def method(self) -> Method:
+        return Method.GET
 
     def build_params(self, params: SalesEstimatesParams) -> Dict:
         return params.model_dump(by_alias=True, exclude_none=True)
