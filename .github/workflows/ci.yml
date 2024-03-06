@@ -67,5 +67,8 @@ jobs:
         with:
           python-version: 3.12
           cache: 'poetry'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
       - name: Run formatting checks
         run: tox -e typecheck
