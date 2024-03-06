@@ -168,6 +168,7 @@ class Client:
         else:
             raise AttributeError("Marketplace cannot be resolved")
 
+    # TODO: Improve our errors, displaying the actual API message error
     @staticmethod
     def _raise_for_status(response: requests.Response) -> NoReturn:
         """
