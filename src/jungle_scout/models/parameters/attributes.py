@@ -6,4 +6,4 @@ from jungle_scout.models.parameters.filter_options import FilterOptions
 
 
 class Attributes(BaseModel):
-    filter_options: Optional[FilterOptions]
+    filter_options: Optional[FilterOptions] = None

@@ -12,6 +12,7 @@ ParamsType = TypeVar("ParamsType", bound=Params)
 AttributesType = TypeVar("AttributesType", bound=Attributes)
 
 
+# TODO: Split request in post and get requests
 class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
     type: RequestType = Field(..., use_enum_values=True)
     method: Method = Field(..., use_enum_values=True)

@@ -9,6 +9,11 @@ from jungle_scout.models.parameters.api_type import ApiType
 from jungle_scout.models.parameters.filter_options import FilterOptions
 from jungle_scout.models.parameters.marketplace import Marketplace
 from jungle_scout.models.parameters.sort import Sort
+from jungle_scout.models.requests.historical_search_volume import (
+    HistoricalSearchVolumeAttributes,
+    HistoricalSearchVolumeParams,
+    HistoricalSearchVolumeRequest,
+)
 from jungle_scout.models.requests.keyword_by_asin_request import (
     KeywordByAsinAttributes,
     KeywordByAsinParams,
@@ -88,6 +93,38 @@ class Client:
 
         if response.ok:
             return [KeywordByKeyword(each) for each in response.json()["data"]]
+        else:
+            self._raise_for_status(response)
+
+    def historical_search_volume(
+        self,
+        keyword: str,
+        start_date: str,
+        end_date: str,
+        sort_option: Optional[Sort] = None,
+        marketplace: Optional[Marketplace] = None,
+    ) -> List[KeywordByKeyword]:
+
+        marketplace = self._resolve_marketplace(marketplace)
+
+        params = HistoricalSearchVolumeParams(
+            marketplace=marketplace, sort=sort_option, keyword=keyword, start_date=start_date, end_date=end_date
+        )
+
+        attributes = HistoricalSearchVolumeAttributes()
+
+        historical_search_volume_request = HistoricalSearchVolumeRequest(params, attributes)
+
+        url = self.session.build_url(
+            "keywords", historical_search_volume_request.type.value, params=historical_search_volume_request.params
+        )
+
+        response = self.session.request(historical_search_volume_request.method.value, url)
+
+        if response.ok:
+            print(response.json()["data"])
+            # return [KeywordByKeyword(each) for each in response.json()["data"]]
+            return response.json()["data"]
         else:
             self._raise_for_status(response)
 
