@@ -24,6 +24,7 @@ isort = "5.13.2"
 ipython = {version = "^8.22.2", python = ">=3.10,<4.0"}
 pytest-dotenv = "^0.5.2"
 pyright = "^1.1.352"
+ruff = "^0.3.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -46,3 +47,6 @@ env_files = [".env.test"]
 [tool.ruff]
 line-length = 120
 target-version = "py39"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402", "F401"]
