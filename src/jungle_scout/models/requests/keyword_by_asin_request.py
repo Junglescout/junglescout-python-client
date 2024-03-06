@@ -46,7 +46,7 @@ class KeywordByAsinAttributes(Attributes):
         return {
             "asins": self.asins,
             "include_variants": self.include_variants,
-            **self.filter_options.model_dump(exclude_none=True),
+            **({} if self.filter_options is None else self.filter_options.model_dump(exclude_none=True)),
         }
 
 
