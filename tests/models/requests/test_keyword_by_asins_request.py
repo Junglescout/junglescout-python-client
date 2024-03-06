@@ -3,7 +3,10 @@ from pydantic import ValidationError
 from jungle_scout.models.parameters.filter_options import FilterOptions
 from jungle_scout.models.parameters.marketplace import Marketplace
 from jungle_scout.models.parameters.sort import Sort
-from jungle_scout.models.requests.keyword_by_asin_request import KeywordByAsinAttributes, KeywordByAsinParams
+from jungle_scout.models.requests.keyword_by_asin_request import (
+    KeywordByAsinAttributes,
+    KeywordByAsinParams,
+)
 
 
 def test_keyword_by_asin_attributes_with_asin_list():

@@ -1,7 +1,7 @@
 import json
-from typing import Dict, List, Optional, Any
+from typing import Any, Dict, List, Optional
 
-from pydantic import model_serializer, field_validator
+from pydantic import field_validator, model_serializer
 
 from jungle_scout.base_request import BaseRequest
 from jungle_scout.models.parameters.attributes import Attributes

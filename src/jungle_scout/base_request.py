@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict, TypeVar, Generic
+from typing import Dict, Generic, TypeVar
 
 from jungle_scout.models.parameters.attributes import Attributes
 from jungle_scout.models.parameters.params import Params
