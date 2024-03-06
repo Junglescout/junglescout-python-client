@@ -3,13 +3,14 @@ from typing import List, NoReturn, Optional, Union
 
 import requests
 
+from jungle_scout.models.historical_search_volume import HistoricalSearchVolume
 from jungle_scout.models.keyword_by_asin import KeywordByASIN
 from jungle_scout.models.keyword_by_keyword import KeywordByKeyword
 from jungle_scout.models.parameters.api_type import ApiType
 from jungle_scout.models.parameters.filter_options import FilterOptions
 from jungle_scout.models.parameters.marketplace import Marketplace
 from jungle_scout.models.parameters.sort import Sort
-from jungle_scout.models.requests.historical_search_volume import (
+from jungle_scout.models.requests.historical_search_volume_request import (
     HistoricalSearchVolumeAttributes,
     HistoricalSearchVolumeParams,
     HistoricalSearchVolumeRequest,
@@ -24,6 +25,12 @@ from jungle_scout.models.requests.keywords_by_keyword_request import (
     KeywordsByKeywordParams,
     KeywordsByKeywordRequest,
 )
+from jungle_scout.models.requests.sales_estimates_request import (
+    SalesEstimatesAttributes,
+    SalesEstimatesParams,
+    SalesEstimatesRequest,
+)
+from jungle_scout.models.sales_estimates import SalesEstimates
 from jungle_scout.session import Session
 
 
@@ -96,6 +103,34 @@ class Client:
         else:
             self._raise_for_status(response)
 
+    def sales_estimates(
+        self,
+        asin: str,
+        start_date: str,
+        end_date: str,
+        sort_option: Optional[Sort] = None,
+        marketplace: Optional[Marketplace] = None,
+    ) -> List[HistoricalSearchVolume]:
+
+        marketplace = self._resolve_marketplace(marketplace)
+
+        params = SalesEstimatesParams(
+            marketplace=marketplace, sort=sort_option, asin=asin, start_date=start_date, end_date=end_date
+        )
+
+        attributes = SalesEstimatesAttributes()
+
+        sales_estimates_request = SalesEstimatesRequest(params, attributes)
+
+        url = self.session.build_url(sales_estimates_request.type.value, params=sales_estimates_request.params)
+
+        response = self.session.request(sales_estimates_request.method.value, url)
+
+        if response.ok:
+            return [SalesEstimates(each) for each in response.json()["data"]]
+        else:
+            self._raise_for_status(response)
+
     def historical_search_volume(
         self,
         keyword: str,
@@ -103,7 +138,7 @@ class Client:
         end_date: str,
         sort_option: Optional[Sort] = None,
         marketplace: Optional[Marketplace] = None,
-    ) -> List[KeywordByKeyword]:
+    ) -> List[HistoricalSearchVolume]:
 
         marketplace = self._resolve_marketplace(marketplace)
 
@@ -122,9 +157,7 @@ class Client:
         response = self.session.request(historical_search_volume_request.method.value, url)
 
         if response.ok:
-            print(response.json()["data"])
-            # return [KeywordByKeyword(each) for each in response.json()["data"]]
-            return response.json()["data"]
+            return [HistoricalSearchVolume(each) for each in response.json()["data"]]
         else:
             self._raise_for_status(response)
 

@@ -1,8 +1,9 @@
 import json
+import re
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
-from pydantic import ValidationInfo, field_validator, model_serializer
+from pydantic import ValidationInfo, field_validator, model_serializer, validator
 
 from jungle_scout.base_request import BaseRequest
 from jungle_scout.models.parameters.attributes import Attributes
@@ -12,10 +13,16 @@ from jungle_scout.models.requests.method import Method
 from jungle_scout.models.requests.request_type import RequestType
 
 
-class HistoricalSearchVolumeParams(Params):
-    keyword: str
+class SalesEstimatesParams(Params):
+    asin: str
     start_date: str
     end_date: str
+
+    @field_validator("asin")
+    @classmethod
+    def validate_asin(cls, v: str) -> str:
+        assert bool(re.match(r"^(B[\dA-Z]{9}|\d{9}(X|\d))$", v))
+        return v
 
     @field_validator("start_date")
     @classmethod
@@ -36,17 +43,24 @@ class HistoricalSearchVolumeParams(Params):
             raise ValueError("Date must be in the format YYYY-MM-DD")
         return date
 
+    @validator("end_date", always=True)
+    @classmethod
+    def check_dates(cls, v, values, **kwargs):
+        if "start_date" in values and v < values["start_date"]:
+            raise ValueError("end_date must be after start_date")
+        return v
 
-class HistoricalSearchVolumeAttributes(Attributes):
+
+class SalesEstimatesAttributes(Attributes):
     pass
 
 
-class HistoricalSearchVolumeRequest(BaseRequest[HistoricalSearchVolumeParams, HistoricalSearchVolumeAttributes]):
-    type: RequestType = RequestType.HISTORICAL_SEARCH_VOLUME
+class SalesEstimatesRequest(BaseRequest[SalesEstimatesParams, SalesEstimatesAttributes]):
+    type: RequestType = RequestType.SALES_ESTIMATES
     method: Method = Method.GET
 
-    def build_params(self, params: HistoricalSearchVolumeParams) -> Dict:
+    def build_params(self, params: SalesEstimatesParams) -> Dict:
         return params.model_dump(by_alias=True, exclude_none=True)
 
-    def build_payload(self, attributes: HistoricalSearchVolumeAttributes) -> str:
+    def build_payload(self, attributes: SalesEstimatesAttributes) -> str:
         pass
