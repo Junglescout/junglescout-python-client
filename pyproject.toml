@@ -25,6 +25,7 @@ ipython = {version = "^8.22.2", python = ">=3.10,<4.0"}
 pytest-dotenv = "^0.5.2"
 pyright = "^1.1.352"
 ruff = "^0.3.0"
+requests-mock = "^1.11.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
