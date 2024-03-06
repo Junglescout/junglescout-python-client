@@ -2,6 +2,26 @@
 
 The official Jungle Scout API Python Client.
 
+## Usage
+
+This project uses [black](https://pypi.org/project/black/) for code formatting, [isort](https://pypi.org/project/isort/) for import sorting. If you are using VSCode, you can install the following extensions:
+
+- [black](https://marketplace.visualstudio.com/items?itemName=ms-python.black)
+- [isort](https://marketplace.visualstudio.com/items?itemName=pycqa.isort)
+
+You'd also need to add the following settings to your `settings.json`:
+
+```json
+ "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "isort.args": ["--profile", "black"]
+```
+
 ## Installation
 
 ```bash
