@@ -9,8 +9,8 @@ from jungle_scout.models.parameters.sort import Sort
 class Params(BaseModel):
     marketplace: Marketplace
     sort: Optional[Sort] = None
-    page: Optional[str] = Field(None, serialization_alias="page[cursor]")
-    page_size: int = Field(50, serialization_alias="page[size]")
+    page: Optional[str] = Field(default=None, serialization_alias="page[cursor]")
+    page_size: Optional[int] = Field(default=50, serialization_alias="page[size]")
 
     @field_serializer("marketplace")
     def serialize_marketplace(self, value: Marketplace):
