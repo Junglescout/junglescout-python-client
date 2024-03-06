@@ -7,12 +7,20 @@ import tenacity
 from jungle_scout.models.keyword_by_asin import KeywordByASIN
 from jungle_scout.models.keyword_by_keyword import KeywordByKeyword
 from jungle_scout.models.parameters.api_type import ApiType
+from jungle_scout.models.parameters.filter_options import FilterOptions
 from jungle_scout.models.parameters.marketplace import Marketplace
 from jungle_scout.models.parameters.sort import Sort
-from jungle_scout.models.parameters.filter_options import FilterOptions
+from jungle_scout.models.requests.keyword_by_asin_request import (
+    KeywordByAsinAttributes,
+    KeywordByAsinParams,
+    KeywordByAsinRequest,
+)
+from jungle_scout.models.requests.keywords_by_keyword_request import (
+    KeywordsByKeywordAttributes,
+    KeywordsByKeywordParams,
+    KeywordsByKeywordRequest,
+)
 from jungle_scout.session import Session
-from jungle_scout.models.requests.keyword_by_asin_request import KeywordByAsinRequest, KeywordByAsinParams, KeywordByAsinAttributes
-from jungle_scout.models.requests.keywords_by_keyword_request import KeywordsByKeywordRequest, KeywordsByKeywordParams, KeywordsByKeywordAttributes
 
 
 class Client:
@@ -30,56 +38,57 @@ class Client:
     @tenacity.retry(
         wait=tenacity.wait_fixed(1),  # Wait 1 second between retries
         stop=tenacity.stop_after_attempt(3),  # Retry 3 times
-        retry=tenacity.retry_if_exception_type(
-            requests.exceptions.RequestException),  # Retry on RequestException
+        retry=tenacity.retry_if_exception_type(requests.exceptions.RequestException),  # Retry on RequestException
     )
-    def keywords_by_asin(self, asin: Union[str, List[str]], include_variants: bool = True, filterOptions: Optional[FilterOptions] = None, sortOption: Optional[Sort] = None, marketplace: Optional[Marketplace] = None) -> List[KeywordByASIN]:
+    def keywords_by_asin(
+        self,
+        asin: Union[str, List[str]],
+        include_variants: bool = True,
+        filterOptions: Optional[FilterOptions] = None,
+        sortOption: Optional[Sort] = None,
+        marketplace: Optional[Marketplace] = None,
+    ) -> List[KeywordByASIN]:
 
-        params = KeywordByAsinParams(
-            marketplace=self._resolve_marketplace(marketplace), sort=sortOption.value)
+        params = KeywordByAsinParams(marketplace=self._resolve_marketplace(marketplace), sort=sortOption.value)
 
         attributes = KeywordByAsinAttributes(
-            asins=asin, filter_options=filterOptions, include_variants=include_variants)
-
-        keyword_by_asin_request = KeywordByAsinRequest(
-            asin=asin, params=params, attributes=attributes)
-
-        url = self.session.build_url(
-            "keywords",
-            "keywords_by_asin_query",
-            params=keyword_by_asin_request.params
+            asins=asin, filter_options=filterOptions, include_variants=include_variants
         )
+
+        keyword_by_asin_request = KeywordByAsinRequest(asin=asin, params=params, attributes=attributes)
+
+        url = self.session.build_url("keywords", "keywords_by_asin_query", params=keyword_by_asin_request.params)
 
         payload = keyword_by_asin_request.payload
 
-        response = self.session.request(
-            keyword_by_asin_request.method, url, data=payload)
+        response = self.session.request(keyword_by_asin_request.method, url, data=payload)
         if response.ok:
             return [KeywordByASIN(each) for each in response.json()["data"]]
         else:
             self._raise_for_status(response)
 
-    def keywords_by_keyword(self, search_terms: str, categories: Optional[List[str]] = None, filterOptions: Optional[FilterOptions] = None, sortOption: Optional[Sort] = None, marketplace: Optional[Marketplace] = None) -> List[KeywordByKeyword]:
+    def keywords_by_keyword(
+        self,
+        search_terms: str,
+        categories: Optional[List[str]] = None,
+        filterOptions: Optional[FilterOptions] = None,
+        sortOption: Optional[Sort] = None,
+        marketplace: Optional[Marketplace] = None,
+    ) -> List[KeywordByKeyword]:
 
-        params = KeywordsByKeywordParams(marketplace=self._resolve_marketplace(
-            marketplace), sort=sortOption.value)
+        params = KeywordsByKeywordParams(marketplace=self._resolve_marketplace(marketplace), sort=sortOption.value)
 
         attributes = KeywordsByKeywordAttributes(
-            search_terms=search_terms, filter_options=filterOptions, categories=categories)
-
-        keywords_by_keyword_request = KeywordsByKeywordRequest(
-            params, attributes)
-
-        url = self.session.build_url(
-            "keywords",
-            "keywords_by_keyword_query",
-            params=keywords_by_keyword_request.params
+            search_terms=search_terms, filter_options=filterOptions, categories=categories
         )
+
+        keywords_by_keyword_request = KeywordsByKeywordRequest(params, attributes)
+
+        url = self.session.build_url("keywords", "keywords_by_keyword_query", params=keywords_by_keyword_request.params)
 
         payload = keywords_by_keyword_request.payload
 
-        response = self.session.request(
-            keywords_by_keyword_request.method, url, data=payload)
+        response = self.session.request(keywords_by_keyword_request.method, url, data=payload)
 
         if response.ok:
             return [KeywordByKeyword(each) for each in response.json()["data"]]

@@ -1,4 +1,4 @@
-from typing import TypedDict, Optional
+from typing import Optional, TypedDict
 
 
 class Options(TypedDict):
@@ -17,17 +17,11 @@ class FilterOptions:
         self._update_options(options)
 
     def _update_options(self, options: Options):
-        self.min_monthly_search_volume_exact = options.get(
-            "min_monthly_search_volume_exact")
-        self.max_monthly_search_volume_exact = options.get(
-            "max_monthly_search_volume_exact")
-        self.min_monthly_search_volume_broad = options.get(
-            "min_monthly_search_volume_broad")
-        self.max_monthly_search_volume_broad = options.get(
-            "max_monthly_search_volume_broad")
+        self.min_monthly_search_volume_exact = options.get("min_monthly_search_volume_exact")
+        self.max_monthly_search_volume_exact = options.get("max_monthly_search_volume_exact")
+        self.min_monthly_search_volume_broad = options.get("min_monthly_search_volume_broad")
+        self.max_monthly_search_volume_broad = options.get("max_monthly_search_volume_broad")
         self.min_word_count = options.get("min_word_count")
         self.max_word_count = options.get("max_word_count")
-        self.min_organic_product_count = options.get(
-            "min_organic_product_count")
-        self.max_organic_product_count = options.get(
-            "max_organic_product_count")
+        self.min_organic_product_count = options.get("min_organic_product_count")
+        self.max_organic_product_count = options.get("max_organic_product_count")
