@@ -60,5 +60,5 @@ class HistoricalSearchVolumeRequest(BaseRequest[HistoricalSearchVolumeParams, Hi
     def build_params(self, params: HistoricalSearchVolumeParams) -> Dict:
         return params.model_dump(by_alias=True, exclude_none=True)
 
-    def build_payload(self, attributes: HistoricalSearchVolumeAttributes) -> str:
-        pass
+    def build_payload(self, attributes: HistoricalSearchVolumeAttributes):
+        return None

@@ -67,5 +67,5 @@ class SalesEstimatesRequest(BaseRequest[SalesEstimatesParams, SalesEstimatesAttr
     def build_params(self, params: SalesEstimatesParams) -> Dict:
         return params.model_dump(by_alias=True, exclude_none=True)
 
-    def build_payload(self, attributes: SalesEstimatesAttributes) -> str:
-        pass
+    def build_payload(self, attributes: SalesEstimatesAttributes) -> None:
+        return None
