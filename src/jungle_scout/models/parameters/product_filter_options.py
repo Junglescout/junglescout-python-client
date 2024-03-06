@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 
 class ProductFilterOptions(BaseModel):
@@ -31,7 +31,7 @@ class ProductFilterOptions(BaseModel):
     max_updated_at: Optional[str] = Field(None)
 
     # validate min_update_at and max_updated_at to only accept date format in the form of "YYYY-MM-DD"
-    @validator("min_updated_at", "max_updated_at", pre=True)
+    @field_validator("min_updated_at", "max_updated_at")
     def validate_date_format(cls, v):
         if v:
             try:

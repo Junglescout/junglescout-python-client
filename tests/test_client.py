@@ -1,5 +1,5 @@
 from jungle_scout.client import Client
-from jungle_scout.models.parameters.marketplace import Marketplace
+from jungle_scout.models.parameters import Marketplace
 
 API_KEY_NAME = "api_key_name"
 API_KEY = "api_key"

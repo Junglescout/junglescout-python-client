@@ -1,20 +1,17 @@
-import json
 from typing import List, NoReturn, Optional, Union
 
 import requests
 
-from jungle_scout.models.historical_search_volume import HistoricalSearchVolume
-from jungle_scout.models.keyword_by_asin import KeywordByASIN
-from jungle_scout.models.keyword_by_keyword import KeywordByKeyword
-from jungle_scout.models.parameters.api_type import ApiType
-from jungle_scout.models.parameters.filter_options import FilterOptions
-from jungle_scout.models.parameters.marketplace import Marketplace
-from jungle_scout.models.parameters.product_filter_options import ProductFilterOptions
-from jungle_scout.models.parameters.product_sort import ProductSort
-from jungle_scout.models.parameters.product_tiers import ProductTiers
-from jungle_scout.models.parameters.seller_types import SellerTypes
-from jungle_scout.models.parameters.sort import Sort
-from jungle_scout.models.product_database import ProductDatabase
+from jungle_scout.models.parameters import (
+    ApiType,
+    FilterOptions,
+    Marketplace,
+    ProductFilterOptions,
+    ProductSort,
+    ProductTiers,
+    SellerTypes,
+    Sort,
+)
 from jungle_scout.models.requests.historical_search_volume_request import (
     HistoricalSearchVolumeAttributes,
     HistoricalSearchVolumeParams,
@@ -45,8 +42,14 @@ from jungle_scout.models.requests.share_of_voice_request import (
     ShareOfVoiceParams,
     ShareOfVoiceRequest,
 )
-from jungle_scout.models.sales_estimates import SalesEstimates
-from jungle_scout.models.share_of_voice import ShareOfVoice
+from jungle_scout.models.responses.historical_search_volume import (
+    HistoricalSearchVolume,
+)
+from jungle_scout.models.responses.keyword_by_asin import KeywordByASIN
+from jungle_scout.models.responses.keyword_by_keyword import KeywordByKeyword
+from jungle_scout.models.responses.product_database import ProductDatabase
+from jungle_scout.models.responses.sales_estimates import SalesEstimates
+from jungle_scout.models.responses.share_of_voice import ShareOfVoice
 from jungle_scout.session import Session
 
 

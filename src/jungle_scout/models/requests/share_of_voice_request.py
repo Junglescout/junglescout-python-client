@@ -1,16 +1,8 @@
-import json
-import re
-from datetime import datetime
-from typing import Any, Dict, List, Optional
-
-from pydantic import ValidationInfo, field_validator, model_serializer, validator
+from typing import Dict
 
 from jungle_scout.base_request import BaseRequest
-from jungle_scout.models.parameters.attributes import Attributes
-from jungle_scout.models.parameters.marketplace import Marketplace
-from jungle_scout.models.parameters.params import Params
-from jungle_scout.models.requests.method import Method
-from jungle_scout.models.requests.request_type import RequestType
+from jungle_scout.models.parameters import Attributes, Params
+from jungle_scout.models.requests import Method, RequestType
 
 
 class ShareOfVoiceParams(Params):

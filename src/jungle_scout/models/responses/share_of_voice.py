@@ -1,9 +1,9 @@
 from dateutil.parser import parse
 
-from jungle_scout.base_model import BaseModel
+from jungle_scout.models.responses.base_response import BaseResponse
 
 
-class ShareOfVoice(BaseModel):
+class ShareOfVoice(BaseResponse):
     def _update_attributes(self, json_data):
         self.type = json_data["type"]
         self.id = json_data["id"]
@@ -17,7 +17,7 @@ class ShareOfVoice(BaseModel):
         self.top_asins_model_end_date = parse(json_data["attributes"]["top_asins_model_end_date"])
 
 
-class ShareOfVoiceBrands(BaseModel):
+class ShareOfVoiceBrands(BaseResponse):
     def _update_attributes(self, json_data):
         self.brand = json_data["brand"]
         self.combined_products = json_data["combined_products"]
@@ -37,7 +37,7 @@ class ShareOfVoiceBrands(BaseModel):
         self.sponsored_average_price = json_data["sponsored_average_price"]
 
 
-class ShareOfVoiceTopAsins(BaseModel):
+class ShareOfVoiceTopAsins(BaseResponse):
     def _update_attributes(self, json_data):
         print(json_data)
         self.asin = json_data["asin"]

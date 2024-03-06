@@ -4,15 +4,16 @@ from typing import Any, Dict, List, Optional
 from pydantic import ValidationInfo, field_serializer, field_validator, model_serializer
 
 from jungle_scout.base_request import BaseRequest
-from jungle_scout.models.parameters.attributes import Attributes
-from jungle_scout.models.parameters.marketplace import Marketplace
-from jungle_scout.models.parameters.params import Params
-from jungle_scout.models.parameters.product_filter_options import ProductFilterOptions
-from jungle_scout.models.parameters.product_sort import ProductSort
-from jungle_scout.models.parameters.product_tiers import ProductTiers
-from jungle_scout.models.parameters.seller_types import SellerTypes
-from jungle_scout.models.requests.method import Method
-from jungle_scout.models.requests.request_type import RequestType
+from jungle_scout.models.parameters import (
+    Attributes,
+    Marketplace,
+    Params,
+    ProductFilterOptions,
+    ProductSort,
+    ProductTiers,
+    SellerTypes,
+)
+from jungle_scout.models.requests import Method, RequestType
 
 
 class ProductDatabaseParams(Params):
