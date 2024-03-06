@@ -1,11 +1,13 @@
 # jungle-scout-python-client
 
-Jungle Scout API Python Client.
+The official Jungle Scout API Python Client.
 
 ## Installation
 
 ```bash
-# install using Github personal access token for authentication
+# TODO: remove the personal access token when this project is published to pypi
+# while this repository is still private, install
+# using Github personal access token for authentication
 pip install git+https://${GITHUB_PERSONAL_TOKEN}@github.com/Junglescout/jungle-scout-python-client.git@main
 ```
 
@@ -23,36 +25,32 @@ client = Client(api_key_name=API_KEY_NAME, api_key=API_KEY, marketplace=Marketpl
 keywords = client.keywords_by_asin('B005IHSKYS')
 ```
 
+### Pydantic Models
+
+This project defines API model objects using
+[Pydantic](https://docs.pydantic.dev/latest). Autocomplete for model parameters
+during instantiation should work by default in most modern IDEs. For Jetbrains
+IDEs, the [Pydantic](https://plugins.jetbrains.com/plugin/12861-pydantic) plugin
+is required for autocomplete. See the following links for more information:
+
+- [pydantic/pull/2721](https://github.com/pydantic/pydantic/pull/2721)
+- [pydantic/issues/650](https://github.com/pydantic/pydantic/issues/650)
+
 ## Development
 
-### Running Tests
+### Project Setup and Running Tests
 
 ```bash
-# install tox
-pipx install tox
-
-# install poetry
-pipx install poetry
-
-# install project python versions
+# install supported versions of python
 pyenv install
 
-# install dependencies
+# install packaging and build tools
+pipx install tox
+pipx install poetry
+
+# install project dependencies
 poetry install
 
 # run tests
 tox run
-```
-
-### Creating Local Development Environment
-
-```bash
-# its recommended to install the project in a virtual environment for local development
-# the example commands use `pyenv virtualenv` to create the virtual environment
-# see https://github.com/pyenv/pyenv-virtualenv for more information
-pyenv virtualenv 3.8 jungle-scout-python-client-3.8
-pyenv activate jungle-scout-python-client-3.8
-
-# install project in editable mode with dev dependencies in the virtual environment
-pip install -e .[dev]
 ```

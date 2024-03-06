@@ -1,77 +1,55 @@
-from jungle_scout.base_request import BaseRequest
-from typing import Dict, List, Optional, Union, TypedDict
-from jungle_scout.models.parameters.filter_options import FilterOptions
-from jungle_scout.models.parameters.sort import Sort
-from jungle_scout.models.parameters.marketplace import Marketplace
 import json
+from typing import Any, Dict, List, Optional
+
+from pydantic import field_validator, model_serializer
+
+from jungle_scout.base_request import BaseRequest
+from jungle_scout.models.parameters.attributes import Attributes
+from jungle_scout.models.parameters.marketplace import Marketplace
+from jungle_scout.models.parameters.params import Params
+from jungle_scout.models.requests.method import Method
 
 
-class KeywordsByKeywordParams(TypedDict):
+class KeywordsByKeywordParams(Params):
+    pass
+
+
+class KeywordsByKeywordAttributes(Attributes):
     marketplace: Marketplace
-    sort: Optional[Sort]
-    page: Optional[str]
-    page_size: int = 50
-
-
-class KeywordsByKeywordAttributes(TypedDict):
     search_terms: str
-    categories: Optional[List[str]]
-    filter_options: Optional[FilterOptions]
+    categories: Optional[List[str]] = None
 
+    @field_validator("categories")
+    def validate_categories(cls, v: Optional[List[str]]) -> Optional[List[str]]:
+        if v:
+            for category in v:
+                assert (
+                    category in cls.marketplace.categories
+                ), f"Category '{category}' not found in marketplace categories"
+        return v
 
-class KeywordsByKeywordRequest(BaseRequest):
-    def __init__(self, params: KeywordsByKeywordParams, attributes: KeywordsByKeywordAttributes):
-        self.method = 'POST'
-        self.type = 'keywords_by_keyword_query'
-        self.params = self.build_params(params)
-        self.payload = self.build_payload(
-            attributes, params.get('marketplace') or Marketplace.US)
-
-    def build_payload(self, attributes: KeywordsByKeywordAttributes, marketplace: Marketplace) -> str:
-        attributes_dict = {"search_terms": attributes.get('search_terms'),
-                           "categories": attributes.get('categories') or Marketplace.US.categories}
-
-        if attributes.get('filter_options'):
-            attributes_dict.update(vars(attributes.get('filter_options')))
-
-        if attributes.get('categories'):
-            self._validate_categories(attributes.get('categories'),
-                                      marketplace)
-            attributes_dict.update(
-                {'categories': attributes.get('categories')})
-
-        clean_attributes = {k: v for k,
-                            v in attributes_dict.items() if v is not None}
-
-        return json.dumps(
-            {
-                "data": {
-                    "type": self.type,
-                    "attributes": clean_attributes
-                }
-            }
-        )
-
-    def build_params(self, params: KeywordsByKeywordParams) -> Dict:
-        params_dict = {
-            "marketplace": params.get('marketplace').country_code,
-            "sort": params.get('sort'),
-            "page[size]": params.get('page_size', 50),
-            "page[cursor]": params.get('page')
+    @model_serializer
+    def serialize_model(self) -> Dict[str, Any]:
+        return {
+            "search_terms": self.search_terms,
+            "categories": self.categories or self.marketplace.categories,
+            **self.filter_options.model_dump(exclude_none=True),
         }
 
-        clean_params = {k: v for k,
-                        v in params_dict.items() if v is not None}
 
-        return clean_params
+class KeywordsByKeywordRequest(BaseRequest[KeywordsByKeywordParams, KeywordsByKeywordAttributes]):
+    @property
+    def method(self) -> Method:
+        return Method.POST
 
-    def _validate_categories(self, categories: Optional[List[str]], marketplace: Marketplace) -> List[str]:
-        # check if the objects in the categories lists are inside the current marketplace categories
-        categories = categories or marketplace.categories
+    @property
+    def type(self) -> str:
+        return "keywords_by_keyword_query"
 
-        for category in categories:
-            if category not in marketplace.categories:
-                raise ValueError(
-                    f"Category '{category}' not found in marketplace categories")
+    def build_params(self, params: KeywordsByKeywordParams) -> Dict:
+        return params.model_dump(by_alias=True, exclude_none=True)
 
-            return categories
+    def build_payload(self, attributes: KeywordsByKeywordAttributes) -> str:
+        return json.dumps(
+            {"data": {"type": self.type, "attributes": attributes.model_dump(by_alias=True, exclude_none=True)}}
+        )
