@@ -45,7 +45,3 @@ env_files = [".env.test"]
 [tool.ruff]
 line-length = 120
 target-version = "py39"
-
-[tool.pyright]
-venvPath = "."
-venv = ".venv"
