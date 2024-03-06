@@ -1,6 +1,7 @@
 from enum import Enum
 
 
+# TODO: pull this data from https://github.com/Junglescout/data-science-assets
 class Marketplace(Enum):
     US = (
         "us",
