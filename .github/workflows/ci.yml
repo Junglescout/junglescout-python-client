@@ -72,3 +72,21 @@ jobs:
           node-version: '20'
       - name: Run formatting checks
         run: tox -e typecheck
+
+  lint:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
+      - name: Install tox
+        run: pipx install tox
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: 'poetry'
+      - name: Run linting checks
+        run: tox -e lint
