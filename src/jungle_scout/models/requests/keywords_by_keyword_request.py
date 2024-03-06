@@ -3,9 +3,9 @@ from typing import Any, Dict, List, Optional
 
 from pydantic import ValidationInfo, field_validator, model_serializer
 
-from jungle_scout.models.requests.base_request import BaseRequest
 from jungle_scout.models.parameters import Attributes, Marketplace, Params
 from jungle_scout.models.requests import Method, RequestType
+from jungle_scout.models.requests.base_request import BaseRequest
 
 
 class KeywordsByKeywordParams(Params):

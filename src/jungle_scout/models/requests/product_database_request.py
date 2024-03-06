@@ -3,7 +3,6 @@ from typing import Any, Dict, List, Optional
 
 from pydantic import ValidationInfo, field_serializer, field_validator, model_serializer
 
-from jungle_scout.models.requests.base_request import BaseRequest
 from jungle_scout.models.parameters import (
     Attributes,
     Marketplace,
@@ -14,6 +13,7 @@ from jungle_scout.models.parameters import (
     SellerTypes,
 )
 from jungle_scout.models.requests import Method, RequestType
+from jungle_scout.models.requests.base_request import BaseRequest
 
 
 class ProductDatabaseParams(Params):

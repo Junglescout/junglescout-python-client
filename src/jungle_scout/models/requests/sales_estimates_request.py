@@ -4,9 +4,9 @@ from typing import Dict
 
 from pydantic import field_validator
 
-from jungle_scout.models.requests.base_request import BaseRequest
 from jungle_scout.models.parameters import Attributes, Params
 from jungle_scout.models.requests import Method, RequestType
+from jungle_scout.models.requests.base_request import BaseRequest
 
 
 class SalesEstimatesParams(Params):
