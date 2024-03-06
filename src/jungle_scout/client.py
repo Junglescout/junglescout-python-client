@@ -212,8 +212,8 @@ class Client:
 
     def product_database(
         self,
-        include_keywords: Optional[List[str]] = [],
-        exclude_keywords: Optional[List[str]] = [],
+        include_keywords: Optional[List[str]] = None,
+        exclude_keywords: Optional[List[str]] = None,
         categories: Optional[List[str]] = None,
         product_tiers: Optional[List[ProductTiers]] = [ProductTiers.OVERSIZE, ProductTiers.STANDARD],
         seller_types: Optional[List[SellerTypes]] = [SellerTypes.AMZ, SellerTypes.FBA, SellerTypes.FBM],
@@ -253,8 +253,7 @@ class Client:
         response = self.session.request(product_database_request.method.value, url, data=payload)
 
         if response.ok:
-            return response.json()["data"]
-            # return [ProductDatabase(each) for each in response.json()["data"]]
+            return [ProductDatabase(each) for each in response.json()["data"]]
         else:
             self._raise_for_status(response)
 

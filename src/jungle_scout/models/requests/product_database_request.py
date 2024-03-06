@@ -19,16 +19,16 @@ class ProductDatabaseParams(Params):
     product_sort_option: Optional[ProductSort] = None
 
     @field_serializer("product_sort_option")
-    def serialize_sort(self, value: Optional[ProductSort]):
+    def serialize_product_sort(self, value: Optional[ProductSort]):
         return value.value if value else None
 
 
 class ProductDatabaseAttributes(Attributes):
     marketplace: Marketplace
-    include_keywords: List[str]
-    exclude_keywords: List[str]
-    seller_types: List[SellerTypes]
-    product_tiers: List[ProductTiers]
+    include_keywords: Optional[List[str]] = None
+    exclude_keywords: Optional[List[str]] = None
+    seller_types: Optional[List[SellerTypes]] = None
+    product_tiers: Optional[List[ProductTiers]] = None
     product_filter_options: Optional[ProductFilterOptions] = None
     categories: Optional[List[str]] = None
 
@@ -44,12 +44,16 @@ class ProductDatabaseAttributes(Attributes):
     @model_serializer
     def serialize_model(self) -> Dict[str, Any]:
         serialized_model = {
-            "product_tiers": [tier.value for tier in self.product_tiers],
-            "seller_types": [seller_type.value for seller_type in self.seller_types],
             "exclude_keywords": self.exclude_keywords,
             "include_keywords": self.include_keywords,
             "categories": self.categories or self.marketplace.categories,
         }
+
+        if self.product_tiers is not None:
+            serialized_model["product_tiers"] = [tier.value for tier in self.product_tiers]
+
+        if self.seller_types is not None:
+            serialized_model["seller_types"] = [seller_type.value for seller_type in self.seller_types]
 
         if self.filter_options is not None:
             serialized_model.update(**self.filter_options.model_dump(exclude_none=True))
