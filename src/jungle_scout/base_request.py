@@ -10,6 +10,7 @@ ParamsType = TypeVar("ParamsType", bound=Params)
 AttributesType = TypeVar("AttributesType", bound=Attributes)
 
 
+# TODO: Split request in post and get requests
 class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
     @property
     @abstractmethod
