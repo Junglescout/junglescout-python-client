@@ -2,7 +2,6 @@ import json
 from typing import List, NoReturn, Optional, Union
 
 import requests
-import tenacity
 
 from jungle_scout.models.keyword_by_asin import KeywordByASIN
 from jungle_scout.models.keyword_by_keyword import KeywordByKeyword
@@ -35,11 +34,6 @@ class Client:
         self.session.login(api_key_name=api_key_name, api_key=api_key)
         self.marketplace = marketplace
 
-    @tenacity.retry(
-        wait=tenacity.wait_fixed(1),
-        stop=tenacity.stop_after_attempt(3),
-        retry=tenacity.retry_if_exception_type(requests.exceptions.RequestException),
-    )
     def keywords_by_asin(
         self,
         asin: Union[str, List[str]],
@@ -49,19 +43,23 @@ class Client:
         marketplace: Optional[Marketplace] = None,
     ) -> List[KeywordByASIN]:
 
-        params = KeywordByAsinParams(marketplace=self._resolve_marketplace(marketplace), sort=sort_option)
+        params = KeywordByAsinParams(
+            marketplace=self._resolve_marketplace(marketplace), sort=sort_option)
 
         attributes = KeywordByAsinAttributes(
             asin=asin, filter_options=filter_options, include_variants=include_variants
         )
 
-        keyword_by_asin_request = KeywordByAsinRequest(params=params, attributes=attributes)
+        keyword_by_asin_request = KeywordByAsinRequest(
+            params=params, attributes=attributes)
 
-        url = self.session.build_url("keywords", "keywords_by_asin_query", params=keyword_by_asin_request.params)
+        url = self.session.build_url(
+            "keywords", "keywords_by_asin_query", params=keyword_by_asin_request.params)
 
         payload = keyword_by_asin_request.payload
 
-        response = self.session.request(keyword_by_asin_request.method.value, url, data=payload)
+        response = self.session.request(
+            keyword_by_asin_request.method.value, url, data=payload)
         if response.ok:
             return [KeywordByASIN(each) for each in response.json()["data"]]
         else:
@@ -78,19 +76,23 @@ class Client:
 
         marketplace = self._resolve_marketplace(marketplace)
 
-        params = KeywordsByKeywordParams(marketplace=marketplace, sort=sort_option)
+        params = KeywordsByKeywordParams(
+            marketplace=marketplace, sort=sort_option)
 
         attributes = KeywordsByKeywordAttributes(
             marketplace=marketplace, search_terms=search_terms, filter_options=filter_options, categories=categories
         )
 
-        keywords_by_keyword_request = KeywordsByKeywordRequest(params, attributes)
+        keywords_by_keyword_request = KeywordsByKeywordRequest(
+            params, attributes)
 
-        url = self.session.build_url("keywords", "keywords_by_keyword_query", params=keywords_by_keyword_request.params)
+        url = self.session.build_url(
+            "keywords", "keywords_by_keyword_query", params=keywords_by_keyword_request.params)
 
         payload = keywords_by_keyword_request.payload
 
-        response = self.session.request(keywords_by_keyword_request.method.value, url, data=payload)
+        response = self.session.request(
+            keywords_by_keyword_request.method.value, url, data=payload)
 
         if response.ok:
             return [KeywordByKeyword(each) for each in response.json()["data"]]

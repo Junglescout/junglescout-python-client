@@ -7,6 +7,7 @@ from jungle_scout.base_request import BaseRequest
 from jungle_scout.models.parameters.attributes import Attributes
 from jungle_scout.models.parameters.params import Params
 from jungle_scout.models.requests.method import Method
+from jungle_scout.models.requests.request_type import RequestType
 
 
 class KeywordByAsinParams(Params):
@@ -50,18 +51,14 @@ class KeywordByAsinAttributes(Attributes):
 
 
 class KeywordByAsinRequest(BaseRequest[KeywordByAsinParams, KeywordByAsinAttributes]):
-    @property
-    def method(self) -> Method:
-        return Method.POST
-
-    @property
-    def type(self) -> str:
-        return "keywords_by_asin_query"
+    type: RequestType = RequestType.KEYWORDS_BY_ASIN
+    method: Method = Method.POST
 
     def build_params(self, params: KeywordByAsinParams) -> Dict:
         return params.model_dump(by_alias=True, exclude_none=True)
 
     def build_payload(self, attributes: KeywordByAsinAttributes) -> str:
         return json.dumps(
-            {"data": {"type": self.type, "attributes": attributes.model_dump(by_alias=True, exclude_none=True)}}
+            {"data": {"type": self.type.value, "attributes": attributes.model_dump(
+                by_alias=True, exclude_none=True)}}
         )
