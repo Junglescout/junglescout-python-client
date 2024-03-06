@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Generic, TypeVar
+from typing import Dict, Generic, Optional, TypeVar
 
 from jungle_scout.models.parameters.attributes import Attributes
 from jungle_scout.models.parameters.params import Params
@@ -31,5 +31,5 @@ class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
         pass
 
     @abstractmethod
-    def build_payload(self, attributes: AttributesType) -> str:
+    def build_payload(self, attributes: AttributesType) -> Optional[str]:
         pass
