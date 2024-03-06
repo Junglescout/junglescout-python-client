@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Generic, TypeVar
-from pydantic import Field
 
 from jungle_scout.models.parameters.attributes import Attributes
 from jungle_scout.models.parameters.params import Params
@@ -12,8 +11,15 @@ AttributesType = TypeVar("AttributesType", bound=Attributes)
 
 
 class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
-    type: RequestType = Field(..., use_enum_values=True)
-    method: Method = Field(..., use_enum_values=True)
+    @property
+    @abstractmethod
+    def type(self) -> RequestType:
+        pass
+
+    @property
+    @abstractmethod
+    def method(self) -> Method:
+        pass
 
     def __init__(self, params: ParamsType, attributes: AttributesType):
         self.params = self.build_params(params)

@@ -83,7 +83,7 @@ def test_keyword_by_asins_raises_error_with_long_asin_list():
 def test_keyword_by_asin_params():
     params = KeywordByAsinParams(
         page_size=50,
-        sort=Sort.name,
+        sort=Sort.NAME,
         marketplace=Marketplace.US,
     )
     assert params.model_dump(by_alias=True, exclude_none=True) == {

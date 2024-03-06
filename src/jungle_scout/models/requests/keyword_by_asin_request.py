@@ -46,19 +46,23 @@ class KeywordByAsinAttributes(Attributes):
         return {
             "asins": self.asins,
             "include_variants": self.include_variants,
-            **self.filter_options.model_dump(exclude_none=True),
+            **({} if self.filter_options is None else self.filter_options.model_dump(exclude_none=True)),
         }
 
 
 class KeywordByAsinRequest(BaseRequest[KeywordByAsinParams, KeywordByAsinAttributes]):
-    type: RequestType = RequestType.KEYWORDS_BY_ASIN
-    method: Method = Method.POST
+    @property
+    def type(self):
+        return RequestType.KEYWORDS_BY_ASIN
+
+    @property
+    def method(self) -> Method:
+        return Method.POST
 
     def build_params(self, params: KeywordByAsinParams) -> Dict:
         return params.model_dump(by_alias=True, exclude_none=True)
 
     def build_payload(self, attributes: KeywordByAsinAttributes) -> str:
         return json.dumps(
-            {"data": {"type": self.type.value, "attributes": attributes.model_dump(
-                by_alias=True, exclude_none=True)}}
+            {"data": {"type": self.type.value, "attributes": attributes.model_dump(by_alias=True, exclude_none=True)}}
         )
