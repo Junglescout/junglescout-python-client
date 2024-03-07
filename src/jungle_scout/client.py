@@ -167,7 +167,7 @@ class Client:
         end_date: str,
         sort_option: Optional[Sort] = None,
         marketplace: Optional[Marketplace] = None,
-    ) -> List[HistoricalSearchVolume]:
+    ) -> HistoricalSearchVolume:
 
         marketplace = self._resolve_marketplace(marketplace)
 
