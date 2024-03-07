@@ -18,10 +18,10 @@ def client():
 @pytest.mark.parametrize(
     "asin, fake_response",
     [
-        ("B005IHSKYS", generate_keywords_by_asin_responses(1)),
+        ("B005IHSKYS", generate_keywords_by_asin_responses(total_items=1)),
         (
             ["B005IHSKYS", "B0CL5KNB9M", "B005IHSKYS", "B0CL5KNB9M", "B005IHSKYS"],
-            generate_keywords_by_asin_responses(5),
+            generate_keywords_by_asin_responses(total_items=5),
         ),
         (
             [
@@ -36,7 +36,7 @@ def client():
                 "B005IHSKYS",
                 "B0CL5KNB9M",
             ],
-            generate_keywords_by_asin_responses(10),
+            generate_keywords_by_asin_responses(total_items=10),
         ),
     ],
 )
@@ -45,7 +45,7 @@ def test_keywords_by_asin(client, asin, fake_response):
         mock_url = f"{client.session.base_url}/keywords/keywords_by_asin_query"
         mock.post(
             mock_url,
-            json={"data": fake_response},
+            json=fake_response,
         )
 
         result = client.keywords_by_asin(asin=asin)
@@ -64,10 +64,10 @@ def test_keywords_by_asin(client, asin, fake_response):
             "attributes": {"asins": [asin] if isinstance(asin, str) else asin, "include_variants": True},
         }
     }
-    assert len(result) == len(history[0].json()["data"]["attributes"]["asins"])
+    assert len(result.data) == len(history[0].json()["data"]["attributes"]["asins"])
 
-    assert len(result) == len(fake_response)
-    assert isinstance(result[0], KeywordByASIN)
-    assert result[0].data_type == fake_response[0]["type"]
-    assert result[0].id == fake_response[0]["id"]
-    assert isinstance(result[0].updated_at, datetime)
+    assert len(result.data) == len(fake_response["data"])
+    assert isinstance(result, KeywordByASIN)
+    assert result.data[0]["type"] == fake_response["data"][0]["type"]
+    assert result.data[0]["id"] == fake_response["data"][0]["id"]
+    assert isinstance(result.data[0]["attributes"]["updated_at"], datetime)

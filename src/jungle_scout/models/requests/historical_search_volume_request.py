@@ -32,12 +32,15 @@ class HistoricalSearchVolumeParams(Params):
             raise ValueError("Date must be in the format YYYY-MM-DD")
         return date
 
-    @field_validator("end_date")
-    @classmethod
-    def check_dates(cls, v, values, **kwargs):
-        if "start_date" in values and v < values["start_date"]:
-            raise ValueError("end_date must be after start_date")
-        return v
+    # TODO: refactor an re-enable this validation
+    # @field_validator("end_date")
+    # @classmethod
+    # def check_dates(cls, v, values, **kwargs):
+    #     print(v, "v")
+    #     print(values, "values")
+    #     if "start_date" in values.data and v < values.data.start_date:
+    #         raise ValueError("end_date must be after start_date")
+    #     return v
 
 
 class HistoricalSearchVolumeAttributes(Attributes):

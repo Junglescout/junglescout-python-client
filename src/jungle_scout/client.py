@@ -74,7 +74,7 @@ class Client:
         marketplace: Optional[Marketplace] = None,
         page_size: Optional[int] = None,
         page: Optional[str] = None,
-    ) -> List[KeywordByASIN]:
+    ) -> KeywordByASIN:
 
         params = KeywordByAsinParams(
             marketplace=self._resolve_marketplace(marketplace), sort=sort_option, page=page, page_size=page_size
@@ -94,7 +94,7 @@ class Client:
 
         response = self.session.request(keyword_by_asin_request.method.value, url, data=payload)
         if response.ok:
-            return [KeywordByASIN(each) for each in response.json()["data"]]
+            return KeywordByASIN(response.json())
         else:
             self._raise_for_status(response)
 
@@ -107,7 +107,7 @@ class Client:
         marketplace: Optional[Marketplace] = None,
         page_size: Optional[int] = None,
         page: Optional[str] = None,
-    ) -> List[KeywordByKeyword]:
+    ) -> KeywordByKeyword:
 
         marketplace = self._resolve_marketplace(marketplace)
 
@@ -128,7 +128,7 @@ class Client:
         response = self.session.request(keywords_by_keyword_request.method.value, url, data=payload)
 
         if response.ok:
-            return [KeywordByKeyword(each) for each in response.json()["data"]]
+            return KeywordByKeyword(response.json())
         else:
             self._raise_for_status(response)
 
@@ -139,7 +139,7 @@ class Client:
         end_date: str,
         sort_option: Optional[Sort] = None,
         marketplace: Optional[Marketplace] = None,
-    ) -> List[SalesEstimates]:
+    ) -> SalesEstimates:
 
         marketplace = self._resolve_marketplace(marketplace)
 
@@ -156,7 +156,7 @@ class Client:
         response = self.session.request(sales_estimates_request.method.value, url)
 
         if response.ok:
-            return [SalesEstimates(each) for each in response.json()["data"]]
+            return SalesEstimates(response.json())
         else:
             self._raise_for_status(response)
 
@@ -167,7 +167,7 @@ class Client:
         end_date: str,
         sort_option: Optional[Sort] = None,
         marketplace: Optional[Marketplace] = None,
-    ) -> List[HistoricalSearchVolume]:
+    ) -> HistoricalSearchVolume:
 
         marketplace = self._resolve_marketplace(marketplace)
 
@@ -186,7 +186,7 @@ class Client:
         response = self.session.request(historical_search_volume_request.method.value, url)
 
         if response.ok:
-            return [HistoricalSearchVolume(each) for each in response.json()["data"]]
+            return HistoricalSearchVolume(response.json())
         else:
             self._raise_for_status(response)
 
@@ -226,7 +226,7 @@ class Client:
         marketplace: Optional[Marketplace] = None,
         page_size: Optional[int] = 10,
         page: Optional[str] = None,
-    ) -> List[ProductDatabase]:
+    ) -> ProductDatabase:
 
         marketplace = self._resolve_marketplace(marketplace)
 
@@ -256,7 +256,7 @@ class Client:
         response = self.session.request(product_database_request.method.value, url, data=payload)
 
         if response.ok:
-            return [ProductDatabase(each) for each in response.json()["data"]]
+            return ProductDatabase(response.json())
         else:
             self._raise_for_status(response)
 

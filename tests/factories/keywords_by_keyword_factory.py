@@ -9,7 +9,6 @@ fake = Faker()
 class AttributesFactory(factory.DictFactory):
     country = "us"
     name = fake.name()
-    primary_asin = fake.bothify(text="B0####???")
     monthly_trend = fake.random_int(min=0, max=100)
     monthly_search_volume_exact = fake.random_int(min=0, max=100)
     quarterly_trend = fake.random_int(min=0, max=100)
@@ -23,21 +22,9 @@ class AttributesFactory(factory.DictFactory):
     relevancy_score = fake.name()
     organic_product_count = fake.name()
     sponsored_product_count = fake.name()
-    updated_at = fake.date_time_this_year().isoformat()
-    organic_rank = fake.name()
-    sponsored_rank = fake.name()
-    overall_rank = fake.name()
-    organic_ranking_asins_count = fake.name()
-    sponsored_ranking_asins_count = fake.name()
-    avg_competitor_organic_rank = fake.name()
-    avg_competitor_sponsored_rank = fake.name()
-    relative_organic_position = fake.name()
-    relative_sponsored_position = fake.name()
-    competitor_organic_rank = fake.name()
-    variation_lowest_organic_rank = fake.name()
 
 
-class KeywordsByAsinResponseFactory(factory.DictFactory):
+class KeywordsByKeywordResponseFactory(factory.DictFactory):
     total_items = factory.Faker("pyint")
 
     data = factory.LazyAttribute(
@@ -54,5 +41,5 @@ class KeywordsByAsinResponseFactory(factory.DictFactory):
     meta = factory.LazyAttribute(lambda o: {"total_items": o.total_items})
 
 
-def generate_keywords_by_asin_responses(total_items: int = 1):
-    return KeywordsByAsinResponseFactory(total_items=total_items)
+def generate_keywords_by_keyword_responses(total_items: int = 1):
+    return KeywordsByKeywordResponseFactory(total_items=total_items)
