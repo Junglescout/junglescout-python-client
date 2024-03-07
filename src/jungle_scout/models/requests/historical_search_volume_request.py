@@ -32,7 +32,7 @@ class HistoricalSearchVolumeParams(Params):
             raise ValueError("Date must be in the format YYYY-MM-DD")
         return date
 
-    # disabling for now
+    # TODO: refactor an re-enable this validation
     # @field_validator("end_date")
     # @classmethod
     # def check_dates(cls, v, values, **kwargs):
