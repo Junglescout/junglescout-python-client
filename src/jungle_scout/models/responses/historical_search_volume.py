@@ -9,3 +9,9 @@ class HistoricalSearchVolume(BaseResponse):
         self.estimate_start_date = json_data["attributes"]["estimate_start_date"]
         self.estimate_end_date = json_data["attributes"]["estimate_end_date"]
         self.estimated_exact_search_volume = json_data["attributes"]["estimated_exact_search_volume"]
+
+    def _update_links(self, json_data):
+        pass
+
+    def _update_meta(self, json_data):
+        pass

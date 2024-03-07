@@ -48,11 +48,23 @@ class ProductDatabase(BaseResponse):
         if fee_breakdown_data is not None:
             self.fee_breakdown = FeeBreakdown(fee_breakdown_data)
 
+    def _update_links(self, json_data):
+        pass
+
+    def _update_meta(self, json_data):
+        pass
+
 
 class SubcategoryRanks(BaseResponse):
     def _update_attributes(self, json_data):
         self.subcategory = json_data["subcategory"]
         self.rank = json_data["rank"]
+
+    def _update_links(self, json_data):
+        pass
+
+    def _update_meta(self, json_data):
+        pass
 
 
 class FeeBreakdown(BaseResponse):
@@ -61,3 +73,9 @@ class FeeBreakdown(BaseResponse):
         self.referral_fee = json_data["referral_fee"]
         self.variable_closing_fee = json_data["variable_closing_fee"]
         self.total_fees = json_data["total_fees"]
+
+    def _update_links(self, json_data):
+        pass
+
+    def _update_meta(self, json_data):
+        pass

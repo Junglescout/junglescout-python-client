@@ -1,6 +1,6 @@
 import json
 from abc import ABC, abstractmethod
-from typing import Dict
+from typing import Dict, List
 
 
 # TODO: Update to pydantic model
@@ -12,7 +12,7 @@ class BaseResponse(ABC):
         self.meta = self._update_meta(json_data)
 
     @abstractmethod
-    def _update_attributes(self, json_data: Dict):
+    def _update_attributes(self, json_data: Dict) -> List[dict]:
         pass
 
     @abstractmethod

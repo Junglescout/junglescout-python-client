@@ -16,6 +16,12 @@ class ShareOfVoice(BaseResponse):
         self.top_asins_model_start_date = parse(json_data["attributes"]["top_asins_model_start_date"])
         self.top_asins_model_end_date = parse(json_data["attributes"]["top_asins_model_end_date"])
 
+    def _update_links(self, json_data):
+        pass
+
+    def _update_meta(self, json_data):
+        pass
+
 
 class ShareOfVoiceBrands(BaseResponse):
     def _update_attributes(self, json_data):
@@ -36,6 +42,12 @@ class ShareOfVoiceBrands(BaseResponse):
         self.sponsored_average_position = json_data["sponsored_average_position"]
         self.sponsored_average_price = json_data["sponsored_average_price"]
 
+    def _update_links(self, json_data):
+        pass
+
+    def _update_meta(self, json_data):
+        pass
+
 
 class ShareOfVoiceTopAsins(BaseResponse):
     def _update_attributes(self, json_data):
@@ -46,3 +58,9 @@ class ShareOfVoiceTopAsins(BaseResponse):
         self.clicks = json_data["clicks"]
         self.conversions = json_data["conversions"]
         self.conversion_rate = json_data["conversion_rate"]
+
+    def _update_links(self, json_data):
+        pass
+
+    def _update_meta(self, json_data):
+        pass

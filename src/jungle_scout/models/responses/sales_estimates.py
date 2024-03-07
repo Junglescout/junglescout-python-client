@@ -7,6 +7,12 @@ class SalesEstimateData(BaseResponse):
         self.estimated_units_sold = json_data["estimated_units_sold"]
         self.last_known_price = json_data["last_known_price"]
 
+    def _update_links(self, json_data):
+        pass
+
+    def _update_meta(self, json_data):
+        pass
+
 
 class SalesEstimates(BaseResponse):
     def _update_attributes(self, json_data):
@@ -19,3 +25,9 @@ class SalesEstimates(BaseResponse):
         self.parent_asin = json_data["attributes"]["parent_asin"]
         self.variants = json_data["attributes"]["variants"]
         self.data = [SalesEstimateData(each) for each in json_data["attributes"]["data"]]
+
+    def _update_links(self, json_data):
+        pass
+
+    def _update_meta(self, json_data):
+        pass
