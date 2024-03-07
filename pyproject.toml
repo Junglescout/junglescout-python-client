@@ -25,6 +25,8 @@ ipython = {version = "^8.22.2", python = ">=3.10,<4.0"}
 pytest-dotenv = "^0.5.2"
 pyright = "^1.1.352"
 ruff = "^0.3.0"
+requests-mock = "^1.11.0"
+factory-boy = "^3.3.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -43,6 +45,9 @@ testpaths = ["tests"]
 pythonpath = ["src"]
 env_override_existing_values = 1
 env_files = [".env.test"]
+markers = [
+    "integration: mark a test as an integration test",
+]
 
 [tool.ruff]
 line-length = 120
