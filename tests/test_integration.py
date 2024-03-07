@@ -56,14 +56,14 @@ def test_integration():
     for brand in share_of_voice.data:
         print(brand["top_asins"])
 
-    product_filter_options = ProductFilterOptions(min_price=100)
+    # product_filter_options = ProductFilterOptions(min_price=100)
 
     product_database = client.product_database(
         include_keywords=["yoga mat", "yoga"],
         exclude_keywords=["mat"],
         marketplace=Marketplace.US,
         page_size=5,
-        product_filter_options=product_filter_options,
+        # product_filter_options=product_filter_options,
         seller_types=[SellerTypes.AMZ],
         product_tiers=[ProductTiers.OVERSIZE],
         product_sort_option=ProductSort.NAME,
