@@ -39,12 +39,12 @@ class SalesEstimatesParams(Params):
             raise ValueError("Date must be in the format YYYY-MM-DD")
         return date
 
-    @field_validator("end_date")
-    @classmethod
-    def check_dates(cls, v, values, **kwargs):
-        if "start_date" in values and v < values["start_date"]:
-            raise ValueError("end_date must be after start_date")
-        return v
+    # @field_validator("end_date")
+    # @classmethod
+    # def check_dates(cls, v, values, **kwargs):
+    #     if "start_date" in values and v < values["start_date"]:
+    #         raise ValueError("end_date must be after start_date")
+    #     return v
 
 
 class SalesEstimatesAttributes(Attributes):
