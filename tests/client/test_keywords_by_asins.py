@@ -8,7 +8,7 @@ from jungle_scout.client import Client
 from jungle_scout.models.parameters import Marketplace
 from jungle_scout.models.responses.keyword_by_asin import KeywordByASIN
 
-from .factories.keyword_by_asin_factory import generate_keywords_by_asin_responses
+from tests.factories.keyword_by_asin_factory import generate_keywords_by_asin_responses
 
 
 @pytest.fixture
