@@ -36,6 +36,3 @@ def test_integration():
     # print("------")
 
     print(keywords_by_keyword)
-
-    for keyword in keywords_by_keyword[:10]:
-        print(keyword)

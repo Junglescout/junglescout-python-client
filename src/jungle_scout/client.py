@@ -226,7 +226,7 @@ class Client:
         marketplace: Optional[Marketplace] = None,
         page_size: Optional[int] = 10,
         page: Optional[str] = None,
-    ) -> List[ProductDatabase]:
+    ) -> ProductDatabase:
 
         marketplace = self._resolve_marketplace(marketplace)
 
@@ -256,7 +256,7 @@ class Client:
         response = self.session.request(product_database_request.method.value, url, data=payload)
 
         if response.ok:
-            return [ProductDatabase(each) for each in response.json()["data"]]
+            return ProductDatabase(response.json())
         else:
             self._raise_for_status(response)
 

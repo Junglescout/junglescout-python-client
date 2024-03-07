@@ -5,77 +5,94 @@ from jungle_scout.models.responses.base_response import BaseResponse
 
 # TODO: replace with pydantic model
 class ProductDatabase(BaseResponse):
+    def __init__(self, json_data):
+        super().__init__(json_data)
+        self.links = self._update_links(json_data)
+        self.meta = self._update_meta(json_data)
+
     def _update_attributes(self, json_data):
-        self.data_type = json_data["type"]
-        self.id = json_data["id"]
-        self.title = json_data["attributes"]["title"]
-        self.price = json_data["attributes"]["price"]
-        self.reviews = json_data["attributes"]["reviews"]
-        self.category = json_data["attributes"]["category"]
-        self.rating = json_data["attributes"]["rating"]
-        self.image_url = json_data["attributes"]["image_url"]
-        self.parent_asin = json_data["attributes"]["parent_asin"]
-        self.is_variant = json_data["attributes"]["is_variant"]
-        self.seller_type = json_data["attributes"]["seller_type"]
-        self.variants = json_data["attributes"]["variants"]
-        self.is_standalone = json_data["attributes"]["is_standalone"]
-        self.is_parent = json_data["attributes"]["is_parent"]
-        self.brand = json_data["attributes"]["brand"]
-        self.product_rank = json_data["attributes"]["product_rank"]
-        self.weight_value = json_data["attributes"]["weight_value"]
-        self.weight_unit = json_data["attributes"]["weight_unit"]
-        self.length_value = json_data["attributes"]["length_value"]
-        self.width_value = json_data["attributes"]["width_value"]
-        self.height_value = json_data["attributes"]["height_value"]
-        self.dimensions_unit = json_data["attributes"]["dimensions_unit"]
-        self.listing_quality_score = json_data["attributes"]["listing_quality_score"]
-        self.number_of_sellers = json_data["attributes"]["number_of_sellers"]
-        self.buy_box_owner = json_data["attributes"]["buy_box_owner"]
-        self.buy_box_owner_seller_id = json_data["attributes"]["buy_box_owner_seller_id"]
-        self.date_first_available = json_data["attributes"]["date_first_available"]
-        self.date_first_available_is_estimated = json_data["attributes"]["date_first_available_is_estimated"]
-        self.approximate_30_day_revenue = json_data["attributes"]["approximate_30_day_revenue"]
-        self.approximate_30_day_units_sold = json_data["attributes"]["approximate_30_day_units_sold"]
-        self.ean_list = json_data["attributes"]["ean_list"]
-        self.variant_reviews = json_data["attributes"]["variant_reviews"]
-        self.updated_at = parse(json_data["attributes"]["updated_at"])
 
-        subcategory_ranks_data = json_data["attributes"].get("subcategory_ranks")
-        if subcategory_ranks_data is not None:
-            self.subcategory_ranks = [SubcategoryRanks(each) for each in subcategory_ranks_data]
+        productDatabaseList = []
 
-        fee_breakdown_data = json_data["attributes"].get("fee_breakdown")
-        if fee_breakdown_data is not None:
-            self.fee_breakdown = FeeBreakdown(fee_breakdown_data)
+        for data in json_data["data"]:
+            dictItem = {
+                "id": data["id"],
+                "type": data["type"],
+                "attributes": {
+                    "title": data["attributes"]["title"],
+                    "price": data["attributes"]["price"],
+                    "reviews": data["attributes"]["reviews"],
+                    "category": data["attributes"]["category"],
+                    "rating": data["attributes"]["rating"],
+                    "image_url": data["attributes"]["image_url"],
+                    "parent_asin": data["attributes"]["parent_asin"],
+                    "is_variant": data["attributes"]["is_variant"],
+                    "seller_type": data["attributes"]["seller_type"],
+                    "variants": data["attributes"]["variants"],
+                    "is_standalone": data["attributes"]["is_standalone"],
+                    "is_parent": data["attributes"]["is_parent"],
+                    "brand": data["attributes"]["brand"],
+                    "product_rank": data["attributes"]["product_rank"],
+                    "weight_value": data["attributes"]["weight_value"],
+                    "weight_unit": data["attributes"]["weight_unit"],
+                    "length_value": data["attributes"]["length_value"],
+                    "width_value": data["attributes"]["width_value"],
+                    "height_value": data["attributes"]["height_value"],
+                    "dimensions_unit": data["attributes"]["dimensions_unit"],
+                    "listing_quality_score": data["attributes"]["listing_quality_score"],
+                    "number_of_sellers": data["attributes"]["number_of_sellers"],
+                    "buy_box_owner": data["attributes"]["buy_box_owner"],
+                    "buy_box_owner_seller_id": data["attributes"]["buy_box_owner_seller_id"],
+                    "date_first_available": data["attributes"]["date_first_available"],
+                    "date_first_available_is_estimated": data["attributes"]["date_first_available_is_estimated"],
+                    "approximate_30_day_revenue": data["attributes"]["approximate_30_day_revenue"],
+                    "approximate_30_day_units_sold": data["attributes"]["approximate_30_day_units_sold"],
+                    "ean_list": data["attributes"]["ean_list"],
+                    "variant_reviews": data["attributes"]["variant_reviews"],
+                    "updated_at": parse(data["attributes"]["updated_at"]),
+                },
+            }
+
+            subcategory_ranks_data = data["attributes"]["subcategory_ranks"]
+            if subcategory_ranks_data is not None:
+                dictItem.update({"subcategory_ranks": SubcategoryRanks(subcategory_ranks_data).data})
+
+            fee_breakdown_data = data["attributes"]["fee_breakdown"] or None
+            if fee_breakdown_data is not None:
+                dictItem.update({"fee_breakdown": FeeBreakdown(fee_breakdown_data).data})
+
+            productDatabaseList.append(dictItem)
+
+        return productDatabaseList
 
     def _update_links(self, json_data):
-        pass
+        return json_data["links"]
 
     def _update_meta(self, json_data):
-        pass
+        return json_data["meta"]
 
 
 class SubcategoryRanks(BaseResponse):
     def _update_attributes(self, json_data):
-        self.subcategory = json_data["subcategory"]
-        self.rank = json_data["rank"]
+        subcategoryRanksList = []
 
-    def _update_links(self, json_data):
-        pass
+        for data in json_data:
+            subcategoryRanksList.append(
+                {
+                    "subcategory": data["subcategory"],
+                    "rank": data["rank"],
+                }
+            )
 
-    def _update_meta(self, json_data):
-        pass
+        return subcategoryRanksList
 
 
 class FeeBreakdown(BaseResponse):
     def _update_attributes(self, json_data):
-        self.fba_fee = json_data["fba_fee"]
-        self.referral_fee = json_data["referral_fee"]
-        self.variable_closing_fee = json_data["variable_closing_fee"]
-        self.total_fees = json_data["total_fees"]
 
-    def _update_links(self, json_data):
-        pass
-
-    def _update_meta(self, json_data):
-        pass
+        return {
+            "fba_fee": json_data["fba_fee"],
+            "referral_fee": json_data["referral_fee"],
+            "variable_closing_fee": json_data["variable_closing_fee"],
+            "total_fees": json_data["total_fees"],
+        }

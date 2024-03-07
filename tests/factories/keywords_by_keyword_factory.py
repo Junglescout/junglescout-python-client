@@ -41,5 +41,5 @@ class KeywordsByKeywordResponseFactory(factory.DictFactory):
     meta = factory.LazyAttribute(lambda o: {"total_items": o.total_items})
 
 
-def generate_keywords_by_keyword_responses(total_items: int = 1) -> List[Any]:
+def generate_keywords_by_keyword_responses(total_items: int = 1):
     return KeywordsByKeywordResponseFactory(total_items=total_items)
