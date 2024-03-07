@@ -107,7 +107,7 @@ class Client:
         marketplace: Optional[Marketplace] = None,
         page_size: Optional[int] = None,
         page: Optional[str] = None,
-    ) -> List[KeywordByKeyword]:
+    ) -> KeywordByKeyword:
 
         marketplace = self._resolve_marketplace(marketplace)
 
@@ -128,7 +128,7 @@ class Client:
         response = self.session.request(keywords_by_keyword_request.method.value, url, data=payload)
 
         if response.ok:
-            return [KeywordByKeyword(each) for each in response.json()["data"]]
+            return KeywordByKeyword(response.json())
         else:
             self._raise_for_status(response)
 

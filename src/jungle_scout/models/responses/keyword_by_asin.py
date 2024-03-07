@@ -36,3 +36,9 @@ class KeywordByASIN(BaseResponse):
         self.relative_sponsored_position = json_data["attributes"]["relative_sponsored_position"]
         self.competitor_organic_rank = json_data["attributes"]["competitor_organic_rank"]
         self.variation_lowest_organic_rank = json_data["attributes"]["variation_lowest_organic_rank"]
+
+    def _update_links(self, json_data):
+        pass
+
+    def _update_meta(self, json_data):
+        pass
