@@ -4,6 +4,11 @@ from jungle_scout.models.responses.base_response import BaseResponse
 
 
 class KeywordByKeyword(BaseResponse):
+    def __init__(self, json_data):
+        super().__init__(json_data)
+        self.links = self._update_links(json_data)
+        self.meta = self._update_meta(json_data)
+
     def _update_attributes(self, json_data):
         KeywordList = []
         for data in json_data["data"]:

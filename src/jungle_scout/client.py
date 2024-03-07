@@ -74,7 +74,7 @@ class Client:
         marketplace: Optional[Marketplace] = None,
         page_size: Optional[int] = None,
         page: Optional[str] = None,
-    ) -> List[KeywordByASIN]:
+    ) -> KeywordByASIN:
 
         params = KeywordByAsinParams(
             marketplace=self._resolve_marketplace(marketplace), sort=sort_option, page=page, page_size=page_size
@@ -94,7 +94,7 @@ class Client:
 
         response = self.session.request(keyword_by_asin_request.method.value, url, data=payload)
         if response.ok:
-            return [KeywordByASIN(each) for each in response.json()["data"]]
+            return KeywordByASIN(response.json())
         else:
             self._raise_for_status(response)
 
@@ -186,7 +186,7 @@ class Client:
         response = self.session.request(historical_search_volume_request.method.value, url)
 
         if response.ok:
-            return [HistoricalSearchVolume(each) for each in response.json()["data"]]
+            return HistoricalSearchVolume(response.json())
         else:
             self._raise_for_status(response)
 

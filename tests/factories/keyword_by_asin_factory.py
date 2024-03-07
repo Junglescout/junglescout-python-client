@@ -38,10 +38,21 @@ class AttributesFactory(factory.DictFactory):
 
 
 class KeywordsByAsinResponseFactory(factory.DictFactory):
-    type = "this_type"
-    id = fake.bothify(text="us/B0####???")
-    attributes = factory.SubFactory(AttributesFactory)
+    total_items = factory.Faker("pyint")
+
+    data = factory.LazyAttribute(
+        lambda o: [
+            {
+                "type": "this_type",
+                "id": fake.bothify(text="us/B0####???"),
+                "attributes": AttributesFactory(),
+            }
+            for _ in range(o.total_items)
+        ]
+    )
+    links = {"self": fake.uri(), "next": fake.uri()}
+    meta = factory.LazyAttribute(lambda o: {"total_items": o.total_items})
 
 
-def generate_keywords_by_asin_responses(length: int = 1) -> List[Any]:
-    return [KeywordsByAsinResponseFactory() for _ in range(length)]
+def generate_keywords_by_asin_responses(total_items: int = 1) -> List[Any]:
+    return KeywordsByAsinResponseFactory(total_items=total_items)
