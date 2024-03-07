@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import List, Any
 
 import factory
 from faker import Faker
@@ -6,10 +6,7 @@ from faker import Faker
 fake = Faker()
 
 
-class AttributesFactory(factory.Factory):
-    class Meta:
-        model = dict
-
+class AttributesFactory(factory.DictFactory):
     country = "us"
     name = fake.name()
     primary_asin = fake.bothify(text="B0####???")
@@ -41,13 +38,10 @@ class AttributesFactory(factory.Factory):
 
 
 class KeywordsByAsinResponseFactory(factory.DictFactory):
-    class Meta:
-        model = dict
-
     type = "this_type"
     id = fake.bothify(text="us/B0####???")
     attributes = factory.SubFactory(AttributesFactory)
 
 
-def generate_keywords_by_asin_responses(length: int = 1) -> List[Dict]:
+def generate_keywords_by_asin_responses(length: int = 1) -> List[Any]:
     return [KeywordsByAsinResponseFactory() for _ in range(length)]
