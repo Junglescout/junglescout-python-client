@@ -1,30 +1,24 @@
+from pydantic import BaseModel
+
 from jungle_scout.models.responses.base_response import BaseResponse
 
 
 class SalesEstimateData(BaseResponse):
     def _update_attributes(self, json_data):
-        self.date = json_data["date"]
-        self.estimated_units_sold = json_data["estimated_units_sold"]
-        self.last_known_price = json_data["last_known_price"]
+        SalesEstimateDataList = []
 
-    def _update_links(self, json_data):
-        pass
-
-    def _update_meta(self, json_data):
-        pass
+        for data in json_data["data"]:
+            SalesEstimateDataList.append(
+                {
+                    "date": data["date"],
+                    "estimated_units_sold": data["estimated_units_sold"],
+                    "last_known_price": data["last_known_price"],
+                }
+            )
+        return SalesEstimateDataList
 
 
 class SalesEstimates(BaseResponse):
-    def _update_attributes(self, json_data):
-
-        self.asin = json_data["attributes"]["asin"]
-        self.is_parent = json_data["attributes"]["is_parent"]
-        self.is_variant = json_data["attributes"]["is_variant"]
-        self.is_standalone = json_data["attributes"]["is_standalone"]
-        self.parent_asin = json_data["attributes"]["parent_asin"]
-        self.variants = json_data["attributes"]["variants"]
-        self.data = [SalesEstimateData(each) for each in json_data["attributes"]["data"]]
-
     def _update_attributes(self, json_data):
         SalesEstimateList = []
 
@@ -40,7 +34,7 @@ class SalesEstimates(BaseResponse):
                         "is_standalone": data["attributes"]["is_standalone"],
                         "parent_asin": data["attributes"]["parent_asin"],
                         "variants": data["attributes"]["variants"],
-                        "data": [SalesEstimateData(each) for each in data["attributes"]["data"]],
+                        "data": SalesEstimateData(data["attributes"]).data,
                     },
                 }
             )

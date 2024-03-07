@@ -139,7 +139,7 @@ class Client:
         end_date: str,
         sort_option: Optional[Sort] = None,
         marketplace: Optional[Marketplace] = None,
-    ) -> List[SalesEstimates]:
+    ) -> SalesEstimates:
 
         marketplace = self._resolve_marketplace(marketplace)
 
@@ -156,7 +156,7 @@ class Client:
         response = self.session.request(sales_estimates_request.method.value, url)
 
         if response.ok:
-            return [SalesEstimates(each) for each in response.json()["data"]]
+            return SalesEstimates(response.json())
         else:
             self._raise_for_status(response)
 
