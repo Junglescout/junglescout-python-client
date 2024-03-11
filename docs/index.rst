@@ -1,50 +1,65 @@
-############################
- Jungle Scout Python Client
-############################
+##########################
+Jungle Scout Python Client
+##########################
 
-This is a Python client for the Jungle Scout API. It is a thin wrapper
-around the Jungle Scout API, and it provides a simple interface for
-interacting with the API.
+This is a Python client for the :js_api_docs:`Jungle Scout API <api>`. It is a thin wrapper
+around the Jungle Scout API, and it provides a simple interface for interacting with the API.
 
 .. important::
+    See the :js_api_docs:`Jungle Scout API reference <api>` for more information about the
+    available endpoints and their parameters.
 
-   This sample documentation was generated on |today|, and is rebuilt
-   weekly.
+##########
+Quickstart
+##########
 
-############
- Quickstart
-############
+Install the Jungle Scout Python client.
 
-#. Install this theme:
-#. Set the following in your existing Sphinx documentation's ``conf.py``
-   file:
-#. Build your Sphinx documentation with the new theme! [1]_
+.. code-block:: bash
+
+    pip install jungle-scout-python-client
+
+Import the client and create an instance.
+
+.. code-block:: python
+
+    from jungle_scout.client import Client
+    from jungle_scout.models.parameters import (
+        Marketplace,
+    )
+
+    API_KEY_NAME = "API_KEY_NAME"
+    API_KEY = "API_KEY"
+    client = Client(api_key_name=API_KEY_NAME, api_key=API_KEY, marketplace=Marketplace.US)
+
+
+Make a request to the API.
+
+.. code-block:: python
+
+    keywords_by_asin = client.keywords_by_asin(
+        asin=["B0CP9Z56SW", "B0154ASID6"],
+    )
 
 #############
- Exploration
+Documentation
 #############
+
+The :doc:`getting_started` section provides a quick overview of how to install and use the
+Jungle Scout Python client. See the :doc:`examples/index` section for more code examples of
+common use cases. The :doc:`api` section provides detailed information about the available
+endpoints and their parameters.
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
 
-.. autoclass:: jungle_scout.client.Client
-   :members:
+    getting_started
+    examples/index
+    api
 
-####################
- Indices and Tables
-####################
+##################
+Indices and Tables
+##################
 
 -  :ref:`genindex`
 -  :ref:`modindex`
 -  :ref:`search`
-
-----
-
-.. [1]
-
-   If you hit an error while building documentation with a new theme, it is
-   likely due to some theme-specific configuration in the ``conf.py`` file
-   of that documentation. These are usually ``html_sidebars``,
-   ``html_theme_path`` or ``html_theme_config``. Unsetting those will
-   likely allow the build to proceed.

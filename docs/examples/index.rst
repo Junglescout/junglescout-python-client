@@ -1,0 +1,9 @@
+########
+Examples
+########
+
+.. toctree::
+   :titlesonly:
+   :glob:
+
+   *
