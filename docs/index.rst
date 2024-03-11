@@ -51,6 +51,7 @@ common use cases. The :doc:`api` section provides detailed information about the
 endpoints and their parameters.
 
 .. toctree::
+    :maxdepth: 2
 
     getting_started
     examples/index
