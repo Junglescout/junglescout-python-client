@@ -6,7 +6,6 @@ from jungle_scout.client import Client
 from jungle_scout.models.parameters import (
     FilterOptions,
     Marketplace,
-    ProductFilterOptions,
     ProductSort,
     ProductTiers,
     SellerTypes,
@@ -30,6 +29,8 @@ def test_integration():
         sort_option=Sort.MONTHLY_SEARCH_VOLUME_EXACT_MATCH,
     )
 
+    print(keywords_by_asin.links)
+
     keywords_by_keyword = client.keywords_by_keyword(
         search_terms="yoga",
         categories=["Home & Kitchen", "Musical Instruments"],
@@ -37,7 +38,7 @@ def test_integration():
         sort_option=Sort.MONTHLY_TREND,
     )
 
-    print(keywords_by_asin.links)
+    print(keywords_by_keyword.links)
 
     historical_search_volume = client.historical_search_volume(
         keyword="yoga", start_date="2023-04-01", end_date="2023-12-01"
