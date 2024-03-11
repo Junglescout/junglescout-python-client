@@ -9,7 +9,7 @@ readme = "README.md"
 repository = "https://github.com/Junglescout/jungle-scout-python-client"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 pydantic = "^2.6.3"
 requests = "^2.31.0"
 python-dateutil = "^2.8.2"
@@ -27,6 +27,7 @@ pyright = "^1.1.352"
 ruff = "^0.3.0"
 requests-mock = "^1.11.0"
 factory-boy = "^3.3.0"
+sphinx = "^7.2.6"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
