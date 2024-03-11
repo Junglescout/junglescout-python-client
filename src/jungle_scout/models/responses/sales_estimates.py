@@ -1,5 +1,3 @@
-from pydantic import BaseModel
-
 from jungle_scout.models.responses.base_response import BaseResponse
 
 
