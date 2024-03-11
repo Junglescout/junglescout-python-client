@@ -10,6 +10,7 @@ We welcome contributions from the community. Please read the following guideline
 - [Pyenv](https://github.com/pyenv/pyenv)
 - [Poetry](https://python-poetry.org/docs/#installation)
 - [Tox](https://tox.readthedocs.io/en/latest/)
+- [ruff](https://github.com/astral-sh/ruff)
 
 ### Project Setup and Running Tests
 
@@ -57,10 +58,11 @@ Remember that those WILL consume your API credits.
 
 ### Code Formatting
 
-This project uses [black](https://pypi.org/project/black/) for code formatting, [isort](https://pypi.org/project/isort/) for import sorting. If you are using VSCode, you can install the following extensions:
+This project uses [black](https://pypi.org/project/black/) for code formatting, [isort](https://pypi.org/project/isort/) for import sorting and [ruff](https://github.com/astral-sh/ruff) as a linter. If you are using VSCode, you can install the following extensions:
 
-- [black](https://marketplace.visualstudio.com/items?itemName=ms-python.black)
-- [isort](https://marketplace.visualstudio.com/items?itemName=pycqa.isort)
+- [black](https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter)
+- [isort](https://marketplace.visualstudio.com/items?itemName=ms-python.isort)
+- [ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
 
 You'd also need to add the following settings to your `settings.json`:
 
@@ -69,7 +71,8 @@ You'd also need to add the following settings to your `settings.json`:
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": true,
+      "source.fixAll": true
     }
   },
   "isort.args": ["--profile", "black"]

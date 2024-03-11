@@ -1,5 +1,3 @@
-from typing import Any, List
-
 import factory
 from faker import Faker
 

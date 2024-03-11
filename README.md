@@ -4,7 +4,7 @@ The official Jungle Scout API Python Client. You can learn more about the Jungle
 
 ## Usage
 
-This project uses [black](https://pypi.org/project/black/) for code formatting, [isort](https://pypi.org/project/isort/) for import sorting.
+This project uses [black](https://pypi.org/project/black/) for code formatting, [isort](https://pypi.org/project/isort/) for import sorting and [ruff](https://github.com/astral-sh/ruff) as a linter.
 
 ## Installation
 
