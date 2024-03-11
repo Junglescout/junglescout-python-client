@@ -9,14 +9,16 @@ class ShareOfVoice(BaseResponse):
             {
                 "type": json_data["type"],
                 "id": json_data["id"],
-                "estimated_30_day_search_volume": json_data["attributes"]["estimated_30_day_search_volume"],
-                "exact_suggested_bid_median": json_data["attributes"]["exact_suggested_bid_median"],
-                "product_count": json_data["attributes"]["product_count"],
-                "updated_at": parse(json_data["attributes"]["updated_at"]),
-                "brands": ShareOfVoiceBrands(json_data["attributes"]).data,
-                "top_asins": ShareOfVoiceTopAsins(json_data["attributes"]).data,
-                "top_asins_model_start_date": parse(json_data["attributes"]["top_asins_model_start_date"]),
-                "top_asins_model_end_date": parse(json_data["attributes"]["top_asins_model_end_date"]),
+                "attributes": {
+                    "estimated_30_day_search_volume": json_data["attributes"]["estimated_30_day_search_volume"],
+                    "exact_suggested_bid_median": json_data["attributes"]["exact_suggested_bid_median"],
+                    "product_count": json_data["attributes"]["product_count"],
+                    "updated_at": parse(json_data["attributes"]["updated_at"]),
+                    "brands": ShareOfVoiceBrands(json_data["attributes"]).data,
+                    "top_asins": ShareOfVoiceTopAsins(json_data["attributes"]).data,
+                    "top_asins_model_start_date": parse(json_data["attributes"]["top_asins_model_start_date"]),
+                    "top_asins_model_end_date": parse(json_data["attributes"]["top_asins_model_end_date"]),
+                },
             }
         ]
 
