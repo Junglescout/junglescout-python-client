@@ -1299,6 +1299,25 @@ files = [
 requests = ">=2.0.1,<3.0.0"
 
 [[package]]
+name = "rstfmt"
+version = "0.0.14"
+description = "A formatter for reStructuredText"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "rstfmt-0.0.14-py3-none-any.whl", hash = "sha256:5488be45c457239cf512239899caebd5f67bbff562e826fe3eb2059335535b2a"},
+    {file = "rstfmt-0.0.14.tar.gz", hash = "sha256:5dd5e6988386f21fd89adc015baca64588c38fa89a87ab691f81c7675162b3d2"},
+]
+
+[package.dependencies]
+black = ">=22.1.0"
+docutils = ">=0.12"
+sphinx = ">=2.4.0"
+
+[package.extras]
+d = ["aiohttp (>=3.3.2)"]
+
+[[package]]
 name = "ruff"
 version = "0.3.2"
 description = "An extremely fast Python linter and code formatter, written in Rust."
@@ -1717,4 +1736,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "ed07ff150e36d44b9a0b327bfcb6cfaa0cdf7f1da95e7dfaca6cd3187d9acfa9"
+content-hash = "4b60b3fb22ccc9a87038aa33d3192591087ce3a173a2e41ba679249d203c3c4f"
