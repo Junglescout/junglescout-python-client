@@ -1,26 +1,10 @@
-# jungle-scout-python-client
+# Jungle Scout Python Client
 
-The official Jungle Scout API Python Client.
+The official Jungle Scout API Python Client. You can learn more about the Jungle Scout API [here](https://developer.junglescout.com/) and our official [Postman collection](https://postman.junglescout.com/)
 
 ## Usage
 
-This project uses [black](https://pypi.org/project/black/) for code formatting, [isort](https://pypi.org/project/isort/) for import sorting. If you are using VSCode, you can install the following extensions:
-
-- [black](https://marketplace.visualstudio.com/items?itemName=ms-python.black)
-- [isort](https://marketplace.visualstudio.com/items?itemName=pycqa.isort)
-
-You'd also need to add the following settings to your `settings.json`:
-
-```json
- "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter",
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": true
-    }
-  },
-  "isort.args": ["--profile", "black"]
-```
+This project uses [black](https://pypi.org/project/black/) for code formatting, [isort](https://pypi.org/project/isort/) for import sorting.
 
 ## Installation
 
@@ -33,17 +17,25 @@ pip install git+https://${GITHUB_PERSONAL_TOKEN}@github.com/Junglescout/jungle-s
 
 ## Usage
 
+Our API is designed to be simple and easy to use. Here's a quick example of how to use the client to get keywords by ASIN:
+
 ```python
 from jungle_scout.client import Client
-from jungle_scout.models.parameters.marketplace import Marketplace
+from jungle_scout.models.parameters import Marketplace, ApiType, FilterOptions
 
 API_KEY_NAME = "api_key_name"
 API_KEY = "api_key"
 
-client = Client(api_key_name=API_KEY_NAME, api_key=API_KEY, marketplace=Marketplace.US)
+client = Client(api_key_name=API_KEY_NAME, api_key=API_KEY, marketplace=Marketplace.US, api_type=ApiType.JS)
 
-keywords = client.keywords_by_asin('B005IHSKYS')
+filter_options = FilterOptions(min_monthly_search_volume_exact=150)
+
+keywords = client.keywords_by_asin(asin='B005IHSKYS', filter_options=filter_options, sort_option=Sort.MONTHLY_SEARCH_VOLUME_EXACT_MATCH)
 ```
+
+All our API methods are available in the `Client` class. You can find the full list of available methods in the [API documentation](https://developer.junglescout.com/). Filter options and sort options are available as enums in the `jungle_scout.models.parameters` module.
+
+You can see more examples in the [examples](examples) directory.
 
 ### Pydantic Models
 
@@ -56,21 +48,6 @@ is required for autocomplete. See the following links for more information:
 - [pydantic/pull/2721](https://github.com/pydantic/pydantic/pull/2721)
 - [pydantic/issues/650](https://github.com/pydantic/pydantic/issues/650)
 
-## Development
+## Contributing
 
-### Project Setup and Running Tests
-
-```bash
-# install supported versions of python
-pyenv install
-
-# install packaging and build tools
-pipx install tox
-pipx install poetry
-
-# install project dependencies
-poetry install
-
-# run tests
-tox run
-```
+Contributions are welcome! Please read our [contributing guidelines](CONTRIBUTING.md) for more information.
