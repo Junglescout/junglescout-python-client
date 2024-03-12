@@ -19,6 +19,7 @@ extensions = [
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 extlinks = {
     "js_api_docs": ("https://developer.junglescout.com/%s", "[API Docs; page %s]"),
+    "js_postman": ("https://postman.junglescout.com/%s", "[Postman Collection; page %s]"),
 }
 
 # -- Options for HTML output -------------------------------------------------
