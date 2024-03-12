@@ -1,4 +1,4 @@
-name: "Check PR for semantic versioning"
+name: Semantic Versioning
 
 on:
   pull_request_target:
