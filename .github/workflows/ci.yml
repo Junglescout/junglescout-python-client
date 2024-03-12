@@ -7,7 +7,6 @@ jobs:
   tests:
     permissions:
       contents: read
-      id-token: write
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -36,7 +35,6 @@ jobs:
   formatting:
     permissions:
       contents: read
-      id-token: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -54,7 +52,6 @@ jobs:
   typecheck:
     permissions:
       contents: read
-      id-token: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -75,7 +72,6 @@ jobs:
   lint:
     permissions:
       contents: read
-      id-token: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -91,9 +87,9 @@ jobs:
         run: tox -e lint
 
   docs:
+    name: Validate semantic versioning
     permissions:
       contents: read
-      id-token: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -107,11 +103,3 @@ jobs:
           cache: 'poetry'
       - name: Build documentation
         run: tox -e docs
-
-  semver:
-    name: Validate PR title for semantic versioning
-    runs-on: ubuntu-latest
-    steps:
-      - uses: amannn/action-semantic-pull-request@v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
