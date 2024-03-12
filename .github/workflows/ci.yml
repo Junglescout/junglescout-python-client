@@ -5,6 +5,7 @@ on:
 
 jobs:
   tests:
+    name: Test
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -33,6 +34,7 @@ jobs:
         run: tox -e py${{ matrix.python-version }}
 
   formatting:
+    name: Check formatting
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -50,6 +52,7 @@ jobs:
         run: tox -e format
 
   typecheck:
+    name: Check types
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -70,6 +73,7 @@ jobs:
         run: tox -e typecheck
 
   lint:
+    name: Lint
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -87,7 +91,7 @@ jobs:
         run: tox -e lint
 
   docs:
-    name: Validate semantic versioning
+    name: Check docs for warnings
     permissions:
       contents: read
     runs-on: ubuntu-latest
