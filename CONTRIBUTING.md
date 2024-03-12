@@ -23,28 +23,28 @@ tox run
 
 ### Testing
 
-This project uses [pytest](https://docs.pytest.org/en/stable/) for as the testing framework
-and [tox](https://github.com/tox-dev/tox) as the test runner. testing. To run the tests, use
-the following commands:
+This project uses [pytest](https://docs.pytest.org/en/stable/) as the testing framework and [tox](https://github.com/tox-dev/tox)
+as the test runner. testing. To run the tests, use the following commands:
 
 ```bash
 # run all tests
 tox run
 
-# run specific tests with pytest directly
+# run specific tests with pytest directly using the default poetry environment
 poetry run pytest tests -m "not integration" tests/models/requests/test_keyword_by_asins_request.py
 
-# run integration tests
+# run integration tests using the default poetry environment
 poetry run pytest tests -m "integration"
 ```
 
 Note, running integration tests requires a `.env` file at the root of this project with real API keys.
 
 ```bash
-cp .env.example .env
+# create a .env file from the template used for testing
+cp .env.test .env
 ```
 
-Then, add your API keys to the `.env` file:
+Then, add your real Jungle Scout API keys to the `.env` file:
 
 ```bash
 API_KEY_NAME="real_api_key_name"
