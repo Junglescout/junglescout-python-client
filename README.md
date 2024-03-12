@@ -28,11 +28,20 @@ from jungle_scout.models.parameters import Marketplace, ApiType, FilterOptions, 
 API_KEY_NAME = "api_key_name"
 API_KEY = "api_key"
 
-client = Client(api_key_name=API_KEY_NAME, api_key=API_KEY, marketplace=Marketplace.US, api_type=ApiType.JS)
+client = Client(
+    api_key_name=API_KEY_NAME,
+    api_key=API_KEY,
+    marketplace=Marketplace.US,
+    api_type=ApiType.JS
+)
 
 filter_options = FilterOptions(min_monthly_search_volume_exact=150)
 
-keywords = client.keywords_by_asin(asin='B005IHSKYS', filter_options=filter_options, sort_option=Sort.MONTHLY_SEARCH_VOLUME_EXACT_MATCH)
+keywords = client.keywords_by_asin(
+    asin='B005IHSKYS',
+    filter_options=filter_options,
+    sort_option=Sort.MONTHLY_SEARCH_VOLUME_EXACT_MATCH
+)
 ```
 
 All the API methods are available from the `Client` class. See
