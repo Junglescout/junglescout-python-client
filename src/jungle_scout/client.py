@@ -75,6 +75,21 @@ class Client:
         page_size: Optional[int] = None,
         page: Optional[str] = None,
     ) -> KeywordByASIN:
+        """
+        Get keywords by ASIN
+
+        Args:
+            asin: The ASIN of the product. This can be a list of ASINs or a single ASIN.
+            include_variants: Include variants in the response.
+            filter_options: Filter options for the request.
+            sort_option: Sort option for the request.
+            marketplace: The Amazon marketplace.
+            page_size: The number of results to return per page.
+            page: The page to return.
+
+        Returns:
+            KeywordByASIN: The response from the API.
+        """
 
         params = KeywordByAsinParams(
             marketplace=self._resolve_marketplace(marketplace), sort=sort_option, page=page, page_size=page_size
