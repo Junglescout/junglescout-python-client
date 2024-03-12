@@ -4,14 +4,6 @@ We welcome contributions from the community. Please read the following guideline
 
 ## Getting Started
 
-### Prerequisites
-
-- [Python](https://www.python.org/downloads/) (3.7+)
-- [Pyenv](https://github.com/pyenv/pyenv)
-- [Poetry](https://python-poetry.org/docs/#installation)
-- [Tox](https://tox.readthedocs.io/en/latest/)
-- [ruff](https://github.com/astral-sh/ruff)
-
 ### Project Setup and Running Tests
 
 ```bash
@@ -25,40 +17,45 @@ pipx install poetry
 # install project dependencies
 poetry install
 
-# run typechecking
-tox run -e typecheck
-```
-
-To run editable modle, use the following command:
-
-```bash
-  pip install -e .
+# run all tests
+tox run
 ```
 
 ### Testing
 
-We use [pytest](https://docs.pytest.org/en/stable/) for testing. To run the tests, use the following command:
+This project uses [pytest](https://docs.pytest.org/en/stable/) for as the testing framework
+and [tox](https://github.com/tox-dev/tox) as the test runner. testing. To run the tests, use
+the following commands:
 
 ```bash
-    # complete test run on the supported python versions
-    tox run
+# run all tests
+tox run
 
-    # run tests on a specific tag
-    poetry run pytest tests -m "not integration"
+# run specific tests with pytest directly
+poetry run pytest tests -m "not integration" tests/models/requests/test_keyword_by_asins_request.py
+
+# run integration tests
+poetry run pytest tests -m "integration"
 ```
 
-When running integration tests, don't forget to set the following environment variables in a `.env.test` file:
+Note, running integration tests requires a `.env` file at the root of this project with real API keys.
 
 ```bash
-API_KEY_NAME="api_key_name"
-API_KEY="api_key"
+cp .env.example .env
 ```
 
-Remember that those WILL consume your API credits.
+Then, add your API keys to the `.env` file:
+
+```bash
+API_KEY_NAME="real_api_key_name"
+API_KEY="real_api_key"
+```
 
 ### Code Formatting
 
-This project uses [black](https://pypi.org/project/black/) for code formatting, [isort](https://pypi.org/project/isort/) for import sorting and [ruff](https://github.com/astral-sh/ruff) as a linter. If you are using VSCode, you can install the following extensions:
+This project uses [black](https://pypi.org/project/black/) for code formatting, [isort](https://pypi.org/project/isort/)
+for import sorting and [ruff](https://github.com/astral-sh/ruff) as a linter. If you are using VSCode, you can
+install the following extensions:
 
 - [black](https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter)
 - [isort](https://marketplace.visualstudio.com/items?itemName=ms-python.isort)
@@ -77,14 +74,3 @@ You'd also need to add the following settings to your `settings.json`:
   },
   "isort.args": ["--profile", "black"]
 ```
-
-### Pydantic Models
-
-This project defines API model objects using
-[Pydantic](https://docs.pydantic.dev/latest). Autocomplete for model parameters
-during instantiation should work by default in most modern IDEs. For Jetbrains
-IDEs, the [Pydantic](https://plugins.jetbrains.com/plugin/12861-pydantic) plugin
-is required for autocomplete. See the following links for more information:
-
-- [pydantic/pull/2721](https://github.com/pydantic/pydantic/pull/2721)
-- [pydantic/issues/650](https://github.com/pydantic/pydantic/issues/650)
