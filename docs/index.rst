@@ -7,7 +7,8 @@ around the Jungle Scout API, and it provides a simple interface for interacting 
 
 .. important::
     See the :js_api_docs:`Jungle Scout API reference <api>` for more information about the
-    available endpoints and their parameters.
+    available endpoints and their parameters. Information about the Jungle Scout API is also
+    available in a :js_postman:`Postman collection <>`.
 
 ##########
 Quickstart

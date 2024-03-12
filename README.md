@@ -1,10 +1,11 @@
 # Jungle Scout Python Client
 
-The official Jungle Scout API Python Client. You can learn more about the Jungle Scout API [here](https://developer.junglescout.com/) and our official [Postman collection](https://postman.junglescout.com/)
+The official Jungle Scout API Python Client. Documentation for this client is available
+on [Read the Docs](https://jungle-scout-junglescout-python-client.readthedocs-hosted.com).
 
-## Usage
-
-This project uses [black](https://pypi.org/project/black/) for code formatting, [isort](https://pypi.org/project/isort/) for import sorting and [ruff](https://github.com/astral-sh/ruff) as a linter.
+See the [Jungle Scout API Documentation](https://developer.junglescout.com) and the
+[Jungle Scout Postman Collection](https://postman.junglescout.com) for more information about
+the Jungle Scout API.
 
 ## Installation
 
@@ -12,30 +13,40 @@ This project uses [black](https://pypi.org/project/black/) for code formatting, 
 # TODO: remove the personal access token when this project is published to pypi
 # while this repository is still private, install
 # using Github personal access token for authentication
-pip install git+https://${GITHUB_PERSONAL_TOKEN}@github.com/Junglescout/jungle-scout-python-client.git@main
+pip install git+https://${GITHUB_PERSONAL_TOKEN}@github.com/Junglescout/junglescout-python-client.git@main
 ```
 
 ## Usage
 
-Our API is designed to be simple and easy to use. Here's a quick example of how to use the client to get keywords by ASIN:
+This client is designed to be simple and easy to use. Here's a quick example of how to use the client to get
+keywords by ASIN:
 
 ```python
 from jungle_scout.client import Client
-from jungle_scout.models.parameters import Marketplace, ApiType, FilterOptions
+from jungle_scout.models.parameters import Marketplace, ApiType, FilterOptions, Sort
 
 API_KEY_NAME = "api_key_name"
 API_KEY = "api_key"
 
-client = Client(api_key_name=API_KEY_NAME, api_key=API_KEY, marketplace=Marketplace.US, api_type=ApiType.JS)
+client = Client(
+    api_key_name=API_KEY_NAME,
+    api_key=API_KEY,
+    marketplace=Marketplace.US,
+    api_type=ApiType.JS
+)
 
 filter_options = FilterOptions(min_monthly_search_volume_exact=150)
 
-keywords = client.keywords_by_asin(asin='B005IHSKYS', filter_options=filter_options, sort_option=Sort.MONTHLY_SEARCH_VOLUME_EXACT_MATCH)
+keywords = client.keywords_by_asin(
+    asin='B005IHSKYS',
+    filter_options=filter_options,
+    sort_option=Sort.MONTHLY_SEARCH_VOLUME_EXACT_MATCH
+)
 ```
 
-All our API methods are available in the `Client` class. You can find the full list of available methods in the [API documentation](https://developer.junglescout.com/). Filter options and sort options are available as enums in the `jungle_scout.models.parameters` module.
-
-You can see more examples in the [examples](examples) directory.
+All the API methods are available from the `Client` class. See
+the [documentation](https://jungle-scout-junglescout-python-client.readthedocs-hosted.com) for complete API
+reference information.
 
 ### Pydantic Models
 
@@ -50,4 +61,4 @@ is required for autocomplete. See the following links for more information:
 
 ## Contributing
 
-Contributions are welcome! Please read our [contributing guidelines](CONTRIBUTING.md) for more information.
+Contributions are welcome! Please read the [contributing guidelines](CONTRIBUTING.md) for more information.

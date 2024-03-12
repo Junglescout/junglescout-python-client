@@ -17,8 +17,6 @@ python-dateutil = "^2.8.2"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.2"
 pytest-sugar = "^1.0.0"
-github3-py = {extras = ["test"], version = "^4.0.1"}
-tox = ">=4"
 black = "22.3.0"
 isort = "5.13.2"
 ipython = {version = "^8.22.2", python = ">=3.10,<4.0"}
@@ -47,7 +45,7 @@ profile = "black"
 testpaths = ["tests"]
 pythonpath = ["src"]
 env_override_existing_values = 1
-env_files = [".env.test"]
+env_files = [".env", ".env.test"]
 markers = [
     "integration: mark a test as an integration test",
 ]
