@@ -105,5 +105,5 @@ jobs:
         with:
           python-version: 3.12
           cache: 'poetry'
-      - name: Run linting checks
+      - name: Build documentation
         run: tox -e docs
