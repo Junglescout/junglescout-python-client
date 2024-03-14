@@ -55,11 +55,11 @@ class ProductDatabase(BaseResponse):
 
             subcategory_ranks_data = data["attributes"]["subcategory_ranks"]
             if subcategory_ranks_data is not None:
-                dictItem.update({"subcategory_ranks": SubcategoryRanks(subcategory_ranks_data).data})
+                dictItem["attributes"].update({"subcategory_ranks": SubcategoryRanks(subcategory_ranks_data).data})
 
-            fee_breakdown_data = data["attributes"]["fee_breakdown"] or None
+            fee_breakdown_data = data["attributes"]["fee_breakdown"]
             if fee_breakdown_data is not None:
-                dictItem.update({"fee_breakdown": FeeBreakdown(fee_breakdown_data).data})
+                dictItem["attributes"].update({"fee_breakdown": FeeBreakdown(fee_breakdown_data).data})
 
             productDatabaseList.append(dictItem)
 
