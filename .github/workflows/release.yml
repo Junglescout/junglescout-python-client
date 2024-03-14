@@ -1,0 +1,29 @@
+name: Semantic Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  semantic-release:
+    runs-on: ubuntu-latest
+    concurrency: release
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: 'poetry'
+      - name: Install dependencies
+        run: poetry install
+      - name: Create Version
+        run: poetry run semantic-release version
+      - name: Publish to PyPI
+        run: echo "Publishing to PyPI!"
+        # TODO: Uncomment the following line to publish to PyPI
+        # run: poetry publish

@@ -5,9 +5,9 @@ on:
 
 jobs:
   tests:
+    name: Test
     permissions:
       contents: read
-      id-token: write
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -34,9 +34,9 @@ jobs:
         run: tox -e py${{ matrix.python-version }}
 
   formatting:
+    name: Check formatting
     permissions:
       contents: read
-      id-token: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -52,9 +52,9 @@ jobs:
         run: tox -e format
 
   typecheck:
+    name: Check types
     permissions:
       contents: read
-      id-token: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -73,9 +73,9 @@ jobs:
         run: tox -e typecheck
 
   lint:
+    name: Lint
     permissions:
       contents: read
-      id-token: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -91,9 +91,9 @@ jobs:
         run: tox -e lint
 
   docs:
+    name: Check docs for warnings
     permissions:
       contents: read
-      id-token: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
