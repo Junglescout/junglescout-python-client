@@ -131,8 +131,8 @@ class Client:
         Retrieves keyword data based on the provided search terms.
 
         Args:
-            search_terms (str): The search terms to retrieve keyword data for.
-            categories (Optional[List[str]]): A list of category names to filter the results by. Must be valid inside the categories of the selected Marketplace.
+            search_terms: The search terms to retrieve keyword data for.
+            categories: A list of category names to filter the results by. Must be valid inside the categories of the selected Marketplace.
             filter_options (Optional[FilterOptions]): The filter options to apply to the results.
             sort_option (Optional[Sort]): The sort option to apply to the results.
             marketplace (Optional[Marketplace]): The marketplace to retrieve keyword data from. If not provided, the marketplace provided at the client level will be used.
