@@ -30,6 +30,9 @@ as the test runner. testing. To run the tests, use the following commands:
 # run all tests
 tox run
 
+# generate documentation
+tox -e docs
+
 # run specific tests with pytest directly using the default poetry environment
 poetry run pytest tests -m "not integration" tests/models/requests/test_keyword_by_asins_request.py
 
