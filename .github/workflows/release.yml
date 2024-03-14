@@ -24,4 +24,6 @@ jobs:
       - name: Create Version
         run: poetry run semantic-release version
       - name: Publish to PyPI
-        run: poetry publish
+        run: echo "Publishing to PyPI!"
+        # TODO: Uncomment the following line to publish to PyPI
+        # run: poetry publish
