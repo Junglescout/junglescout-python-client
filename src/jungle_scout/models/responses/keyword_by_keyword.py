@@ -4,6 +4,14 @@ from jungle_scout.models.responses.base_response import BaseResponse
 
 
 class KeywordByKeyword(BaseResponse):
+    """
+    Represents a response object containing keyword data.
+
+    Attributes:
+        links (dict): A dictionary containing links related to the keyword data.
+        meta (dict): A dictionary containing metadata related to the keyword data.
+    """
+
     def __init__(self, json_data):
         super().__init__(json_data)
         self.links = self._update_links(json_data)
