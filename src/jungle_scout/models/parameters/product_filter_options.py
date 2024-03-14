@@ -1,34 +1,34 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, field_validator
 
 
 class ProductFilterOptions(BaseModel):
-    exclude_top_brands: Optional[bool] = Field(None)
-    exclude_unavailable_products: Optional[bool] = Field(None)
-    min_price: Optional[int] = Field(None, ge=0)
-    max_price: Optional[int] = Field(None, ge=0)
-    min_net: Optional[int] = Field(None, ge=0)
-    max_net: Optional[int] = Field(None, ge=0)
-    min_rank: Optional[int] = Field(None, ge=0)
-    max_rank: Optional[int] = Field(None, ge=0)
-    min_sales: Optional[int] = Field(None, ge=0)
-    max_sales: Optional[int] = Field(None, ge=0)
-    min_revenue: Optional[int] = Field(None, ge=0)
-    max_revenue: Optional[int] = Field(None, ge=0)
-    min_reviews: Optional[int] = Field(None, ge=0)
-    max_reviews: Optional[int] = Field(None, ge=0)
-    min_rating: Optional[int] = Field(None, ge=0)
-    max_rating: Optional[int] = Field(None, ge=0)
-    min_weight: Optional[int] = Field(None, ge=0)
-    max_weight: Optional[int] = Field(None, ge=0)
-    min_sellers: Optional[int] = Field(None, ge=0)
-    max_sellers: Optional[int] = Field(None, ge=0)
-    min_lqs: Optional[int] = Field(None, ge=0)
-    max_lqs: Optional[int] = Field(None, ge=0)
-    min_updated_at: Optional[str] = Field(None)
-    max_updated_at: Optional[str] = Field(None)
+    exclude_top_brands: Optional[bool] = None
+    exclude_unavailable_products: Optional[bool] = None
+    min_price: Optional[int] = None
+    max_price: Optional[int] = None
+    min_net: Optional[int] = None
+    max_net: Optional[int] = None
+    min_rank: Optional[int] = None
+    max_rank: Optional[int] = None
+    min_sales: Optional[int] = None
+    max_sales: Optional[int] = None
+    min_revenue: Optional[int] = None
+    max_revenue: Optional[int] = None
+    min_reviews: Optional[int] = None
+    max_reviews: Optional[int] = None
+    min_rating: Optional[int] = None
+    max_rating: Optional[int] = None
+    min_weight: Optional[int] = None
+    max_weight: Optional[int] = None
+    min_sellers: Optional[int] = None
+    max_sellers: Optional[int] = None
+    min_lqs: Optional[int] = None
+    max_lqs: Optional[int] = None
+    min_updated_at: Optional[str] = None
+    max_updated_at: Optional[str] = None
 
     # validate min_update_at and max_updated_at to only accept date format in the form of "YYYY-MM-DD"
     @field_validator("min_updated_at", "max_updated_at")
