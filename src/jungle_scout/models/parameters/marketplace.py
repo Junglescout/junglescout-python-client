@@ -4,8 +4,7 @@ from enum import Enum
 
 
 class Marketplace(Enum):
-    """
-    Enum that represents all the supported marketplaces with its country code and categories. It's used by default when instantiating the Jungle Scout client, but can be overridden by passing the marketplace parameter to some of the client's methods.
+    """Enum that represents all the supported marketplaces with its country code and categories. It's used by default when instantiating the Jungle Scout client, but can be overridden by passing the marketplace parameter to some of the client's methods.
 
     Attributes:
         country_code (str): The country code of the marketplace.
@@ -302,8 +301,7 @@ class Marketplace(Enum):
 
     @property
     def country_code(self):
-        """
-        Get the country code of the marketplace.
+        """Get the country code of the marketplace.
 
         Returns:
             str: The country code.
@@ -312,8 +310,7 @@ class Marketplace(Enum):
 
     @property
     def categories(self):
-        """
-        Get the list of categories available in the marketplace.
+        """Get the list of categories available in the marketplace.
 
         Returns:
             list: The list of categories.

@@ -5,8 +5,7 @@ from typing import Dict, List, Union
 
 # TODO: Update to pydantic model
 class BaseResponse(ABC):
-    """
-    Base class for response objects.
+    """Base class for response objects.
 
     Attributes:
         _json_data (dict): The raw JSON data received from the API.

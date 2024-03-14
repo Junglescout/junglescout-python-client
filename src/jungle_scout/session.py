@@ -20,8 +20,7 @@ class Session(requests.Session):
         self.base_url = "https://developer.junglescout.com/api"
 
     def build_url(self, *args, params: Optional[Dict] = None):
-        """
-        Support function that builds a URL using the base URL and additional path arguments.
+        """Support function that builds a URL using the base URL and additional path arguments.
 
         Args:
             *args: Additional path arguments to be appended to the base URL.

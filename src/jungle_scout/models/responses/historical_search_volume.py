@@ -3,8 +3,7 @@ from jungle_scout.models.responses.base_response import BaseResponse
 
 # TODO: replace with pydantic model
 class HistoricalSearchVolume(BaseResponse):
-    """
-    Represents a historical search volume response.
+    """Represents a historical search volume response.
 
     Attributes:
         - id (str): The ID of the historical search volume.

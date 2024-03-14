@@ -2,8 +2,7 @@ from enum import Enum
 
 
 class RequestType(Enum):
-    """
-    Enum class representing different types of requests in the Jungle Scout API.
+    """Enum class representing different types of requests in the Jungle Scout API.
 
     Attributes:
         KEYWORDS_BY_ASIN (str): Request type for querying keywords by ASIN.

@@ -2,8 +2,7 @@ from enum import Enum
 
 
 class Sort(Enum):
-    """
-    Enum class representing the sorting options for a search query.
+    """Enum class representing the sorting options for a search query.
 
     Attributes:
         NAME: Sort by name.

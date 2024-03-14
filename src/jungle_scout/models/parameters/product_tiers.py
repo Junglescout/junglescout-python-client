@@ -2,8 +2,7 @@ from enum import Enum
 
 
 class ProductTiers(Enum):
-    """
-    Enum representing the different product tiers.
+    """Enum representing the different product tiers.
 
     Attributes:
         OVERSIZE (str): Represents the oversize product tier.

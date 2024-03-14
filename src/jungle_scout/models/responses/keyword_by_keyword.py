@@ -4,8 +4,7 @@ from jungle_scout.models.responses.base_response import BaseResponse
 
 
 class KeywordByKeyword(BaseResponse):
-    """
-    Represents a response object containing keyword data.
+    """Represents a response object containing keyword data.
 
     Attributes:
         links (dict): A dictionary containing links related to the keyword data.

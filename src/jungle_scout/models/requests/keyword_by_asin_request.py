@@ -13,8 +13,7 @@ class KeywordByAsinParams(Params):
 
 
 class KeywordByAsinAttributes(Attributes):
-    """
-    Represents the attributes for a KeywordByAsin request.
+    """Represents the attributes for a KeywordByAsin request.
 
     Attributes:
         asin (Union[List[str], str]): The ASIN(s) to retrieve keywords for. Can be a single ASIN or a list of ASINs.
@@ -57,8 +56,7 @@ class KeywordByAsinAttributes(Attributes):
 
 
 class KeywordByAsinRequest(BaseRequest[KeywordByAsinParams, KeywordByAsinAttributes]):
-    """
-    Represents a request to retrieve keywords by ASIN.
+    """Represents a request to retrieve keywords by ASIN.
 
     Inherits from BaseRequest and specifies the type, method, and payload for the request.
 

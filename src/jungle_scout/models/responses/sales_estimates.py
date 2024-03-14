@@ -17,8 +17,7 @@ class SalesEstimateData(BaseResponse):
 
 
 class SalesEstimates(BaseResponse):
-    """
-    Represents a list of sales estimates.
+    """Represents a list of sales estimates.
 
     Attributes:
         - id: The ID of the sales estimate.

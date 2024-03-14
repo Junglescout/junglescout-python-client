@@ -13,8 +13,7 @@ class KeywordsByKeywordParams(Params):
 
 
 class KeywordsByKeywordAttributes(Attributes):
-    """
-    Represents the attributes for a keywords by keyword request.
+    """Represents the attributes for a keywords by keyword request.
 
     Attributes:
         marketplace (Marketplace): The marketplace for the request.

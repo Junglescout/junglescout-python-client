@@ -6,8 +6,7 @@ from jungle_scout.models.requests.base_request import BaseRequest
 
 
 class ShareOfVoiceParams(Params):
-    """
-    Represents the parameters for a Share of Voice request.
+    """Represents the parameters for a Share of Voice request.
 
     Attributes:
         keyword (str): The keyword for which the Share of Voice data is requested.

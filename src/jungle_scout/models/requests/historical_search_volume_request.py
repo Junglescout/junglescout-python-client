@@ -9,8 +9,7 @@ from jungle_scout.models.requests.base_request import BaseRequest
 
 
 class HistoricalSearchVolumeParams(Params):
-    """
-    Represents the parameters for a historical search volume request. Inherits from Params.
+    """Represents the parameters for a historical search volume request. Inherits from Params.
 
     Attributes:
         keyword (str): The keyword for which to retrieve historical search volume.
@@ -57,8 +56,7 @@ class HistoricalSearchVolumeAttributes(Attributes):
 
 
 class HistoricalSearchVolumeRequest(BaseRequest[HistoricalSearchVolumeParams, HistoricalSearchVolumeAttributes]):
-    """
-    Represents a request for historical search volume data.
+    """Represents a request for historical search volume data.
 
     Inherits from BaseRequest and specifies the type of request, method, and how to build the request parameters.
 

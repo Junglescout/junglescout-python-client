@@ -4,8 +4,7 @@ from jungle_scout.models.responses.base_response import BaseResponse
 
 
 class ShareOfVoice(BaseResponse):
-    """
-    Represents the Share of Voice response from the Jungle Scout API.
+    """Represents the Share of Voice response from the Jungle Scout API.
 
     Attributes:
         type (str): The type of the Share of Voice response.

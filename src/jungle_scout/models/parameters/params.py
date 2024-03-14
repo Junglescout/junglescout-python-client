@@ -7,8 +7,7 @@ from jungle_scout.models.parameters.sort import Sort
 
 
 class Params(BaseModel):
-    """
-    Represents the parameters for a request to the Jungle Scout API.
+    """Represents the parameters for a request to the Jungle Scout API.
 
     Attributes:
         marketplace (Marketplace): The marketplace to query.

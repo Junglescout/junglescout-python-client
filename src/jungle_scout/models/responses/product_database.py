@@ -5,8 +5,7 @@ from jungle_scout.models.responses.base_response import BaseResponse
 
 # TODO: replace with pydantic model
 class ProductDatabase(BaseResponse):
-    """
-    Represents a response from the product database API.
+    """Represents a response from the product database API.
 
     Attributes:
         links (dict): A dictionary containing links related to the response.

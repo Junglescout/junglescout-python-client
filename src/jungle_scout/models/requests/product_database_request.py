@@ -25,8 +25,7 @@ class ProductDatabaseParams(Params):
 
 
 class ProductDatabaseAttributes(Attributes):
-    """
-    Represents the attributes for a product database request.
+    """Represents the attributes for a product database request.
 
     Attributes:
         marketplace (Marketplace): The marketplace for the request.

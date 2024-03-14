@@ -2,8 +2,7 @@ from enum import Enum
 
 
 class Method(Enum):
-    """
-    Enumeration representing HTTP methods.
+    """Enumeration representing HTTP methods.
 
     Attributes:
         GET: Represents the HTTP GET method.

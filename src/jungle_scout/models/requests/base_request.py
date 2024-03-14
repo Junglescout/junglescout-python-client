@@ -13,8 +13,7 @@ AttributesType = TypeVar("AttributesType", bound=Attributes)
 
 
 class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
-    """
-    Base class for all requests made to the Jungle Scout API.
+    """Base class for all requests made to the Jungle Scout API.
 
     Args:
         params (ParamsType): The parameters required for the request.
@@ -29,8 +28,7 @@ class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
     @property
     @abstractmethod
     def type(self) -> RequestType:
-        """
-        Get the type of the request.
+        """Get the type of the request.
 
         Returns:
             RequestType: The type of the request.
@@ -41,8 +39,7 @@ class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
     @property
     @abstractmethod
     def method(self) -> Method:
-        """
-        Get the HTTP method of the request.
+        """Get the HTTP method of the request.
 
         Returns:
             Method: The HTTP method of the request.
@@ -51,8 +48,7 @@ class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
         pass
 
     def __init__(self, params: ParamsType, attributes: AttributesType):
-        """
-        Initialize the BaseRequest.
+        """Initialize the BaseRequest.
 
         Args:
             params (ParamsType): The parameters required for the request.
@@ -64,8 +60,7 @@ class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
 
     @abstractmethod
     def build_params(self, params: ParamsType) -> Dict:
-        """
-        Build the parameters for the request.
+        """Build the parameters for the request.
 
         Args:
             params (ParamsType): The parameters required for the request.
@@ -78,8 +73,7 @@ class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
 
     @abstractmethod
     def build_payload(self, attributes: AttributesType) -> Optional[str]:
-        """
-        Build the payload for the request.
+        """Build the payload for the request.
 
         Args:
             attributes (AttributesType): The attributes required for the request.

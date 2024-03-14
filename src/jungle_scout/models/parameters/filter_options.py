@@ -4,8 +4,7 @@ from pydantic import BaseModel, Field
 
 
 class FilterOptions(BaseModel):
-    """
-    Represents the filter options for searching products.
+    """Represents the filter options for searching products.
 
     Attributes:
         min_monthly_search_volume_exact (Optional[int]): The minimum exact monthly search volume.

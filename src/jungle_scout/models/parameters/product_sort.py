@@ -2,8 +2,7 @@ from enum import Enum
 
 
 class ProductSort(Enum):
-    """
-    Enum class representing the sorting options for products.
+    """Enum class representing the sorting options for products.
     Each option is represented by a string value prefixed with a hyphen (-).
     """
 

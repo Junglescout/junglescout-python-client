@@ -54,8 +54,7 @@ from jungle_scout.session import Session
 
 
 class Client:
-    """
-    The Jungle Scout API client. This class is used to make requests to the Jungle Scout API. It provides methods to retrieve keyword data, sales estimates, historical search volume, and share of voice data.
+    """The Jungle Scout API client. This class is used to make requests to the Jungle Scout API. It provides methods to retrieve keyword data, sales estimates, historical search volume, and share of voice data.
     """
 
     def __init__(
@@ -79,8 +78,7 @@ class Client:
         page_size: Optional[int] = None,
         page: Optional[str] = None,
     ) -> KeywordByASIN:
-        """
-        Get keywords by ASIN
+        """Get keywords by ASIN
 
         Args:
             asin: The ASIN (Amazon Standard Identification Number) of the product. This can be a list of ASINs or a single ASIN.
@@ -94,7 +92,6 @@ class Client:
         Returns:
             KeywordByASIN: The response from the API.
         """
-
         params = KeywordByAsinParams(
             marketplace=self._resolve_marketplace(marketplace), sort=sort_option, page=page, page_size=page_size
         )
@@ -127,8 +124,7 @@ class Client:
         page_size: Optional[int] = None,
         page: Optional[str] = None,
     ) -> KeywordByKeyword:
-        """
-        Retrieves keyword data based on the provided search terms.
+        """Retrieves keyword data based on the provided search terms.
 
         Args:
             search_terms: The search terms to retrieve keyword data for.
@@ -144,7 +140,6 @@ class Client:
         Raises:
             Exception: If the request to retrieve keyword data fails.
         """
-
         marketplace = self._resolve_marketplace(marketplace)
 
         params = KeywordsByKeywordParams(marketplace=marketplace, sort=sort_option, page=page, page_size=page_size)
@@ -176,8 +171,7 @@ class Client:
         sort_option: Optional[Sort] = None,
         marketplace: Optional[Marketplace] = None,
     ) -> SalesEstimates:
-        """
-        Retrieves sales estimates for a given ASIN within a specified date range.
+        """Retrieves sales estimates for a given ASIN within a specified date range.
 
         Args:
             asin (str): The ASIN (Amazon Standard Identification Number) of the product.
@@ -192,7 +186,6 @@ class Client:
         Raises:
             Exception: If the API request fails or returns an error response.
         """
-
         marketplace = self._resolve_marketplace(marketplace)
 
         params = SalesEstimatesParams(
@@ -220,8 +213,7 @@ class Client:
         sort_option: Optional[Sort] = None,
         marketplace: Optional[Marketplace] = None,
     ) -> HistoricalSearchVolume:
-        """
-        Retrieves the historical search volume for a given keyword within a specified date range.
+        """Retrieves the historical search volume for a given keyword within a specified date range.
 
         Args:
             keyword (str): The keyword for which to retrieve the historical search volume.
@@ -236,7 +228,6 @@ class Client:
         Raises:
             Exception: If the request to retrieve the historical search volume fails.
         """
-
         marketplace = self._resolve_marketplace(marketplace)
 
         params = HistoricalSearchVolumeParams(
@@ -263,8 +254,7 @@ class Client:
         keyword: str,
         marketplace: Optional[Marketplace] = None,
     ) -> ShareOfVoice:
-        """
-        Retrieves the share of voice for a given keyword in the specified marketplace.
+        """Retrieves the share of voice for a given keyword in the specified marketplace.
 
         Args:
             keyword (str): The keyword for which to retrieve the share of voice.
@@ -274,7 +264,6 @@ class Client:
         Returns:
             ShareOfVoice: The share of voice data for the specified keyword.
         """
-
         marketplace = self._resolve_marketplace(marketplace)
 
         params = ShareOfVoiceParams(marketplace=marketplace, keyword=keyword)
@@ -306,8 +295,7 @@ class Client:
         page_size: Optional[int] = 10,
         page: Optional[str] = None,
     ) -> ProductDatabase:
-        """
-        Retrieves product data from the Jungle Scout Product Database.
+        """Retrieves product data from the Jungle Scout Product Database.
 
         Args:
             include_keywords (Optional[List[str]]): List of keywords to include in the search.
@@ -328,7 +316,6 @@ class Client:
         Raises:
             Exception: If the request to the Jungle Scout API fails.
         """
-
         marketplace = self._resolve_marketplace(marketplace)
 
         params = ProductDatabaseParams(
@@ -362,8 +349,7 @@ class Client:
             self._raise_for_status(response)
 
     def _resolve_marketplace(self, provided_marketplace: Optional[Marketplace] = None) -> Marketplace:
-        """
-        Resolves the marketplace to be used for the API request.
+        """Resolves the marketplace to be used for the API request.
 
         Args:
             provided_marketplace (Optional[Marketplace]): The marketplace to be used for the API request.
@@ -384,8 +370,7 @@ class Client:
     # TODO: Improve our errors, displaying the actual API message error
     @staticmethod
     def _raise_for_status(response: requests.Response) -> NoReturn:
-        """
-        Raises an HTTPError if the response status code indicates an error. Used on requests.
+        """Raises an HTTPError if the response status code indicates an error. Used on requests.
 
         Args:
             response (requests.Response): The response object.

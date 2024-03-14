@@ -10,8 +10,7 @@ from jungle_scout.models.requests.base_request import BaseRequest
 
 
 class SalesEstimatesParams(Params):
-    """
-    Represents the parameters for requesting sales estimates.
+    """Represents the parameters for requesting sales estimates.
 
     Attributes:
         asin (str): The ASIN (Amazon Standard Identification Number) of the product.

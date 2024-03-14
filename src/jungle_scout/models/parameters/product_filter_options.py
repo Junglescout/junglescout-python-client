@@ -5,8 +5,7 @@ from pydantic import BaseModel, field_validator
 
 
 class ProductFilterOptions(BaseModel):
-    """
-    Represents the filter options for product filtering. This class is used to filter products based on their attributes, used on Product Database.
+    """Represents the filter options for product filtering. This class is used to filter products based on their attributes, used on Product Database.
 
     Attributes:
         exclude_top_brands (Optional[bool]): Whether to exclude top brands.
