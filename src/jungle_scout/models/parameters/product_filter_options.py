@@ -60,7 +60,7 @@ class ProductFilterOptions(BaseModel):
     max_updated_at: Optional[str] = None
 
     @field_validator("min_updated_at", "max_updated_at")
-    def validate_date_format(cls, v):
+    def _validate_date_format(cls, v):
         if v:
             try:
                 datetime.strptime(v, "%Y-%m-%d")

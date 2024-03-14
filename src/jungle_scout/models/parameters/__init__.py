@@ -1,3 +1,5 @@
+"""This package defines the models parameters that are used to make requests to the Jungle Scout API."""
+
 __all__ = [
     "ApiType",
     "Attributes",

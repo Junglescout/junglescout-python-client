@@ -23,8 +23,10 @@ class Params(BaseModel):
 
     @field_serializer("marketplace")
     def serialize_marketplace(self, value: Marketplace):
+        """Serializes the marketplace parameter to the country code."""
         return value.country_code
 
     @field_serializer("sort")
     def serialize_sort(self, value: Optional[Sort]):
+        """Serializes the sort parameter to the value if it exists."""
         return value.value if value else None

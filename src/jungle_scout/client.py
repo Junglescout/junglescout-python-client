@@ -54,7 +54,10 @@ from jungle_scout.session import Session
 
 
 class Client:
-    """The Jungle Scout API client. This class is used to make requests to the Jungle Scout API. It provides methods to retrieve keyword data, sales estimates, historical search volume, and share of voice data.
+    """The Jungle Scout API client.
+
+    This class is used to make requests to the Jungle Scout API. It provides methods to retrieve keyword data,
+    sales estimates, historical search volume, and share of voice data.
     """
 
     def __init__(
@@ -64,6 +67,14 @@ class Client:
         api_type: ApiType = ApiType.JS,
         marketplace: Optional[Marketplace] = None,
     ):
+        """Initializes the Jungle Scout API client.
+
+        Args:
+            api_key_name: The name of the API key.
+            api_key: The API key.
+            api_type: The type of the API.
+            marketplace: The default marketplace to use for API requests.
+        """
         self.session = Session()
         self.session.login(api_key_name=api_key_name, api_key=api_key, api_type=api_type)
         self.marketplace = marketplace
@@ -78,7 +89,7 @@ class Client:
         page_size: Optional[int] = None,
         page: Optional[str] = None,
     ) -> KeywordByASIN:
-        """Get keywords by ASIN
+        """Get keywords by ASIN.
 
         Args:
             asin: The ASIN (Amazon Standard Identification Number) of the product. This can be a list of ASINs or a single ASIN.

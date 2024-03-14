@@ -1,3 +1,7 @@
+"""
+This package defines the public interface for request models.
+"""
+
 __all__ = ["Method", "RequestType"]
 
 from .method import Method
