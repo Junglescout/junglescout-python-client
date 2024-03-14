@@ -13,6 +13,14 @@ class KeywordByAsinParams(Params):
 
 
 class KeywordByAsinAttributes(Attributes):
+    """
+    Represents the attributes for a KeywordByAsin request.
+
+    Attributes:
+        asin (Union[List[str], str]): The ASIN(s) to retrieve keywords for. Can be a single ASIN or a list of ASINs.
+        include_variants (bool): Flag indicating whether to include variants in the results.
+    """
+
     asin: Union[List[str], str]
     include_variants: bool
 
@@ -49,6 +57,20 @@ class KeywordByAsinAttributes(Attributes):
 
 
 class KeywordByAsinRequest(BaseRequest[KeywordByAsinParams, KeywordByAsinAttributes]):
+    """
+    Represents a request to retrieve keywords by ASIN.
+
+    Inherits from BaseRequest and specifies the type, method, and payload for the request.
+
+    Args:
+        params (KeywordByAsinParams): The parameters for the request.
+        attributes (KeywordByAsinAttributes): The attributes for the request.
+
+    Returns:
+        str: The JSON payload for the request.
+
+    """
+
     @property
     def type(self):
         return RequestType.KEYWORDS_BY_ASIN

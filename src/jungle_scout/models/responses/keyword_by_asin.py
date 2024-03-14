@@ -5,6 +5,14 @@ from jungle_scout.models.responses.base_response import BaseResponse
 
 # TODO: replace with pydantic model
 class KeywordByASIN(BaseResponse):
+    """
+    Represents a response object containing keyword data for a specific ASIN.
+
+    Attributes:
+        links (dict): A dictionary containing links related to the keyword data.
+        meta (dict): A dictionary containing metadata related to the keyword data.
+    """
+
     def __init__(self, json_data):
         super().__init__(json_data)
         self.links = self._update_links(json_data)

@@ -4,6 +4,22 @@ from jungle_scout.models.responses.base_response import BaseResponse
 
 
 class ShareOfVoice(BaseResponse):
+    """
+    Represents the Share of Voice response from the Jungle Scout API.
+
+    Attributes:
+        type (str): The type of the Share of Voice response.
+        id (str): The ID of the Share of Voice response.
+        estimated_30_day_search_volume (int): The estimated 30-day search volume.
+        exact_suggested_bid_median (float): The median of the exact suggested bid.
+        product_count (int): The count of products.
+        updated_at (datetime): The date and time when the Share of Voice data was last updated.
+        brands (ShareOfVoiceBrands): The brands associated with the Share of Voice data.
+        top_asins (ShareOfVoiceTopAsins): The top ASINs associated with the Share of Voice data.
+        top_asins_model_start_date (datetime): The start date of the top ASINs model.
+        top_asins_model_end_date (datetime): The end date of the top ASINs model.
+    """
+
     def _update_attributes(self, json_data):
         return [
             {

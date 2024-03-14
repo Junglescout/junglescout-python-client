@@ -7,6 +7,16 @@ from jungle_scout.models.parameters.sort import Sort
 
 
 class Params(BaseModel):
+    """
+    Represents the parameters for a request to the Jungle Scout API.
+
+    Attributes:
+        marketplace (Marketplace): The marketplace to query.
+        sort (Optional[Sort]): The sorting option for the results. Must be a valid Sort object. Defaults to None.
+        page (Optional[str]): The cursor for pagination. Defaults to None.
+        page_size (Optional[int]): The number of results per page. Defaults to 50.
+    """
+
     marketplace: Marketplace
     sort: Optional[Sort] = None
     page: Optional[str] = Field(default=None, serialization_alias="page[cursor]")
