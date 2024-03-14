@@ -1,5 +1,4 @@
-"""
-This package defines the public interface for request models.
+"""This package defines the public interface for request models.
 """
 
 __all__ = ["Method", "RequestType"]
