@@ -10,8 +10,8 @@ class Marketplace(Enum):
     the marketplace parameter to some of the client's methods.
 
     Attributes:
-        country_code (str): The country code of the marketplace.
-        categories (list): The list of categories available in the marketplace.
+        country_code: The country code of the marketplace.
+        categories: The list of categories available in the marketplace.
     """
 
     US = (

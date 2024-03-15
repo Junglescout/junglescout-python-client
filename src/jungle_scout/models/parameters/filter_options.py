@@ -7,14 +7,14 @@ class FilterOptions(BaseModel):
     """Represents the filter options for searching products.
 
     Attributes:
-        min_monthly_search_volume_exact (Optional[int]): The minimum exact monthly search volume.
-        max_monthly_search_volume_exact (Optional[int]): The maximum exact monthly search volume.
-        min_monthly_search_volume_broad (Optional[int]): The minimum broad monthly search volume.
-        max_monthly_search_volume_broad (Optional[int]): The maximum broad monthly search volume.
-        min_word_count (Optional[int]): The minimum word count.
-        max_word_count (Optional[int]): The maximum word count.
-        min_organic_product_count (Optional[int]): The minimum organic product count.
-        max_organic_product_count (Optional[int]): The maximum organic product count.
+        min_monthly_search_volume_exact: The minimum exact monthly search volume.
+        max_monthly_search_volume_exact: The maximum exact monthly search volume.
+        min_monthly_search_volume_broad: The minimum broad monthly search volume.
+        max_monthly_search_volume_broad: The maximum broad monthly search volume.
+        min_word_count: The minimum word count.
+        max_word_count: The maximum word count.
+        min_organic_product_count: The minimum organic product count.
+        max_organic_product_count: The maximum organic product count.
 
     Usage:
         FilterOptions(min_monthly_search_volume_exact=150)
