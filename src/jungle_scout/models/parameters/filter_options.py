@@ -16,7 +16,6 @@ class FilterOptions(BaseModel):
         min_organic_product_count (Optional[int]): The minimum organic product count.
         max_organic_product_count (Optional[int]): The maximum organic product count.
 
-
     Usage:
         FilterOptions(min_monthly_search_volume_exact=150)
     """
