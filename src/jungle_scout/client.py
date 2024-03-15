@@ -54,8 +54,10 @@ from jungle_scout.session import Session
 
 
 class Client:
-    """
-    The Jungle Scout API client. This class is used to make requests to the Jungle Scout API. It provides methods to retrieve keyword data, sales estimates, historical search volume, and share of voice data.
+    """The Jungle Scout API client.
+
+    This class is used to make requests to the Jungle Scout API. It provides methods to retrieve keyword data,
+    sales estimates, historical search volume, and share of voice data.
     """
 
     def __init__(
@@ -65,6 +67,14 @@ class Client:
         api_type: ApiType = ApiType.JS,
         marketplace: Optional[Marketplace] = None,
     ):
+        """Initializes the Jungle Scout API client.
+
+        Args:
+            api_key_name: The name of the API key.
+            api_key: The API key.
+            api_type: The type of the API.
+            marketplace: The default marketplace to use for API requests.
+        """
         self.session = Session()
         self.session.login(api_key_name=api_key_name, api_key=api_key, api_type=api_type)
         self.marketplace = marketplace
@@ -79,8 +89,7 @@ class Client:
         page_size: Optional[int] = None,
         page: Optional[str] = None,
     ) -> KeywordByASIN:
-        """
-        Get keywords by ASIN
+        """Get keywords by ASIN.
 
         Args:
             asin: The ASIN (Amazon Standard Identification Number) of the product. This can be a list of ASINs or a single ASIN.
@@ -94,7 +103,6 @@ class Client:
         Returns:
             KeywordByASIN: The response from the API.
         """
-
         params = KeywordByAsinParams(
             marketplace=self._resolve_marketplace(marketplace), sort=sort_option, page=page, page_size=page_size
         )
@@ -127,24 +135,22 @@ class Client:
         page_size: Optional[int] = None,
         page: Optional[str] = None,
     ) -> KeywordByKeyword:
-        """
-        Retrieves keyword data based on the provided search terms.
+        """Retrieves keyword data based on the provided search terms.
 
         Args:
-            search_terms (str): The search terms to retrieve keyword data for.
-            categories (Optional[List[str]]): A list of category names to filter the results by. Must be valid inside the categories of the selected Marketplace.
-            filter_options (Optional[FilterOptions]): The filter options to apply to the results.
-            sort_option (Optional[Sort]): The sort option to apply to the results.
-            marketplace (Optional[Marketplace]): The marketplace to retrieve keyword data from. If not provided, the marketplace provided at the client level will be used.
-            page_size (Optional[int]): The number of results to retrieve per page.
-            page (Optional[str]): The page token to retrieve a specific page of results. Used in pagination
+            search_terms: The search terms to retrieve keyword data for.
+            categories: A list of category names to filter the results by. Must be valid inside the categories of the selected Marketplace.
+            filter_options: The filter options to apply to the results.
+            sort_option: The sort option to apply to the results.
+            marketplace: The marketplace to retrieve keyword data from. If not provided, the marketplace provided at the client level will be used.
+            page_size: The number of results to retrieve per page.
+            page: The page token to retrieve a specific page of results. Used in pagination
         Returns:
             KeywordByKeyword: An object containing the retrieved keyword data.
 
         Raises:
             Exception: If the request to retrieve keyword data fails.
         """
-
         marketplace = self._resolve_marketplace(marketplace)
 
         params = KeywordsByKeywordParams(marketplace=marketplace, sort=sort_option, page=page, page_size=page_size)
@@ -176,15 +182,14 @@ class Client:
         sort_option: Optional[Sort] = None,
         marketplace: Optional[Marketplace] = None,
     ) -> SalesEstimates:
-        """
-        Retrieves sales estimates for a given ASIN within a specified date range.
+        """Retrieves sales estimates for a given ASIN within a specified date range.
 
         Args:
-            asin (str): The ASIN (Amazon Standard Identification Number) of the product.
-            start_date (str): The start date of the date range in the format 'YYYY-MM-DD'.
-            end_date (str): The end date of the date range in the format 'YYYY-MM-DD'.
-            sort_option (Optional[Sort]): The sort option for the sales estimates. Must use the Sort enum.
-            marketplace (Optional[Marketplace]): The marketplace to retrieve sales estimates from. If not provided, the marketplace provided at the client level will be used.
+            asin: The ASIN (Amazon Standard Identification Number) of the product.
+            start_date: The start date of the date range in the format 'YYYY-MM-DD'.
+            end_date: The end date of the date range in the format 'YYYY-MM-DD'.
+            sort_option: The sort option for the sales estimates. Must use the Sort enum.
+            marketplace: The marketplace to retrieve sales estimates from. If not provided, the marketplace provided at the client level will be used.
 
         Returns:
             SalesEstimates: An instance of the SalesEstimates class containing the sales estimate data.
@@ -192,7 +197,6 @@ class Client:
         Raises:
             Exception: If the API request fails or returns an error response.
         """
-
         marketplace = self._resolve_marketplace(marketplace)
 
         params = SalesEstimatesParams(
@@ -220,15 +224,14 @@ class Client:
         sort_option: Optional[Sort] = None,
         marketplace: Optional[Marketplace] = None,
     ) -> HistoricalSearchVolume:
-        """
-        Retrieves the historical search volume for a given keyword within a specified date range.
+        """Retrieves the historical search volume for a given keyword within a specified date range.
 
         Args:
-            keyword (str): The keyword for which to retrieve the historical search volume.
-            start_date (str): The start date of the date range in the format 'YYYY-MM-DD'.
-            end_date (str): The end date of the date range in the format 'YYYY-MM-DD'.
-            sort_option (Optional[Sort], optional): The sort option for the search volume data. Must use the Sort enum.
-            marketplace (Optional[Marketplace], optional): The marketplace for which to retrieve the search volume data. If not provided, the default marketplace will be used.
+            keyword: The keyword for which to retrieve the historical search volume.
+            start_date: The start date of the date range in the format 'YYYY-MM-DD'.
+            end_date: The end date of the date range in the format 'YYYY-MM-DD'.
+            sort_option: The sort option for the search volume data. Must use the Sort enum.
+            marketplace: The marketplace for which to retrieve the search volume data. If not provided, the default marketplace will be used.
 
         Returns:
             HistoricalSearchVolume: An object representing the historical search volume data.
@@ -236,7 +239,6 @@ class Client:
         Raises:
             Exception: If the request to retrieve the historical search volume fails.
         """
-
         marketplace = self._resolve_marketplace(marketplace)
 
         params = HistoricalSearchVolumeParams(
@@ -263,18 +265,16 @@ class Client:
         keyword: str,
         marketplace: Optional[Marketplace] = None,
     ) -> ShareOfVoice:
-        """
-        Retrieves the share of voice for a given keyword in the specified marketplace.
+        """Retrieves the share of voice for a given keyword in the specified marketplace.
 
         Args:
-            keyword (str): The keyword for which to retrieve the share of voice.
-            marketplace (Optional[Marketplace]): The marketplace in which to retrieve the share of voice.
+            keyword: The keyword for which to retrieve the share of voice.
+            marketplace: The marketplace in which to retrieve the share of voice.
                 If not provided, the default marketplace will be used.
 
         Returns:
             ShareOfVoice: The share of voice data for the specified keyword.
         """
-
         marketplace = self._resolve_marketplace(marketplace)
 
         params = ShareOfVoiceParams(marketplace=marketplace, keyword=keyword)
@@ -306,21 +306,20 @@ class Client:
         page_size: Optional[int] = 10,
         page: Optional[str] = None,
     ) -> ProductDatabase:
-        """
-        Retrieves product data from the Jungle Scout Product Database.
+        """Retrieves product data from the Jungle Scout Product Database.
 
         Args:
-            include_keywords (Optional[List[str]]): List of keywords to include in the search.
-            exclude_keywords (Optional[List[str]]): List of keywords to exclude from the search.
-            categories (Optional[List[str]]): List of categories to filter the search by. Must be valid inside the categories of the selected Marketplace.
-            product_tiers (Optional[List[ProductTiers]]): List of product tiers to filter the search by. Must use the ProductTiers enum.
-            seller_types (Optional[List[SellerTypes]]): List of seller types to filter the search by. Must use the SellerTypes enum.
-            product_filter_options (Optional[ProductFilterOptions]): Additional product filter options. Must use the ProductFilterOptions class.
-            filter_options (Optional[FilterOptions]): Additional filter options. Must use the FilterOptions class.
-            product_sort_option (Optional[ProductSort]): Sorting option for the search results. Must use the ProductSort enum.
-            marketplace (Optional[Marketplace]): Marketplace to search in. If not provided, the default marketplace will be used.
-            page_size (Optional[int]): Number of results to retrieve per page. Defaults to 10.
-            page (Optional[str]): Page token for pagination.
+            include_keywords: List of keywords to include in the search.
+            exclude_keywords: List of keywords to exclude from the search.
+            categories: List of categories to filter the search by. Must be valid inside the categories of the selected Marketplace.
+            product_tiers: List of product tiers to filter the search by. Must use the ProductTiers enum.
+            seller_types: List of seller types to filter the search by. Must use the SellerTypes enum.
+            product_filter_options: Additional product filter options. Must use the ProductFilterOptions class.
+            filter_options: Additional filter options. Must use the FilterOptions class.
+            product_sort_option: Sorting option for the search results. Must use the ProductSort enum.
+            marketplace: Marketplace to search in. If not provided, the default marketplace will be used.
+            page_size: Number of results to retrieve per page. Defaults to 10.
+            page: Page token for pagination.
 
         Returns:
             ProductDatabase: An instance of the ProductDatabase class containing the retrieved product data.
@@ -328,7 +327,6 @@ class Client:
         Raises:
             Exception: If the request to the Jungle Scout API fails.
         """
-
         marketplace = self._resolve_marketplace(marketplace)
 
         params = ProductDatabaseParams(
@@ -362,8 +360,7 @@ class Client:
             self._raise_for_status(response)
 
     def _resolve_marketplace(self, provided_marketplace: Optional[Marketplace] = None) -> Marketplace:
-        """
-        Resolves the marketplace to be used for the API request.
+        """Resolves the marketplace to be used for the API request.
 
         Args:
             provided_marketplace (Optional[Marketplace]): The marketplace to be used for the API request.
@@ -384,8 +381,7 @@ class Client:
     # TODO: Improve our errors, displaying the actual API message error
     @staticmethod
     def _raise_for_status(response: requests.Response) -> NoReturn:
-        """
-        Raises an HTTPError if the response status code indicates an error. Used on requests.
+        """Raises an HTTPError if the response status code indicates an error. Used on requests.
 
         Args:
             response (requests.Response): The response object.

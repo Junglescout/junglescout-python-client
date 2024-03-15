@@ -4,20 +4,20 @@ from jungle_scout.models.responses.base_response import BaseResponse
 
 
 class ShareOfVoice(BaseResponse):
-    """
-    Represents the Share of Voice response from the Jungle Scout API.
+    """Represents the Share of Voice response from the Jungle Scout API.
 
     Attributes:
-        type (str): The type of the Share of Voice response.
-        id (str): The ID of the Share of Voice response.
-        estimated_30_day_search_volume (int): The estimated 30-day search volume.
-        exact_suggested_bid_median (float): The median of the exact suggested bid.
-        product_count (int): The count of products.
-        updated_at (datetime): The date and time when the Share of Voice data was last updated.
-        brands (ShareOfVoiceBrands): The brands associated with the Share of Voice data.
-        top_asins (ShareOfVoiceTopAsins): The top ASINs associated with the Share of Voice data.
-        top_asins_model_start_date (datetime): The start date of the top ASINs model.
-        top_asins_model_end_date (datetime): The end date of the top ASINs model.
+        - type: The type of the Share of Voice response.
+        - id: The ID of the Share of Voice response.
+        - attributes: The attributes of the Share of Voice response, including:
+            estimated_30_day_search_volume: The estimated 30-day search volume.
+            exact_suggested_bid_median: The median of the exact suggested bid.
+            product_count: The count of products.
+            updated_at: The date and time when the Share of Voice data was last updated.
+            brands: The brands associated with the Share of Voice data.
+            top_asins: The top ASINs associated with the Share of Voice data.
+            top_asins_model_start_date: The start date of the top ASINs model.
+            top_asins_model_end_date: The end date of the top ASINs model.
     """
 
     def _update_attributes(self, json_data):
@@ -40,6 +40,8 @@ class ShareOfVoice(BaseResponse):
 
 
 class ShareOfVoiceBrands(BaseResponse):
+    """Represents a list of brands in the Share of Voice response."""
+
     def _update_attributes(self, json_data):
         ShareOfVoiceBrandsList = []
 
@@ -69,6 +71,8 @@ class ShareOfVoiceBrands(BaseResponse):
 
 
 class ShareOfVoiceTopAsins(BaseResponse):
+    """Represents a list of top ASINs in the Share of Voice response."""
+
     def _update_attributes(self, json_data):
         ShareOfVoiceTopAsinsList = []
         for data in json_data["top_asins"]:

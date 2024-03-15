@@ -10,15 +10,6 @@ from jungle_scout.models.requests.base_request import BaseRequest
 
 
 class SalesEstimatesParams(Params):
-    """
-    Represents the parameters for requesting sales estimates.
-
-    Attributes:
-        asin (str): The ASIN (Amazon Standard Identification Number) of the product.
-        start_date (str): The start date of the sales estimate period in the format YYYY-MM-DD.
-        end_date (str): The end date of the sales estimate period in the format YYYY-MM-DD.
-    """
-
     asin: str
     start_date: str
     end_date: str

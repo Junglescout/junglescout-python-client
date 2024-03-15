@@ -13,15 +13,6 @@ class KeywordsByKeywordParams(Params):
 
 
 class KeywordsByKeywordAttributes(Attributes):
-    """
-    Represents the attributes for a keywords by keyword request.
-
-    Attributes:
-        marketplace (Marketplace): The marketplace for the request.
-        search_terms (str): The search terms for the request.
-        categories (Optional[List[str]]): The categories for the request. Must be a list of valid categories. Defaults to None.
-    """
-
     marketplace: Marketplace
     search_terms: str
     categories: Optional[List[str]] = None
