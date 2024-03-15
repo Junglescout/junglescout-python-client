@@ -9,14 +9,6 @@ from jungle_scout.models.requests.base_request import BaseRequest
 
 
 class HistoricalSearchVolumeParams(Params):
-    """Represents the parameters for a historical search volume request. Inherits from Params.
-
-    Attributes:
-        keyword (str): The keyword for which to retrieve historical search volume.
-        start_date (str): The start date of the historical search volume data in the format YYYY-MM-DD.
-        end_date (str): The end date of the historical search volume data in the format YYYY-MM-DD.
-    """
-
     keyword: str
     start_date: str
     end_date: str
