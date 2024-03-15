@@ -72,7 +72,11 @@ def test_product_database(client, include_keywords, exclude_keywords, fake_respo
 
 
 @pytest.mark.parametrize(
-    "include_keywords, exclude_keywords, page_size, product_filter_options, seller_types,product_tiers,product_sort_option, fake_response",
+    (
+        "include_keywords, exclude_keywords, "
+        "page_size, product_filter_options, "
+        "seller_types,product_tiers,product_sort_option, fake_response"
+    ),
     [
         (
             ["yoga", "gym"],

@@ -52,9 +52,9 @@ class KeywordByASIN(BaseResponse):
         self.meta = self._update_meta(json_data)
 
     def _update_attributes(self, json_data):
-        KeywordByAsinList = []
+        keyword_by_asin_list = []
         for data in json_data["data"]:
-            KeywordByAsinList.append(
+            keyword_by_asin_list.append(
                 {
                     "id": data["id"],
                     "type": data["type"],
@@ -91,7 +91,7 @@ class KeywordByASIN(BaseResponse):
                 }
             )
 
-        return KeywordByAsinList
+        return keyword_by_asin_list
 
     def _update_links(self, json_data):
         return json_data["links"]

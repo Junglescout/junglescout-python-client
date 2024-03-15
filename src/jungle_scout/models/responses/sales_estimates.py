@@ -5,17 +5,17 @@ class SalesEstimateData(BaseResponse):
     """Represents sales estimates data."""
 
     def _update_attributes(self, json_data):
-        SalesEstimateDataList = []
+        sales_estimate_data_list = []
 
         for data in json_data["data"]:
-            SalesEstimateDataList.append(
+            sales_estimate_data_list.append(
                 {
                     "date": data["date"],
                     "estimated_units_sold": data["estimated_units_sold"],
                     "last_known_price": data["last_known_price"],
                 }
             )
-        return SalesEstimateDataList
+        return sales_estimate_data_list
 
 
 class SalesEstimates(BaseResponse):
@@ -35,10 +35,10 @@ class SalesEstimates(BaseResponse):
     """
 
     def _update_attributes(self, json_data):
-        SalesEstimateList = []
+        sales_estimate_list = []
 
         for data in json_data["data"]:
-            SalesEstimateList.append(
+            sales_estimate_list.append(
                 {
                     "id": data["id"],
                     "type": data["type"],
@@ -53,4 +53,4 @@ class SalesEstimates(BaseResponse):
                     },
                 }
             )
-        return SalesEstimateList
+        return sales_estimate_list

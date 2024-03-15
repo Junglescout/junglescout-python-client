@@ -92,7 +92,8 @@ class Client:
         """Get keywords by ASIN.
 
         Args:
-            asin: The ASIN (Amazon Standard Identification Number) of the product. This can be a list of ASINs or a single ASIN.
+            asin: The ASIN (Amazon Standard Identification Number) of the product. This can be a list of
+                ASINs or a single ASIN.
             include_variants: Include variants in the response.
             filter_options: Filter options for the request.
             sort_option: Sort option for the request.
@@ -139,10 +140,12 @@ class Client:
 
         Args:
             search_terms: The search terms to retrieve keyword data for.
-            categories: A list of category names to filter the results by. Must be valid inside the categories of the selected Marketplace.
+            categories: A list of category names to filter the results by. Must be valid inside the categories of
+                the selected Marketplace.
             filter_options: The filter options to apply to the results.
             sort_option: The sort option to apply to the results.
-            marketplace: The marketplace to retrieve keyword data from. If not provided, the marketplace provided at the client level will be used.
+            marketplace: The marketplace to retrieve keyword data from. If not provided, the marketplace provided
+                at the client level will be used.
             page_size: The number of results to retrieve per page.
             page: The page token to retrieve a specific page of results. Used in pagination
         Returns:
@@ -189,7 +192,8 @@ class Client:
             start_date: The start date of the date range in the format 'YYYY-MM-DD'.
             end_date: The end date of the date range in the format 'YYYY-MM-DD'.
             sort_option: The sort option for the sales estimates. Must use the Sort enum.
-            marketplace: The marketplace to retrieve sales estimates from. If not provided, the marketplace provided at the client level will be used.
+            marketplace: The marketplace to retrieve sales estimates from. If not provided, the marketplace
+                provided at the client level will be used.
 
         Returns:
             SalesEstimates: An instance of the SalesEstimates class containing the sales estimate data.
@@ -231,7 +235,8 @@ class Client:
             start_date: The start date of the date range in the format 'YYYY-MM-DD'.
             end_date: The end date of the date range in the format 'YYYY-MM-DD'.
             sort_option: The sort option for the search volume data. Must use the Sort enum.
-            marketplace: The marketplace for which to retrieve the search volume data. If not provided, the default marketplace will be used.
+            marketplace: The marketplace for which to retrieve the search volume data. If not provided,
+                the default marketplace will be used.
 
         Returns:
             HistoricalSearchVolume: An object representing the historical search volume data.
@@ -311,7 +316,8 @@ class Client:
         Args:
             include_keywords: List of keywords to include in the search.
             exclude_keywords: List of keywords to exclude from the search.
-            categories: List of categories to filter the search by. Must be valid inside the categories of the selected Marketplace.
+            categories: List of categories to filter the search by. Must be valid inside the
+                categories of the selected Marketplace.
             product_tiers: List of product tiers to filter the search by. Must use the ProductTiers enum.
             seller_types: List of seller types to filter the search by. Must use the SellerTypes enum.
             product_filter_options: Additional product filter options. Must use the ProductFilterOptions class.

@@ -96,13 +96,15 @@ def test_historical_search_volume_sort_options(
 
     history = mock.request_history
     assert len(history) == 1
-    assert (
-        history[0].url
-        == f"{mock_url}?marketplace={marketplace.country_code}&sort={sort_options.value}&page%5Bsize%5D=50&keyword={keyword}&start_date={start_date}&end_date={end_date}"
+    assert history[0].url == (
+        f"{mock_url}?marketplace={marketplace.country_code}&"
+        f"sort={sort_options.value}&page%5Bsize%5D=50&"
+        f"keyword={keyword}&start_date={start_date}&end_date={end_date}"
     )
-    assert (
-        history[0].query
-        == f"marketplace={marketplace.country_code}&sort={sort_options.value}&page%5bsize%5d=50&keyword={keyword}&start_date={start_date}&end_date={end_date}"
+    assert history[0].query == (
+        f"marketplace={marketplace.country_code}&"
+        f"sort={sort_options.value}&page%5bsize%5d=50&"
+        f"keyword={keyword}&start_date={start_date}&end_date={end_date}"
     )
     assert history[0].method == "GET"
 

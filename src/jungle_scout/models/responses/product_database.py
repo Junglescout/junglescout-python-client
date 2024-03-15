@@ -60,10 +60,10 @@ class ProductDatabase(BaseResponse):
 
     def _update_attributes(self, json_data):
 
-        productDatabaseList = []
+        product_database_list = []
 
         for data in json_data["data"]:
-            dictItem = {
+            dict_item = {
                 "id": data["id"],
                 "type": data["type"],
                 "attributes": {
@@ -103,15 +103,15 @@ class ProductDatabase(BaseResponse):
 
             subcategory_ranks_data = data["attributes"]["subcategory_ranks"]
             if subcategory_ranks_data is not None:
-                dictItem["attributes"].update({"subcategory_ranks": SubcategoryRanks(subcategory_ranks_data).data})
+                dict_item["attributes"].update({"subcategory_ranks": SubcategoryRanks(subcategory_ranks_data).data})
 
             fee_breakdown_data = data["attributes"]["fee_breakdown"]
             if fee_breakdown_data is not None:
-                dictItem["attributes"].update({"fee_breakdown": FeeBreakdown(fee_breakdown_data).data})
+                dict_item["attributes"].update({"fee_breakdown": FeeBreakdown(fee_breakdown_data).data})
 
-            productDatabaseList.append(dictItem)
+            product_database_list.append(dict_item)
 
-        return productDatabaseList
+        return product_database_list
 
     def _update_links(self, json_data):
         return json_data["links"]
@@ -124,17 +124,17 @@ class SubcategoryRanks(BaseResponse):
     """Represents a response object containing subcategory ranks."""
 
     def _update_attributes(self, json_data):
-        subcategoryRanksList = []
+        subcategory_ranks_list = []
 
         for data in json_data:
-            subcategoryRanksList.append(
+            subcategory_ranks_list.append(
                 {
                     "subcategory": data["subcategory"],
                     "rank": data["rank"],
                 }
             )
 
-        return subcategoryRanksList
+        return subcategory_ranks_list
 
 
 class FeeBreakdown(BaseResponse):

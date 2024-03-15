@@ -1,7 +1,6 @@
 from jungle_scout.models.responses.base_response import BaseResponse
 
 
-# TODO: replace with pydantic model
 class HistoricalSearchVolume(BaseResponse):
     """Represents a historical search volume response.
 
@@ -15,10 +14,10 @@ class HistoricalSearchVolume(BaseResponse):
     """
 
     def _update_attributes(self, json_data):
-        HistoricalSearchVolumeList = []
+        historical_search_volume_list = []
 
         for data in json_data["data"]:
-            HistoricalSearchVolumeList.append(
+            historical_search_volume_list.append(
                 {
                     "id": data["id"],
                     "type": data["type"],
@@ -30,4 +29,4 @@ class HistoricalSearchVolume(BaseResponse):
                 }
             )
 
-        return HistoricalSearchVolumeList
+        return historical_search_volume_list

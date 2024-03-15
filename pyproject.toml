@@ -29,6 +29,7 @@ sphinx = "^7.2.6"
 sphinx-autodoc-typehints = "^2.0.0"
 sphinx-rtd-theme = "^2.0.0"
 python-semantic-release = "^9.1.1"
+autodoc-pydantic = "^2.0.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -56,7 +57,7 @@ line-length = 120
 target-version = "py39"
 
 [tool.ruff.lint]
-select = ["E4", "E7", "E9", "F", "D"]
+select = ["E", "F", "D", "N"]
 ignore = ["D203", "D213", "D100"]
 
 [tool.ruff.lint.pydocstyle]

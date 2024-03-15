@@ -40,9 +40,9 @@ class KeywordByKeyword(BaseResponse):
         self.meta = self._update_meta(json_data)
 
     def _update_attributes(self, json_data):
-        KeywordList = []
+        keyword_list = []
         for data in json_data["data"]:
-            KeywordList.append(
+            keyword_list.append(
                 {
                     "id": data["id"],
                     "type": data["type"],
@@ -66,7 +66,7 @@ class KeywordByKeyword(BaseResponse):
                 }
             )
 
-        return KeywordList
+        return keyword_list
 
     def _update_links(self, json_data):
         return json_data["links"]

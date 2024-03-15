@@ -59,7 +59,7 @@ def test_keywords_by_keywords(client, search_terms, fake_response):
 
 
 @pytest.mark.parametrize(
-    "search_terms, sortOptions, fake_response",
+    "search_terms, sort_options, fake_response",
     [
         (
             "yoga",
@@ -73,7 +73,7 @@ def test_keywords_by_keywords(client, search_terms, fake_response):
         ),
     ],
 )
-def test_keywords_by_keywords_headers(client, search_terms, sortOptions, fake_response):
+def test_keywords_by_keywords_headers(client, search_terms, sort_options, fake_response):
     with requests_mock.Mocker() as mock:
         mock_url = f"{client.session.base_url}/keywords/keywords_by_keyword_query"
         mock.post(
@@ -81,7 +81,7 @@ def test_keywords_by_keywords_headers(client, search_terms, sortOptions, fake_re
             json=fake_response,
         )
 
-        result = client.keywords_by_keyword(search_terms=search_terms, sort_option=sortOptions)
+        result = client.keywords_by_keyword(search_terms=search_terms, sort_option=sort_options)
 
     assert mock.called
     assert mock.call_count == 1
@@ -89,8 +89,8 @@ def test_keywords_by_keywords_headers(client, search_terms, sortOptions, fake_re
     history = mock.request_history
 
     assert len(history) == 1
-    assert history[0].url == f"{mock_url}?marketplace=us&sort={sortOptions.value}"
-    assert history[0].query == f"marketplace=us&sort={sortOptions.value}"
+    assert history[0].url == f"{mock_url}?marketplace=us&sort={sort_options.value}"
+    assert history[0].query == f"marketplace=us&sort={sort_options.value}"
     assert history[0].method == "POST"
     assert history[0].json() == {
         "data": {

@@ -43,10 +43,10 @@ class ShareOfVoiceBrands(BaseResponse):
     """Represents a list of brands in the Share of Voice response."""
 
     def _update_attributes(self, json_data):
-        ShareOfVoiceBrandsList = []
+        share_of_voice_brands_list = []
 
         for data in json_data["brands"]:
-            ShareOfVoiceBrandsList.append(
+            share_of_voice_brands_list.append(
                 {
                     "brand": data["brand"],
                     "combined_products": data["combined_products"],
@@ -67,16 +67,16 @@ class ShareOfVoiceBrands(BaseResponse):
                 }
             )
 
-        return ShareOfVoiceBrandsList
+        return share_of_voice_brands_list
 
 
 class ShareOfVoiceTopAsins(BaseResponse):
     """Represents a list of top ASINs in the Share of Voice response."""
 
     def _update_attributes(self, json_data):
-        ShareOfVoiceTopAsinsList = []
+        share_of_voice_top_asins_list = []
         for data in json_data["top_asins"]:
-            ShareOfVoiceTopAsinsList.append(
+            share_of_voice_top_asins_list.append(
                 {
                     "asin": data["asin"],
                     "name": data["name"],
@@ -87,4 +87,4 @@ class ShareOfVoiceTopAsins(BaseResponse):
                 }
             )
 
-        return ShareOfVoiceTopAsinsList
+        return share_of_voice_top_asins_list
