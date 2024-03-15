@@ -13,17 +13,7 @@ AttributesType = TypeVar("AttributesType", bound=Attributes)
 
 
 class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
-    """Base class for all requests made to the Jungle Scout API.
-
-    Args:
-        params (ParamsType): The parameters required for the request.
-        attributes (AttributesType): The attributes required for the request.
-
-    Attributes:
-        params (Dict): The built parameters for the request.
-        payload (Optional[str]): The built payload for the request.
-
-    """
+    """Base class for all requests made to the Jungle Scout API."""
 
     @property
     @abstractmethod
@@ -32,7 +22,6 @@ class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
 
         Returns:
             RequestType: The type of the request.
-
         """
         pass
 
@@ -43,7 +32,6 @@ class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
 
         Returns:
             Method: The HTTP method of the request.
-
         """
         pass
 
@@ -51,9 +39,8 @@ class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
         """Initialize the BaseRequest.
 
         Args:
-            params (ParamsType): The parameters required for the request.
-            attributes (AttributesType): The attributes required for the request.
-
+            params: The parameters required for the request.
+            attributes: The attributes required for the request.
         """
         self.params = self.build_params(params)
         self.payload = self.build_payload(attributes)
@@ -63,11 +50,10 @@ class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
         """Build the parameters for the request.
 
         Args:
-            params (ParamsType): The parameters required for the request.
+            params: The parameters required for the request.
 
         Returns:
             Dict: The built parameters for the request.
-
         """
         pass
 
@@ -76,10 +62,9 @@ class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
         """Build the payload for the request.
 
         Args:
-            attributes (AttributesType): The attributes required for the request.
+            attributes: The attributes required for the request.
 
         Returns:
             Optional[str]: The built payload for the request.
-
         """
         pass

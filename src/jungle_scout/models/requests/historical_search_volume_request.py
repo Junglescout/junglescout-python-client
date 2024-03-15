@@ -23,12 +23,12 @@ class HistoricalSearchVolumeParams(Params):
 
     @field_validator("start_date")
     @classmethod
-    def validate_start_date(cls, v: str) -> str:
+    def _validate_start_date(cls, v: str) -> str:
         return cls.__validate_date(v)
 
     @field_validator("end_date")
     @classmethod
-    def validate_end_date(cls, v: str) -> str:
+    def _validate_end_date(cls, v: str) -> str:
         return cls.__validate_date(v)
 
     @staticmethod
@@ -56,20 +56,6 @@ class HistoricalSearchVolumeAttributes(Attributes):
 
 
 class HistoricalSearchVolumeRequest(BaseRequest[HistoricalSearchVolumeParams, HistoricalSearchVolumeAttributes]):
-    """Represents a request for historical search volume data.
-
-    Inherits from BaseRequest and specifies the type of request, method, and how to build the request parameters.
-
-    Attributes:
-        type (RequestType): The type of request, which is set to RequestType.HISTORICAL_SEARCH_VOLUME.
-        method (Method): The HTTP method used for the request, which is set to Method.GET.
-
-    Methods:
-        build_params(params: HistoricalSearchVolumeParams) -> Dict: Builds the request parameters using the provided params object.
-        build_payload(attributes: HistoricalSearchVolumeAttributes): Builds the request payload using the provided attributes object.
-
-    """
-
     @property
     def type(self) -> RequestType:
         return RequestType.HISTORICAL_SEARCH_VOLUME

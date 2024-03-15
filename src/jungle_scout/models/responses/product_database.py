@@ -5,14 +5,14 @@ from jungle_scout.models.responses.base_response import BaseResponse
 
 # TODO: replace with pydantic model
 class ProductDatabase(BaseResponse):
-    """Represents a response from the product database API.
-
-    Attributes:
-        links (dict): A dictionary containing links related to the response.
-        meta (dict): A dictionary containing metadata related to the response.
-    """
+    """Represents a response from the product database API."""
 
     def __init__(self, json_data):
+        """Initialize the ProductDatabase.
+
+        Args:
+            json_data: The raw JSON data received from the API.
+        """
         super().__init__(json_data)
         self.links = self._update_links(json_data)
         self.meta = self._update_meta(json_data)
@@ -80,6 +80,8 @@ class ProductDatabase(BaseResponse):
 
 
 class SubcategoryRanks(BaseResponse):
+    """Represents a response object containing subcategory ranks."""
+
     def _update_attributes(self, json_data):
         subcategoryRanksList = []
 
@@ -95,6 +97,8 @@ class SubcategoryRanks(BaseResponse):
 
 
 class FeeBreakdown(BaseResponse):
+    """Represents a response object containing fee breakdown."""
+
     def _update_attributes(self, json_data):
 
         return {

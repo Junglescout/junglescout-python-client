@@ -66,6 +66,7 @@ convention = "google"
 "__init_.py" = ["E402", "F401"]
 "tests/*.py" = ["D"]
 "docs/*.py" = ["D"]
+"src/jungle_scout/models/requests/*.py" = ["D101", "D102"]
 
 [tool.semantic_release]
 major_on_zero = true

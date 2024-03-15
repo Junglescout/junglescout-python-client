@@ -25,19 +25,6 @@ class ProductDatabaseParams(Params):
 
 
 class ProductDatabaseAttributes(Attributes):
-    """Represents the attributes for a product database request.
-
-    Attributes:
-        marketplace (Marketplace): The marketplace for the request.
-        include_keywords (Optional[List[str]]): The list of keywords to include in the request.
-        exclude_keywords (Optional[List[str]]): The list of keywords to exclude from the request.
-        seller_types (Optional[List[SellerTypes]]): The list of seller types to filter the request.
-        product_tiers (Optional[List[ProductTiers]]): The list of product tiers to filter the request.
-        product_filter_options (Optional[ProductFilterOptions]): The product filter options for the request.
-        categories (Optional[List[str]]): The list of categories to filter the request.
-
-    """
-
     marketplace: Marketplace
     include_keywords: Optional[List[str]] = None
     exclude_keywords: Optional[List[str]] = None
