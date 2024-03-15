@@ -5,7 +5,48 @@ from jungle_scout.models.responses.base_response import BaseResponse
 
 # TODO: replace with pydantic model
 class ProductDatabase(BaseResponse):
-    """Represents a response from the product database API."""
+    """Represents a response from the product database API.
+
+    Attributes:
+        - links: The links for the response.
+        - meta: The metadata for the response.
+        - attributes: The attributes of the product, including:
+            id: The ID of the product.
+            type: The type of the product.
+            title: The title of the product.
+            price: The price of the product.
+            reviews: The number of reviews for the product.
+            category: The category of the product.
+            rating: The rating of the product.
+            image_url: The image URL of the product.
+            parent_asin: The parent ASIN of the product.
+            is_variant: Whether the product is a variant.
+            seller_type: The type of the seller.
+            variants: The variants of the product.
+            is_standalone: Whether the product is standalone.
+            is_parent: Whether the product is a parent.
+            brand: The brand of the product.
+            product_rank: The rank of the product.
+            weight_value: The weight value of the product.
+            weight_unit: The weight unit of the product.
+            length_value: The length value of the product.
+            width_value: The width value of the product.
+            height_value: The height value of the product.
+            dimensions_unit: The dimensions unit of the product.
+            listing_quality_score: The listing quality score of the product.
+            number_of_sellers: The number of sellers for the product.
+            buy_box_owner: The buy box owner of the product.
+            buy_box_owner_seller_id: The buy box owner seller ID of the product.
+            date_first_available: The date the product was first available.
+            date_first_available_is_estimated: Whether the date the product was first available is estimated.
+            approximate_30_day_revenue: The approximate 30 day revenue of the product.
+            approximate_30_day_units_sold: The approximate 30 day units sold of the product.
+            ean_list: The EAN list of the product.
+            variant_reviews: The variant reviews of the product.
+            updated_at: The date the product was last updated.
+            subcategory_ranks: The subcategory ranks of the product.
+            fee_breakdown: The fee breakdown of the product.
+    """
 
     def __init__(self, json_data):
         """Initialize the ProductDatabase.

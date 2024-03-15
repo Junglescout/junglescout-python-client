@@ -5,7 +5,41 @@ from jungle_scout.models.responses.base_response import BaseResponse
 
 # TODO: replace with pydantic model
 class KeywordByASIN(BaseResponse):
-    """Represents a response object containing keyword data for a specific ASIN."""
+    """Represents a response object containing keyword data for a specific ASIN.
+
+    Attributes:
+        - links: The links for the response.
+        - meta: The metadata for the response.
+        - attributes: The attributes of the keyword, including:
+            - country: The country of the keyword.
+            - name: The name of the keyword.
+            - primary_asin: The primary ASIN of the keyword.
+            - monthly_trend: The monthly trend of the keyword.
+            - monthly_search_volume_exact: The monthly search volume exact of the keyword.
+            - quarterly_trend: The quarterly trend of the keyword.
+            - monthly_search_volume_broad: The monthly search volume broad of the keyword.
+            - dominant_category: The dominant category of the keyword.
+            - recommended_promotions: The recommended promotions of the keyword.
+            - sp_brand_ad_bid: The SP brand ad bid of the keyword.
+            - ppc_bid_broad: The PPC bid broad of the keyword.
+            - ppc_bid_exact: The PPC bid exact of the keyword.
+            - ease_of_ranking_score: The ease of ranking score of the keyword.
+            - relevancy_score: The relevancy score of the keyword.
+            - organic_product_count: The organic product count of the keyword.
+            - sponsored_product_count: The sponsored product count of the keyword.
+            - updated_at: The date the keyword was last updated.
+            - organic_rank: The organic rank of the keyword.
+            - sponsored_rank: The sponsored rank of the keyword.
+            - overall_rank: The overall rank of the keyword.
+            - organic_ranking_asins_count: The organic ranking ASINs count of the keyword.
+            - sponsored_ranking_asins_count: The sponsored ranking ASINs count of the keyword.
+            - avg_competitor_organic_rank: The average competitor organic rank of the keyword.
+            - avg_competitor_sponsored_rank: The average competitor sponsored rank of the keyword.
+            - relative_organic_position: The relative organic position of the keyword.
+            - relative_sponsored_position: The relative sponsored position of the keyword.
+            - competitor_organic_rank: The competitor organic rank of the keyword.
+            - variation_lowest_organic_rank: The variation lowest organic rank of the keyword.
+    """
 
     def __init__(self, json_data):
         """Initialize the KeywordByASIN.

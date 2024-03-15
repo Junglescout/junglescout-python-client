@@ -4,7 +4,30 @@ from jungle_scout.models.responses.base_response import BaseResponse
 
 
 class KeywordByKeyword(BaseResponse):
-    """Represents a response object containing keyword data."""
+    """Represents a response object containing keyword data.
+
+    Attributes:
+        - links: The links for the response.
+        - meta: The metadata for the response.
+        - attributes: The attributes of the keyword, including:
+            - id: The ID of the keyword.
+            - type: The type of the keyword.
+            - country: The country of the keyword.
+            - name: The name of the keyword.
+            - monthly_trend: The monthly trend of the keyword.
+            - monthly_search_volume_exact: The monthly search volume exact of the keyword.
+            - quarterly_trend: The quarterly trend of the keyword.
+            - monthly_search_volume_broad: The monthly search volume broad of the keyword.
+            - dominant_category: The dominant category of the keyword.
+            - recommended_promotions: The recommended promotions of the keyword.
+            - sp_brand_ad_bid: The SP brand ad bid of the keyword.
+            - ppc_bid_broad: The PPC bid broad of the keyword.
+            - ppc_bid_exact: The PPC bid exact of the keyword.
+            - ease_of_ranking_score: The ease of ranking score of the keyword.
+            - relevancy_score: The relevancy score of the keyword.
+            - organic_product_count: The organic product count of the keyword.
+            - sponsored_product_count: The sponsored product count of the keyword.
+    """
 
     def __init__(self, json_data):
         """Initialize the KeywordByKeyword.

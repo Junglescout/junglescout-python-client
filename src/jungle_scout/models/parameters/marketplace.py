@@ -8,10 +8,6 @@ class Marketplace(Enum):
 
     It's used by default when instantiating the Jungle Scout client, but can be overridden by passing
     the marketplace parameter to some of the client's methods.
-
-    Attributes:
-        country_code: The country code of the marketplace.
-        categories: The list of categories available in the marketplace.
     """
 
     US = (

@@ -24,13 +24,14 @@ class SalesEstimates(BaseResponse):
     Attributes:
         - id: The ID of the sales estimate.
         - type: The type of the sales estimate.
-        - asin: The ASIN (Amazon Standard Identification Number) associated with the sales estimate.
-        - is_parent: A boolean indicating whether the ASIN is a parent ASIN.
-        - is_variant: A boolean indicating whether the ASIN is a variant.
-        - is_standalone: A boolean indicating whether the ASIN is a standalone product.
-        - parent_asin: The parent ASIN associated with the sales estimate.
-        - variants: The variants associated with the sales estimate.
-        - data: The sales estimate data.
+        - attributes: The attributes of the sales estimate, including:
+            - asin: The ASIN (Amazon Standard Identification Number) associated with the sales estimate.
+            - is_parent: A boolean indicating whether the ASIN is a parent ASIN.
+            - is_variant: A boolean indicating whether the ASIN is a variant.
+            - is_standalone: A boolean indicating whether the ASIN is a standalone product.
+            - parent_asin: The parent ASIN associated with the sales estimate.
+            - variants: The variants associated with the sales estimate.
+            - data: The sales estimate data.
     """
 
     def _update_attributes(self, json_data):
