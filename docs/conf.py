@@ -15,6 +15,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx_autodoc_typehints",
     "sphinx.ext.extlinks",
+    "sphinxcontrib.autodoc_pydantic",
 ]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 extlinks = {
