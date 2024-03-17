@@ -6,7 +6,7 @@ from jungle_scout.client import Client
 from jungle_scout.models.parameters import Marketplace
 
 
-@pytest.fixture
+@pytest.fixture()
 def credentials():
     return {
         "api_key_name": os.environ["API_KEY_NAME"],

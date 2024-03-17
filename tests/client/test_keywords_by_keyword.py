@@ -11,7 +11,7 @@ from tests.factories.keywords_by_keyword_factory import (
 )
 
 
-@pytest.fixture
+@pytest.fixture()
 def client():
     return Client(api_key_name=os.environ["API_KEY_NAME"], api_key=os.environ["API_KEY"], marketplace=Marketplace.US)
 

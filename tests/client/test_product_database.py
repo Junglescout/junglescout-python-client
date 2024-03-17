@@ -16,7 +16,7 @@ from jungle_scout.models.responses.product_database import ProductDatabase
 from tests.factories.product_database_factory import generate_product_database_responses
 
 
-@pytest.fixture
+@pytest.fixture()
 def client():
     return Client(api_key_name=os.environ["API_KEY_NAME"], api_key=os.environ["API_KEY"], marketplace=Marketplace.US)
 

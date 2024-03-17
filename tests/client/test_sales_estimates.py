@@ -8,7 +8,7 @@ from jungle_scout.models.parameters import Marketplace
 from tests.factories.sales_estimates_factory import generate_sales_estimates_responses
 
 
-@pytest.fixture
+@pytest.fixture()
 def client():
     return Client(api_key_name=os.environ["API_KEY_NAME"], api_key=os.environ["API_KEY"], marketplace=Marketplace.US)
 

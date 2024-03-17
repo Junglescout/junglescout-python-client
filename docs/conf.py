@@ -4,7 +4,7 @@
 project = "jungle-scout"
 copyright = "2024, Jungle Scout <support@junglescout.com>"
 author = "Jungle Scout <support@junglescout.com>"
-release = "0.1.0"
+release = "0.1.0"  # TODO: integrate this with automated release process
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

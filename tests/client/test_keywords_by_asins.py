@@ -10,7 +10,7 @@ from jungle_scout.models.responses.keyword_by_asin import KeywordByASIN
 from tests.factories.keyword_by_asin_factory import generate_keywords_by_asin_responses
 
 
-@pytest.fixture
+@pytest.fixture()
 def client():
     return Client(api_key_name=os.environ["API_KEY_NAME"], api_key=os.environ["API_KEY"], marketplace=Marketplace.US)
 

@@ -5,10 +5,10 @@ fake = Faker()
 
 
 class AttributesFactory(factory.DictFactory):
-    estimated_30_day_search_volume = factory.LazyAttribute(lambda o: fake.random_int(min=1, max=100))
-    exact_suggested_bid_median = factory.LazyAttribute(lambda o: fake.random_int(min=1, max=100))
-    product_count = factory.LazyAttribute(lambda o: fake.random_int(min=1, max=100))
-    updated_at = factory.LazyAttribute(lambda o: fake.date_time_this_year().isoformat())
+    estimated_30_day_search_volume = factory.LazyAttribute(lambda _: fake.random_int(min=1, max=100))
+    exact_suggested_bid_median = factory.LazyAttribute(lambda _: fake.random_int(min=1, max=100))
+    product_count = factory.LazyAttribute(lambda _: fake.random_int(min=1, max=100))
+    updated_at = factory.LazyAttribute(lambda _: fake.date_time_this_year().isoformat())
     brands = factory.LazyAttribute(
         lambda o: [
             {
