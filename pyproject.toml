@@ -57,8 +57,43 @@ line-length = 120
 target-version = "py39"
 
 [tool.ruff.lint]
-select = ["E", "F", "D", "N"]
-ignore = ["D203", "D213", "D100"]
+select = [
+    "A",
+    "ARG",
+    "B",
+    "C4",
+    "D",
+    "DTZ",
+    "E",
+    "EM",
+    "ERA",
+    "F",
+    "FLY",
+    "FURB",
+    "INP",
+    "ISC",
+    "LOG",
+    "N",
+    "PERF",
+    "PIE",
+    "PL",
+    "PT",
+    "PYI",
+    "Q",
+    "RET",
+    "RUF",
+    "S",
+    "SIM",
+    "T10",
+    "T20",
+    "TD004",
+    "TD005",
+    "TD006",
+    "TD007",
+    "TRY",
+    "W",
+]
+ignore = ["D203", "D213", "D100", "S101"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
