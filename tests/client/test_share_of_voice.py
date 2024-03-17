@@ -14,7 +14,7 @@ def client():
 
 
 @pytest.mark.parametrize(
-    "keyword, marketplace, fake_response",
+    ("keyword", "marketplace", "fake_response"),
     [
         ("yoga", Marketplace.CA, generate_share_of_voice_responses()),
         ("ps5", Marketplace.US, generate_share_of_voice_responses()),

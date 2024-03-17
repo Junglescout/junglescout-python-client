@@ -17,7 +17,7 @@ def client():
 
 
 @pytest.mark.parametrize(
-    "search_terms, fake_response",
+    ("search_terms", "fake_response"),
     [
         ("yoga", generate_keywords_by_keyword_responses(total_items=1)),
         ("yoga_mat", generate_keywords_by_keyword_responses(total_items=4)),
@@ -59,7 +59,7 @@ def test_keywords_by_keywords(client, search_terms, fake_response):
 
 
 @pytest.mark.parametrize(
-    "search_terms, sort_options, fake_response",
+    ("search_terms", "sort_options", "fake_response"),
     [
         (
             "yoga",

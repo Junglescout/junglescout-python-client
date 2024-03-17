@@ -35,7 +35,7 @@ class KeywordsByKeywordResponseFactory(factory.DictFactory):
             for _ in range(o.total_items)
         ]
     )
-    links = {"self": fake.uri(), "next": fake.uri()}
+    links = factory.Dict({"self": fake.uri(), "next": fake.uri()})
     meta = factory.LazyAttribute(lambda o: {"total_items": o.total_items})
 
 

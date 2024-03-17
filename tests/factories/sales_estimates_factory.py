@@ -12,7 +12,7 @@ class AttributesFactory(factory.DictFactory):
     parent_asin = fake.bothify(text="B0####???")
     variants = fake.random_int(min=0, max=100)
     data = factory.LazyAttribute(
-        lambda o: [
+        lambda: [
             {
                 "date": fake.date_this_year().isoformat(),
                 "estimated_units_sold": fake.random_int(min=0, max=100),

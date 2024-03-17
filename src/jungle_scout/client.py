@@ -123,8 +123,7 @@ class Client:
         response = self.session.request(keyword_by_asin_request.method.value, url, data=payload)
         if response.ok:
             return KeywordByASIN(response.json())
-        else:
-            self._raise_for_status(response)
+        self._raise_for_status(response)
 
     def keywords_by_keyword(
         self,
@@ -174,8 +173,7 @@ class Client:
 
         if response.ok:
             return KeywordByKeyword(response.json())
-        else:
-            self._raise_for_status(response)
+        self._raise_for_status(response)
 
     def sales_estimates(
         self,
@@ -217,8 +215,7 @@ class Client:
 
         if response.ok:
             return SalesEstimates(response.json())
-        else:
-            self._raise_for_status(response)
+        self._raise_for_status(response)
 
     def historical_search_volume(
         self,
@@ -262,8 +259,7 @@ class Client:
 
         if response.ok:
             return HistoricalSearchVolume(response.json())
-        else:
-            self._raise_for_status(response)
+        self._raise_for_status(response)
 
     def share_of_voice(
         self,
@@ -294,18 +290,16 @@ class Client:
 
         if response.ok:
             return ShareOfVoice(response.json()["data"])
-        else:
-            self._raise_for_status(response)
+        self._raise_for_status(response)
 
     def product_database(
         self,
         include_keywords: Optional[List[str]] = None,
         exclude_keywords: Optional[List[str]] = None,
         categories: Optional[List[str]] = None,
-        product_tiers: Optional[List[ProductTiers]] = [ProductTiers.OVERSIZE, ProductTiers.STANDARD],
-        seller_types: Optional[List[SellerTypes]] = [SellerTypes.AMZ, SellerTypes.FBA, SellerTypes.FBM],
+        product_tiers: Optional[List[ProductTiers]] = None,
+        seller_types: Optional[List[SellerTypes]] = None,
         product_filter_options: Optional[ProductFilterOptions] = None,
-        filter_options: Optional[FilterOptions] = None,
         product_sort_option: Optional[ProductSort] = None,
         marketplace: Optional[Marketplace] = None,
         page_size: Optional[int] = 10,
@@ -321,7 +315,6 @@ class Client:
             product_tiers: List of product tiers to filter the search by. Must use the ProductTiers enum.
             seller_types: List of seller types to filter the search by. Must use the SellerTypes enum.
             product_filter_options: Additional product filter options. Must use the ProductFilterOptions class.
-            filter_options: Additional filter options. Must use the FilterOptions class.
             product_sort_option: Sorting option for the search results. Must use the ProductSort enum.
             marketplace: Marketplace to search in. If not provided, the default marketplace will be used.
             page_size: Number of results to retrieve per page. Defaults to 10.
@@ -333,6 +326,12 @@ class Client:
         Raises:
             Exception: If the request to the Jungle Scout API fails.
         """
+        if product_tiers is None:
+            product_tiers = [ProductTiers.OVERSIZE, ProductTiers.STANDARD]
+
+        if seller_types is None:
+            seller_types = [SellerTypes.AMZ, SellerTypes.FBA, SellerTypes.FBM]
+
         marketplace = self._resolve_marketplace(marketplace)
 
         params = ProductDatabaseParams(
@@ -362,8 +361,7 @@ class Client:
 
         if response.ok:
             return ProductDatabase(response.json())
-        else:
-            self._raise_for_status(response)
+        self._raise_for_status(response)
 
     def _resolve_marketplace(self, provided_marketplace: Optional[Marketplace] = None) -> Marketplace:
         """Resolves the marketplace to be used for the API request.
@@ -381,21 +379,11 @@ class Client:
         resolved_marketplace = provided_marketplace or self.marketplace
         if isinstance(resolved_marketplace, Marketplace):
             return resolved_marketplace
-        else:
-            raise AttributeError("Marketplace cannot be resolved")
+        raise AttributeError("Marketplace cannot be resolved")
 
     # TODO: Improve our errors, displaying the actual API message error
     @staticmethod
     def _raise_for_status(response: requests.Response) -> NoReturn:
-        """Raises an HTTPError if the response status code indicates an error. Used on requests.
-
-        Args:
-            response (requests.Response): The response object.
-
-        Raises:
-            requests.HTTPError: If the response status code indicates an error.
-
-        """
         http_error_message = "Something went wrong"
         try:
             response.raise_for_status()

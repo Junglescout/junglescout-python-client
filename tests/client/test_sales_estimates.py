@@ -14,15 +14,12 @@ def client():
 
 
 @pytest.mark.parametrize(
-    "asin, start_date, end_date, fake_response",
+    ("asin", "start_date", "end_date", "fake_response"),
     [
         ("B005IHSKYS", "2023-01-01", "2023-02-01", generate_sales_estimates_responses(total_items=1, data_items=3)),
         ("B0CL5KNB9M", "2022-04-01", "2022-05-01", generate_sales_estimates_responses(total_items=4, data_items=2)),
     ],
 )
-#  mock a GET request to the historical_search_volume endpoint
-
-
 def test_historical_search_volume(client, asin, start_date, end_date, fake_response):
     with requests_mock.Mocker() as mock:
         mock_url = f"{client.session.base_url}/sales_estimates_query"

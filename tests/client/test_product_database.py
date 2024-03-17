@@ -22,7 +22,7 @@ def client():
 
 
 @pytest.mark.parametrize(
-    "include_keywords, exclude_keywords, fake_response",
+    ("include_keywords", "exclude_keywords", "fake_response"),
     [
         (["yoga", "gym"], ["bath"], generate_product_database_responses(total_items=1)),
         (["yoga_mat", "mat", "yoga accessories"], ["floor mat"], generate_product_database_responses(total_items=10)),
@@ -73,9 +73,14 @@ def test_product_database(client, include_keywords, exclude_keywords, fake_respo
 
 @pytest.mark.parametrize(
     (
-        "include_keywords, exclude_keywords, "
-        "page_size, product_filter_options, "
-        "seller_types,product_tiers,product_sort_option, fake_response"
+        "include_keywords",
+        "exclude_keywords",
+        "page_size",
+        "product_filter_options",
+        "seller_types",
+        "product_tiers",
+        "product_sort_option",
+        "fake_response",
     ),
     [
         (

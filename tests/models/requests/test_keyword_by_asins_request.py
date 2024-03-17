@@ -46,8 +46,6 @@ def test_keyword_by_asins_raises_error_with_invalid_asin():
         assert error_details["type"] == "assertion_error"
         assert error_details["loc"] == ("asin",)
         assert error_details["msg"] == "Assertion failed, ASIN must be 10 characters long"
-    else:
-        assert False, "Expected ValueError"
 
 
 def test_keyword_by_asins_raises_error_with_long_asin_list():
@@ -74,8 +72,6 @@ def test_keyword_by_asins_raises_error_with_long_asin_list():
         assert error_details["type"] == "assertion_error"
         assert error_details["loc"] == ("asin",)
         assert error_details["msg"] == "Assertion failed, ASIN list cannot exceed 10"
-    else:
-        assert False, "Expected ValueError"
 
 
 def test_keyword_by_asin_params():

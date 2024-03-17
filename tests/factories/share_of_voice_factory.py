@@ -10,7 +10,7 @@ class AttributesFactory(factory.DictFactory):
     product_count = factory.LazyAttribute(lambda _: fake.random_int(min=1, max=100))
     updated_at = factory.LazyAttribute(lambda _: fake.date_time_this_year().isoformat())
     brands = factory.LazyAttribute(
-        lambda o: [
+        lambda: [
             {
                 "brand": fake.company(),
                 "combined_products": fake.random_int(min=1, max=100),
@@ -33,7 +33,7 @@ class AttributesFactory(factory.DictFactory):
         ]
     )
     top_asins = factory.LazyAttribute(
-        lambda o: [
+        lambda: [
             {
                 "asin": fake.bothify(text="us/B0####???"),
                 "name": fake.name(),
@@ -45,17 +45,19 @@ class AttributesFactory(factory.DictFactory):
             for _ in range(5)
         ]
     )
-    top_asins_model_start_date = factory.LazyAttribute(lambda o: fake.date_time_this_year().isoformat())
-    top_asins_model_end_date = factory.LazyAttribute(lambda o: fake.date_time_this_year().isoformat())
+    top_asins_model_start_date = factory.LazyAttribute(lambda: fake.date_time_this_year().isoformat())
+    top_asins_model_end_date = factory.LazyAttribute(lambda: fake.date_time_this_year().isoformat())
 
 
 class ShareOfVoiceResponseFactory(factory.DictFactory):
-    data = {
-        "type": "this_type",
-        "id": fake.bothify(text="us/B0####???"),
-        "attributes": AttributesFactory(),
-    }
+    data = factory.Dict(
+        {
+            "type": "this_type",
+            "id": fake.bothify(text="us/B0####???"),
+            "attributes": AttributesFactory(),
+        }
+    )
 
 
-def generate_share_of_voice_responses(total_items: int = 1):
+def generate_share_of_voice_responses():
     return ShareOfVoiceResponseFactory()

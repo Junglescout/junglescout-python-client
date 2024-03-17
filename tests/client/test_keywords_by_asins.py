@@ -16,7 +16,7 @@ def client():
 
 
 @pytest.mark.parametrize(
-    "asin, fake_response",
+    ("asin", "fake_response"),
     [
         ("B005IHSKYS", generate_keywords_by_asin_responses(total_items=1)),
         (

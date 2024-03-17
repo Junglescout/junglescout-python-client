@@ -16,15 +16,12 @@ def client():
 
 
 @pytest.mark.parametrize(
-    "keyword, start_date, end_date, fake_response",
+    ("keyword", "start_date", "end_date", "fake_response"),
     [
         ("yoga", "2023-01-01", "2023-02-01", generate_historical_search_volume_responses(total_items=5)),
         ("ps5", "2022-04-01", "2022-05-01", generate_historical_search_volume_responses(total_items=10)),
     ],
 )
-#  mock a GET request to the historical_search_volume endpoint
-
-
 def test_historical_search_volume(client, keyword, start_date, end_date, fake_response):
     with requests_mock.Mocker() as mock:
         mock_url = f"{client.session.base_url}/keywords/historical_search_volume"
@@ -54,7 +51,7 @@ def test_historical_search_volume(client, keyword, start_date, end_date, fake_re
 
 
 @pytest.mark.parametrize(
-    "keyword, start_date, end_date, sort_options, marketplace, fake_response",
+    ("keyword", "start_date", "end_date", "sort_options", "marketplace", "fake_response"),
     [
         (
             "yoga",
@@ -74,9 +71,6 @@ def test_historical_search_volume(client, keyword, start_date, end_date, fake_re
         ),
     ],
 )
-#  mock a GET request to the historical_search_volume endpoint
-
-
 def test_historical_search_volume_sort_options(
     client, keyword, start_date, end_date, sort_options, marketplace, fake_response
 ):
