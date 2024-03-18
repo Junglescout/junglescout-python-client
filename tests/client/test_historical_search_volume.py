@@ -2,6 +2,7 @@ import os
 
 import pytest
 import requests_mock
+import json
 
 from jungle_scout.client import Client
 from jungle_scout.models.parameters import Marketplace, Sort
@@ -47,7 +48,7 @@ def test_historical_search_volume(client, keyword, start_date, end_date, fake_re
     )
     assert history[0].method == "GET"
 
-    assert result.data[0] == fake_response["data"][0]
+    assert result.data[0].model_dump() == fake_response["data"][0]
 
 
 @pytest.mark.parametrize(
@@ -102,4 +103,4 @@ def test_historical_search_volume_sort_options(
     )
     assert history[0].method == "GET"
 
-    assert result.data[0] == fake_response["data"][0]
+    assert result.data[0].model_dump() == fake_response["data"][0]
