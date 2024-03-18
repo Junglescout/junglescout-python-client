@@ -94,7 +94,16 @@ select = [
     "TRY",
     "W",
 ]
-ignore = ["D203", "D213", "D100", "S101", "PLR0913", "PLR0917"]
+ignore = [
+    "D203",
+    "D213",
+    "D100",
+    "S101",
+    "PLR0913",
+    "PLR0917",
+    "RET503",  # TODO: reenable this check once we figure out a better way to manage exceptions
+    "TRY003",  # TODO: reenable this check once we figure out a better way to manage exceptions
+]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"

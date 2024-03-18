@@ -379,7 +379,8 @@ class Client:
         resolved_marketplace = provided_marketplace or self.marketplace
         if isinstance(resolved_marketplace, Marketplace):
             return resolved_marketplace
-        raise AttributeError("Marketplace cannot be resolved")
+        msg = "Marketplace cannot be resolved"
+        raise AttributeError(msg)
 
     # TODO: Improve our errors, displaying the actual API message error
     @staticmethod
