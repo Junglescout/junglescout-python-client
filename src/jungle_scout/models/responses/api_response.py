@@ -1,4 +1,4 @@
-from typing import Generic, List, Optional, TypeVar
+from typing import Generic, TypeVar
 
 from pydantic import BaseModel, Field
 
@@ -6,11 +6,15 @@ DataT = TypeVar("DataT")
 
 
 class APIResponseLink(BaseModel):
+    """Represents the links for a response from the Jungle Scout API."""
+
     self: str = Field(default=..., description="The current link.")
     next: str = Field(default=..., description="The next link.")
 
 
 class APIResponseMeta(BaseModel):
+    """Represents additional metadata for a response from the Jungle Scout API."""
+
     total_items: int = Field(default=..., description="The total number of items in the response.")
 
 

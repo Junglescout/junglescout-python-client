@@ -46,7 +46,7 @@ class KeywordAttributes(BaseModel):
     )
 
     @field_serializer("updated_at")
-    def serialize_updated_at(self, v: datetime):
+    def _serialize_updated_at(self, v: datetime):  # noqa: PLR6301
         return serialize_datetime(v)
 
 

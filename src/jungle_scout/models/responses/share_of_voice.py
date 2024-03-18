@@ -57,15 +57,15 @@ class ShareOfVoiceAttributes(BaseModel):
     top_asins_model_end_date: datetime = Field(default=..., description="The end date of the top ASINs model.")
 
     @field_serializer("top_asins_model_start_date")
-    def serialize_top_asins_model_start_date(self, v: datetime):
+    def _serialize_top_asins_model_start_date(self, v: datetime):  # noqa: PLR6301
         return serialize_datetime(v)
 
     @field_serializer("top_asins_model_end_date")
-    def serialize_top_asins_model_end_date(self, v: datetime):
+    def _serialize_top_asins_model_end_date(self, v: datetime):  # noqa: PLR6301
         return serialize_datetime(v)
 
     @field_serializer("updated_at")
-    def serialize_updated_at(self, v: datetime):
+    def _serialize_updated_at(self, v: datetime):  # noqa: PLR6301
         return serialize_datetime(v)
 
 

@@ -66,11 +66,11 @@ class ProductDatabaseAttributes(BaseModel):
     fee_breakdown: ProductDatabaseFeeBreakdown = Field(default=..., description="The fee breakdown of the product.")
 
     @field_serializer("updated_at")
-    def serialize_updated_at(self, v: datetime):
+    def _serialize_updated_at(self, v: datetime):  # noqa: PLR6301
         return serialize_datetime(v)
 
     @field_serializer("date_first_available")
-    def serialize_date_first_available(self, v: datetime):
+    def _serialize_date_first_available(self, v: datetime):  # noqa: PLR6301
         return serialize_date(v)
 
 

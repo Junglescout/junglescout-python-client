@@ -14,7 +14,7 @@ class SalesEstimateData(BaseModel):
     last_known_price: float = Field(default=..., description="The last known price.")
 
     @field_serializer("date")
-    def serialize_date(self, v: datetime):
+    def _serialize_date(self, v: datetime):  # noqa: PLR6301
         return serialize_date(v)
 
 

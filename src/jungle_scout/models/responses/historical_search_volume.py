@@ -13,11 +13,11 @@ class HistoricalSearchVolumeAttributes(BaseModel):
     estimated_exact_search_volume: int = Field(default=..., description="The estimated exact search volume.")
 
     @field_serializer("estimate_start_date")
-    def serialize_estimate_start_date(self, v: datetime):
+    def _serialize_estimate_start_date(self, v: datetime):  # noqa: PLR6301
         return serialize_date(v)
 
     @field_serializer("estimate_end_date")
-    def serialize_estimate_end_date(self, v: datetime):
+    def _serialize_estimate_end_date(self, v: datetime):  # noqa: PLR6301
         return serialize_date(v)
 
 
