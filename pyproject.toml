@@ -1,6 +1,6 @@
 [tool.poetry]
 package-mode = true
-name = "jungle-scout"
+name = "junglescout"
 version = "1.0.0"
 license = "MIT"
 authors = ["Jungle Scout <support@junglescout.com>"]
