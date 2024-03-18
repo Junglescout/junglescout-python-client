@@ -47,7 +47,6 @@ def test_integration():
         exclude_keywords=["mat"],
         marketplace=Marketplace.US,
         page_size=5,
-        # product_filter_options=product_filter_options,
         seller_types=[SellerTypes.AMZ],
         product_tiers=[ProductTiers.OVERSIZE],
         product_sort_option=ProductSort.NAME,

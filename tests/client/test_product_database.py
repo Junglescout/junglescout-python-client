@@ -93,7 +93,6 @@ def test_product_database(client, include_keywords, exclude_keywords, fake_respo
             ProductSort.NAME.value,
             generate_product_database_responses(total_items=4),
         ),
-        # (["yoga_mat", "mat", "yoga accessories"], ["floor mat"], generate_product_database_responses(total_items=4)),
     ],
 )
 def test_full_request_product_database(
