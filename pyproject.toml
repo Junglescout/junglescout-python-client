@@ -118,7 +118,8 @@ convention = "google"
 major_on_zero = true
 build_command = "poetry build"
 version_variable = [
-    "src/junglescout/__init__.py:__version__"
+    "src/junglescout/__init__.py:__version__",
+    "docs/conf.py:release",
 ]
 version_toml = [
     "pyproject.toml:tool.poetry.version"
