@@ -26,3 +26,4 @@ References for the responses returned by the Jungle Scout API.
 
 .. automodule:: jungle_scout.models.responses
    :members:
+   :exclude-members: model_computed_fields, model_config, model_fields, model_required_fields, model_optional_fields, serialize_marketplace, serialize_sort
