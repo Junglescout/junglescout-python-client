@@ -3,14 +3,14 @@ from datetime import datetime
 from pydantic import BaseModel, Field
 
 
-class SubcategoryRanks(BaseModel):
+class ProductDatabaseSubcategoryRanks(BaseModel):
     """Represents a response object containing subcategory ranks."""
 
     subcategory: str = Field(default=..., description="The subcategory of the product.")
     rank: int = Field(default=..., description="The rank of the product.")
 
 
-class FeeBreakdown(BaseModel):
+class ProductDatabaseFeeBreakdown(BaseModel):
     """Represents a response object containing fee breakdown."""
 
     fba_fee: int = Field(default=..., description="The FBA fee of the product.")
@@ -57,8 +57,10 @@ class ProductDatabaseAttributes(BaseModel):
     ean_list: str = Field(default=..., description="The EAN list of the product.")
     variant_reviews: int = Field(default=..., description="The variant reviews of the product.")
     updated_at: datetime = Field(default=..., description="The date the product was last updated.")
-    subcategory_ranks: SubcategoryRanks = Field(default=..., description="The subcategory ranks of the product.")
-    fee_breakdown: FeeBreakdown = Field(default=..., description="The fee breakdown of the product.")
+    subcategory_ranks: ProductDatabaseSubcategoryRanks = Field(
+        default=..., description="The subcategory ranks of the product."
+    )
+    fee_breakdown: ProductDatabaseFeeBreakdown = Field(default=..., description="The fee breakdown of the product.")
 
 
 class ProductDatabase(BaseModel):
