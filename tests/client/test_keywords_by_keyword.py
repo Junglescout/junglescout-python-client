@@ -5,7 +5,7 @@ import requests_mock
 
 from jungle_scout.client import Client
 from jungle_scout.models.parameters import Marketplace, Sort
-from jungle_scout.models.responses.keyword_by_keyword import KeywordByKeyword
+from jungle_scout.models.responses import KeywordByKeyword, APIResponse
 from tests.factories.keywords_by_keyword_factory import (
     generate_keywords_by_keyword_responses,
 )
@@ -50,12 +50,13 @@ def test_keywords_by_keywords(client, search_terms, fake_response):
     }
 
     assert len(result.data) == len(fake_response["data"])
-    assert isinstance(result, KeywordByKeyword)
-    assert result.data[0]["type"] == fake_response["data"][0]["type"]
-    assert result.data[0]["id"] == fake_response["data"][0]["id"]
-    assert result.links == fake_response["links"]
+    assert isinstance(result, APIResponse)
+    assert isinstance(result.data[0], KeywordByKeyword)
+    assert result.data[0].type == fake_response["data"][0]["type"]
+    assert result.data[0].id == fake_response["data"][0]["id"]
+    assert result.links.model_dump() == fake_response["links"]
     assert result.meta == fake_response["meta"]
-    assert result.data[0]["attributes"] == fake_response["data"][0]["attributes"]
+    assert result.data[0].attributes.model_dump() == fake_response["data"][0]["attributes"]
 
 
 @pytest.mark.parametrize(
@@ -100,4 +101,4 @@ def test_keywords_by_keywords_headers(client, search_terms, sort_options, fake_r
     }
 
     assert len(result.data) == len(fake_response["data"])
-    assert isinstance(result, KeywordByKeyword)
+    assert isinstance(result, APIResponse)

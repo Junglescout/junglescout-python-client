@@ -13,13 +13,13 @@ class AttributesFactory(factory.DictFactory):
     monthly_search_volume_broad = fake.random_int(min=0, max=100)
     dominant_category = fake.name()
     recommended_promotions = fake.name()
-    sp_brand_ad_bid = fake.name()
-    ppc_bid_broad = fake.name()
-    ppc_bid_exact = fake.name()
-    ease_of_ranking_score = fake.name()
-    relevancy_score = fake.name()
-    organic_product_count = fake.name()
-    sponsored_product_count = fake.name()
+    sp_brand_ad_bid = fake.random_int()
+    ppc_bid_broad = fake.random_int()
+    ppc_bid_exact = fake.random_int()
+    ease_of_ranking_score = fake.random_int()
+    relevancy_score = fake.random_int()
+    organic_product_count = fake.random_int()
+    sponsored_product_count = fake.random_int()
 
 
 class LinksFactory(factory.DictFactory):
@@ -29,7 +29,6 @@ class LinksFactory(factory.DictFactory):
 
 class KeywordsByKeywordResponseFactory(factory.DictFactory):
     total_items = factory.Faker("pyint")
-
     data = factory.LazyAttribute(
         lambda o: [
             {

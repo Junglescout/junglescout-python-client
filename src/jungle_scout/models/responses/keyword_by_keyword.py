@@ -24,8 +24,6 @@ class KeywordByKeywordAttributes(BaseModel):
 class KeywordByKeyword(BaseModel):
     """Represents a response object containing keyword data."""
 
-    links: str = Field(default=..., description="The links for the response.")
-    meta: str = Field(default=..., description="The metadata for the response.")
     id: str = Field(default=..., description="The ID of the keyword.")
     type: str = Field(default=..., description="The type of the keyword.")
     attributes: KeywordByKeywordAttributes = Field(default=..., description="Attributes for the response.")
