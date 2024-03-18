@@ -8,8 +8,8 @@ def test_keyword_by_asin():
     response_obj = KeywordByASIN.model_validate_json(
         json.dumps(
             {
-                "links": "links",
-                "meta": "meta",
+                "id": "foo",
+                "type": "foo",
                 "attributes": {
                     "country": "foo",
                     "name": "foo",

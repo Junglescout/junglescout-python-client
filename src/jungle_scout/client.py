@@ -89,7 +89,7 @@ class Client:
         marketplace: Optional[Marketplace] = None,
         page_size: Optional[int] = None,
         page: Optional[str] = None,
-    ) -> APIResponse[KeywordByASIN]:
+    ) -> APIResponse[List[KeywordByASIN]]:
         """Get keywords by ASIN.
 
         Args:
@@ -123,7 +123,7 @@ class Client:
 
         response = self.session.request(keyword_by_asin_request.method.value, url, data=payload)
         if response.ok:
-            return APIResponse[KeywordByASIN].model_validate(response.json())
+            return APIResponse[List[KeywordByASIN]].model_validate(response.json())
         self._raise_for_status(response)
 
     def keywords_by_keyword(
@@ -183,7 +183,7 @@ class Client:
         end_date: str,
         sort_option: Optional[Sort] = None,
         marketplace: Optional[Marketplace] = None,
-    ) -> APIResponse[SalesEstimates]:
+    ) -> APIResponse[List[SalesEstimates]]:
         """Retrieves sales estimates for a given ASIN within a specified date range.
 
         Args:
@@ -215,7 +215,7 @@ class Client:
         response = self.session.request(sales_estimates_request.method.value, url)
 
         if response.ok:
-            return APIResponse[SalesEstimates].model_validate(response.json())
+            return APIResponse[List[SalesEstimates]].model_validate(response.json())
         self._raise_for_status(response)
 
     def historical_search_volume(
