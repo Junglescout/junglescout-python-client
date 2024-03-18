@@ -1,7 +1,7 @@
 [tool.poetry]
 package-mode = true
 name = "junglescout"
-version = "2.0.0"
+version = "0.1.0"
 license = "MIT"
 authors = ["Jungle Scout <support@junglescout.com>"]
 description = "Jungle Scout API Client"
@@ -115,10 +115,11 @@ convention = "google"
 "src/junglescout/models/requests/*.py" = ["D101", "D102"]
 
 [tool.semantic_release]
-major_on_zero = true
+major_on_zero = false
 build_command = "poetry build"
-version_variable = [
-    "src/junglescout/__init__.py:__version__"
+version_variables = [
+    "src/junglescout/__init__.py:__version__",
+    "docs/conf.py:release",
 ]
 version_toml = [
     "pyproject.toml:tool.poetry.version"
@@ -127,10 +128,6 @@ version_toml = [
 [tool.semantic_release.branches.main]
 match = "main"
 prerelease = false
-
-[tool.semantic_release.changelog]
-changelog_file = "CHANGELOG.md"
-exclude_commit_patterns = []
 
 [tool.semantic_release.commit_parser_options]
 allowed_tags = ["build", "chore", "ci", "docs", "feat", "fix", "perf", "style", "refactor", "test"]
