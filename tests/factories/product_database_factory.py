@@ -49,6 +49,11 @@ class AttributesFactory(factory.DictFactory):
     )
 
 
+class LinksFactory(factory.DictFactory):
+    self = fake.uri()
+    next = fake.uri()
+
+
 class ProductDatabaseResponseFactory(factory.DictFactory):
     total_items = factory.Faker("pyint")
 
@@ -62,7 +67,7 @@ class ProductDatabaseResponseFactory(factory.DictFactory):
             for _ in range(o.total_items)
         ]
     )
-    links = factory.Dict({"self": fake.uri(), "next": fake.uri()})
+    links = factory.LazyAttribute(lambda _: LinksFactory())
     meta = factory.LazyAttribute(lambda o: {"total_items": o.total_items})
 
 

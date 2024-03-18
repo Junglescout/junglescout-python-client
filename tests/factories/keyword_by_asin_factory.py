@@ -35,6 +35,11 @@ class AttributesFactory(factory.DictFactory):
     variation_lowest_organic_rank = fake.name()
 
 
+class LinksFactory(factory.DictFactory):
+    self = fake.uri()
+    next = fake.uri()
+
+
 class KeywordsByAsinResponseFactory(factory.DictFactory):
     total_items = factory.Faker("pyint")
 
@@ -48,9 +53,9 @@ class KeywordsByAsinResponseFactory(factory.DictFactory):
             for _ in range(o.total_items)
         ]
     )
-    links = factory.Dict({"self": fake.uri(), "next": fake.uri()})
+    links = factory.LazyAttribute(lambda _: LinksFactory())
     meta = factory.LazyAttribute(lambda o: {"total_items": o.total_items})
 
 
-def generate_keywords_by_asin_responses(total_items: int = 1):
+def generate_keywords_by_asin_responses(total_items: int = 1) -> dict:
     return KeywordsByAsinResponseFactory(total_items=total_items)

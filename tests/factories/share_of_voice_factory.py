@@ -10,7 +10,7 @@ class AttributesFactory(factory.DictFactory):
     product_count = factory.LazyAttribute(lambda _: fake.random_int(min=1, max=100))
     updated_at = factory.LazyAttribute(lambda _: fake.date_time_this_year().isoformat())
     brands = factory.LazyAttribute(
-        lambda: [
+        lambda _: [
             {
                 "brand": fake.company(),
                 "combined_products": fake.random_int(min=1, max=100),
@@ -29,11 +29,11 @@ class AttributesFactory(factory.DictFactory):
                 "sponsored_average_position": fake.random_int(min=1, max=100),
                 "sponsored_average_price": fake.random_int(min=1, max=100),
             }
-            for _ in range(4)
+            for _each in range(4)
         ]
     )
     top_asins = factory.LazyAttribute(
-        lambda: [
+        lambda _: [
             {
                 "asin": fake.bothify(text="us/B0####???"),
                 "name": fake.name(),
@@ -42,11 +42,11 @@ class AttributesFactory(factory.DictFactory):
                 "conversions": fake.random_int(min=1, max=100),
                 "conversion_rate": fake.random_int(min=1, max=100),
             }
-            for _ in range(5)
+            for _each in range(5)
         ]
     )
-    top_asins_model_start_date = factory.LazyAttribute(lambda: fake.date_time_this_year().isoformat())
-    top_asins_model_end_date = factory.LazyAttribute(lambda: fake.date_time_this_year().isoformat())
+    top_asins_model_start_date = factory.LazyAttribute(lambda _: fake.date_time_this_year().isoformat())
+    top_asins_model_end_date = factory.LazyAttribute(lambda _: fake.date_time_this_year().isoformat())
 
 
 class ShareOfVoiceResponseFactory(factory.DictFactory):

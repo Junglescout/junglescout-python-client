@@ -22,6 +22,11 @@ class AttributesFactory(factory.DictFactory):
     sponsored_product_count = fake.name()
 
 
+class LinksFactory(factory.DictFactory):
+    self = fake.uri()
+    next = fake.uri()
+
+
 class KeywordsByKeywordResponseFactory(factory.DictFactory):
     total_items = factory.Faker("pyint")
 
@@ -35,7 +40,7 @@ class KeywordsByKeywordResponseFactory(factory.DictFactory):
             for _ in range(o.total_items)
         ]
     )
-    links = factory.Dict({"self": fake.uri(), "next": fake.uri()})
+    links = factory.LazyAttribute(lambda _: LinksFactory())
     meta = factory.LazyAttribute(lambda o: {"total_items": o.total_items})
 
 

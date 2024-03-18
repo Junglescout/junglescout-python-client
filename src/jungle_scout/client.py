@@ -122,7 +122,7 @@ class Client:
 
         response = self.session.request(keyword_by_asin_request.method.value, url, data=payload)
         if response.ok:
-            return KeywordByASIN(response.json())
+            return KeywordByASIN.model_validate_json(response.json())
         self._raise_for_status(response)
 
     def keywords_by_keyword(
@@ -172,7 +172,7 @@ class Client:
         response = self.session.request(keywords_by_keyword_request.method.value, url, data=payload)
 
         if response.ok:
-            return KeywordByKeyword(response.json())
+            return KeywordByKeyword.model_validate_json(response.json())
         self._raise_for_status(response)
 
     def sales_estimates(
@@ -214,7 +214,7 @@ class Client:
         response = self.session.request(sales_estimates_request.method.value, url)
 
         if response.ok:
-            return SalesEstimates(response.json())
+            return SalesEstimates.model_validate_json(response.json())
         self._raise_for_status(response)
 
     def historical_search_volume(
@@ -258,7 +258,7 @@ class Client:
         response = self.session.request(historical_search_volume_request.method.value, url)
 
         if response.ok:
-            return HistoricalSearchVolume(response.json())
+            return HistoricalSearchVolume.model_validate_json(response.json())
         self._raise_for_status(response)
 
     def share_of_voice(
@@ -289,7 +289,7 @@ class Client:
         response = self.session.request(share_of_voice_request.method.value, url)
 
         if response.ok:
-            return ShareOfVoice(response.json()["data"])
+            return ShareOfVoice.model_validate_json(response.json()["data"])
         self._raise_for_status(response)
 
     def product_database(
@@ -360,7 +360,7 @@ class Client:
         response = self.session.request(product_database_request.method.value, url, data=payload)
 
         if response.ok:
-            return ProductDatabase(response.json())
+            return ProductDatabase.model_validate_json(response.json())
         self._raise_for_status(response)
 
     def _resolve_marketplace(self, provided_marketplace: Optional[Marketplace] = None) -> Marketplace:

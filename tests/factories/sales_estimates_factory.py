@@ -12,13 +12,13 @@ class AttributesFactory(factory.DictFactory):
     parent_asin = fake.bothify(text="B0####???")
     variants = fake.random_int(min=0, max=100)
     data = factory.LazyAttribute(
-        lambda: [
+        lambda _: [
             {
                 "date": fake.date_this_year().isoformat(),
                 "estimated_units_sold": fake.random_int(min=0, max=100),
                 "last_known_price": fake.random_int(min=0, max=100),
             }
-            for _ in range(3)
+            for _each in range(3)
         ]
     )
 
@@ -31,7 +31,7 @@ class SalesEstimatesResponseFactory(factory.DictFactory):
                 "id": fake.bothify(text="us/B0####???"),
                 "attributes": AttributesFactory(),
             }
-            for _ in range(o.total_items)
+            for _each in range(o.total_items)
         ]
     )
 
