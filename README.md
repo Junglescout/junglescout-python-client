@@ -22,8 +22,8 @@ This client is designed to be simple and easy to use. Here's a quick example of 
 keywords by ASIN:
 
 ```python
-from jungle_scout.client import Client
-from jungle_scout.models.parameters import Marketplace, ApiType, FilterOptions, Sort
+from junglescout.client import Client
+from junglescout.models.parameters import Marketplace, ApiType, FilterOptions, Sort
 
 API_KEY_NAME = "api_key_name"
 API_KEY = "api_key"

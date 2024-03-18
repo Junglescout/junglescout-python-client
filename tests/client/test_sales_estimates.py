@@ -3,9 +3,9 @@ import os
 import pytest
 import requests_mock
 
-from jungle_scout.client import Client
-from jungle_scout.models.parameters import Marketplace
-from jungle_scout.models.responses import APIResponse, SalesEstimates
+from junglescout.client import Client
+from junglescout.models.parameters import Marketplace
+from junglescout.models.responses import APIResponse, SalesEstimates
 from tests.factories.sales_estimates_factory import generate_sales_estimates_responses
 
 

@@ -1,7 +1,7 @@
 from pydantic import ValidationError
 
-from jungle_scout.models.parameters import FilterOptions, Marketplace, Sort
-from jungle_scout.models.requests.keyword_by_asin_request import (
+from junglescout.models.parameters import FilterOptions, Marketplace, Sort
+from junglescout.models.requests.keyword_by_asin_request import (
     KeywordByAsinAttributes,
     KeywordByAsinParams,
 )

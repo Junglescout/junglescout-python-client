@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 
-from jungle_scout.models.responses.keyword_by_asin import KeywordByASIN
+from junglescout.models.responses.keyword_by_asin import KeywordByASIN
 
 
 def test_keyword_by_asin():

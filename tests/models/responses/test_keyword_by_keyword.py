@@ -1,6 +1,6 @@
 import json
 
-from jungle_scout.models.responses.keyword_by_keyword import KeywordByKeyword
+from junglescout.models.responses.keyword_by_keyword import KeywordByKeyword
 
 
 def test_keyword_by_keyword():

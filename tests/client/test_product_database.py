@@ -4,15 +4,15 @@ from datetime import datetime
 import pytest
 import requests_mock
 
-from jungle_scout.client import Client
-from jungle_scout.models.parameters import (
+from junglescout.client import Client
+from junglescout.models.parameters import (
     Marketplace,
     ProductFilterOptions,
     ProductSort,
     ProductTiers,
     SellerTypes,
 )
-from jungle_scout.models.responses import APIResponse, ProductDatabase
+from junglescout.models.responses import APIResponse, ProductDatabase
 from tests.factories.product_database_factory import generate_product_database_responses
 
 

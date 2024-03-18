@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 
-from jungle_scout.models.responses.sales_estimates import SalesEstimates
+from junglescout.models.responses.sales_estimates import SalesEstimates
 
 
 def test_sales_estimates():

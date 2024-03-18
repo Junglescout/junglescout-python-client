@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 
-from jungle_scout.models.responses.share_of_voice import ShareOfVoice
+from junglescout.models.responses.share_of_voice import ShareOfVoice
 
 
 def test_share_of_voice():

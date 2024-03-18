@@ -2,7 +2,7 @@ from typing import List, NoReturn, Optional, Union
 
 import requests
 
-from jungle_scout.models.parameters import (
+from junglescout.models.parameters import (
     ApiType,
     FilterOptions,
     Marketplace,
@@ -12,37 +12,37 @@ from jungle_scout.models.parameters import (
     SellerTypes,
     Sort,
 )
-from jungle_scout.models.requests.historical_search_volume_request import (
+from junglescout.models.requests.historical_search_volume_request import (
     HistoricalSearchVolumeAttributes,
     HistoricalSearchVolumeParams,
     HistoricalSearchVolumeRequest,
 )
-from jungle_scout.models.requests.keyword_by_asin_request import (
+from junglescout.models.requests.keyword_by_asin_request import (
     KeywordByAsinAttributes,
     KeywordByAsinParams,
     KeywordByAsinRequest,
 )
-from jungle_scout.models.requests.keywords_by_keyword_request import (
+from junglescout.models.requests.keywords_by_keyword_request import (
     KeywordsByKeywordAttributes,
     KeywordsByKeywordParams,
     KeywordsByKeywordRequest,
 )
-from jungle_scout.models.requests.product_database_request import (
+from junglescout.models.requests.product_database_request import (
     ProductDatabaseAttributes,
     ProductDatabaseParams,
     ProductDatabaseRequest,
 )
-from jungle_scout.models.requests.sales_estimates_request import (
+from junglescout.models.requests.sales_estimates_request import (
     SalesEstimatesAttributes,
     SalesEstimatesParams,
     SalesEstimatesRequest,
 )
-from jungle_scout.models.requests.share_of_voice_request import (
+from junglescout.models.requests.share_of_voice_request import (
     ShareOfVoiceAttributes,
     ShareOfVoiceParams,
     ShareOfVoiceRequest,
 )
-from jungle_scout.models.responses import (
+from junglescout.models.responses import (
     APIResponse,
     HistoricalSearchVolume,
     KeywordByASIN,
@@ -51,7 +51,7 @@ from jungle_scout.models.responses import (
     SalesEstimates,
     ShareOfVoice,
 )
-from jungle_scout.session import Session
+from junglescout.session import Session
 
 
 class Client:

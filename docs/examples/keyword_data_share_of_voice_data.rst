@@ -21,8 +21,8 @@ First, set up your API key and API Key Name and instantiate the client
 
 .. code-block:: python
 
-    from jungle_scout.client import Client
-    from jungle_scout.models.parameters import (
+    from junglescout.client import Client
+    from junglescout.models.parameters import (
         Marketplace,
     )
 
