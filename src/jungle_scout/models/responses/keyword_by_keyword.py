@@ -28,3 +28,4 @@ class KeywordByKeyword(BaseModel):
     meta: str = Field(default=..., description="The metadata for the response.")
     id: str = Field(default=..., description="The ID of the keyword.")
     type: str = Field(default=..., description="The type of the keyword.")
+    attributes: KeywordByKeywordAttributes = Field(default=..., description="Attributes for the response.")
