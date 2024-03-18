@@ -19,12 +19,12 @@ def test_sales_estimates():
                     "variants": "foo",
                     "data": [
                         {
-                            "date": datetime(year=2024, month=10, day=5).strftime("%Y-%m-%d"),
+                            "date": "2024-11-05",
                             "estimated_units_sold": 5,
                             "last_known_price": 5.0,
                         },
                         {
-                            "date": datetime(year=2024, month=10, day=5).strftime("%Y-%m-%d"),
+                            "date": "2024-11-05",
                             "estimated_units_sold": 5,
                             "last_known_price": 5.0,
                         },
@@ -34,5 +34,6 @@ def test_sales_estimates():
         )
     )
     assert isinstance(response_obj, SalesEstimates)
-    assert len(response_obj.attributes.data) == 2
+    count_of_data_objects = 2
+    assert len(response_obj.attributes.data) == count_of_data_objects
     assert isinstance(response_obj.attributes.data[0].date, datetime)

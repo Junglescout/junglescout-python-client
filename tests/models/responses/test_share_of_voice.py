@@ -13,7 +13,7 @@ def test_share_of_voice():
                     "estimated_30_day_search_volume": 1,
                     "exact_suggested_bid_median": 1.0,
                     "product_count": 1,
-                    "updated_at": datetime(year=2023, month=10, day=5).strftime("%Y-%m-%d"),
+                    "updated_at": "2024-11-05",
                     "brands": [
                         {
                             "brand": "foo",
@@ -44,8 +44,8 @@ def test_share_of_voice():
                             "conversion_rate": 1.0,
                         },
                     ],
-                    "top_asins_model_start_date": datetime(year=2023, month=10, day=5).strftime("%Y-%m-%d"),
-                    "top_asins_model_end_date": datetime(year=2023, month=11, day=5).strftime("%Y-%m-%d"),
+                    "top_asins_model_start_date": "2024-11-05",
+                    "top_asins_model_end_date": "2024-11-05",
                 },
             }
         )

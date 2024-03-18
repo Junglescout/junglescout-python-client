@@ -11,8 +11,8 @@ def test_historical_search_volume():
                 "id": "123",
                 "type": "foo",
                 "attributes": {
-                    "estimate_start_date": datetime(year=2024, month=10, day=5).strftime("%Y-%m-%d"),
-                    "estimate_end_date": datetime(year=2024, month=11, day=5).strftime("%Y-%m-%d"),
+                    "estimate_start_date": "2024-11-05",
+                    "estimate_end_date": "2024-12-05",
                     "estimated_exact_search_volume": 5,
                 },
             }

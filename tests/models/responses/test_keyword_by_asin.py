@@ -27,7 +27,7 @@ def test_keyword_by_asin():
                     "relevancy_score": 1,
                     "organic_product_count": 1,
                     "sponsored_product_count": 1,
-                    "updated_at": datetime(year=2023, month=10, day=5).strftime("%Y-%m-%d"),
+                    "updated_at": "2024-11-05",
                     "organic_rank": 1,
                     "sponsored_rank": 1,
                     "overall_rank": 1,
