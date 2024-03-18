@@ -35,7 +35,7 @@ class SalesEstimatesParams(Params):
         valid_date_length = 10
         assert len(date) == valid_date_length, "Date must be in the format YYYY-MM-DD"
         try:
-            datetime.strptime(date, "%Y-%m-%d")
+            datetime.strptime(date, "%Y-%m-%d")  # noqa: DTZ007
         except ValueError as exc:
             msg = "Incorrect data format, should be YYYY-MM-DD"
             raise ValueError(msg) from exc
@@ -55,8 +55,8 @@ class SalesEstimatesRequest(BaseRequest[SalesEstimatesParams, SalesEstimatesAttr
     def method(self) -> Method:
         return Method.GET
 
-    def build_params(self, params: SalesEstimatesParams) -> Dict:
+    def build_params(self, params: SalesEstimatesParams) -> Dict:  # noqa: PLR6301
         return params.model_dump(by_alias=True, exclude_none=True)
 
-    def build_payload(self, attributes: SalesEstimatesAttributes) -> None:
+    def build_payload(self, attributes: SalesEstimatesAttributes) -> None:  # noqa: PLR6301,ARG002
         return None
