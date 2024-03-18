@@ -1,56 +1,35 @@
-from jungle_scout.models.responses.base_response import BaseResponse
+from pydantic import BaseModel, Field
+from typing import List
+from datetime import datetime
 
 
-class SalesEstimateData(BaseResponse):
+class SalesEstimateData(BaseModel):
     """Represents sales estimates data."""
 
-    def _update_attributes(self, json_data):
-        sales_estimate_data_list = []
-
-        for data in json_data["data"]:
-            sales_estimate_data_list.append(
-                {
-                    "date": data["date"],
-                    "estimated_units_sold": data["estimated_units_sold"],
-                    "last_known_price": data["last_known_price"],
-                }
-            )
-        return sales_estimate_data_list
+    date: datetime = Field(default=..., description="The date of the sales estimate.")
+    estimated_units_sold: int = Field(default=..., description="The estimated units sold.")
+    last_known_price: float = Field(default=..., description="The last known price.")
 
 
-class SalesEstimates(BaseResponse):
-    """Represents a list of sales estimates.
+class SalesEstimateAttributes(BaseModel):
+    """The attributes of the sales estimate."""
 
-    Attributes:
-        - id: The ID of the sales estimate.
-        - type: The type of the sales estimate.
-        - attributes: The attributes of the sales estimate, including:
-            - asin: The ASIN (Amazon Standard Identification Number) associated with the sales estimate.
-            - is_parent: A boolean indicating whether the ASIN is a parent ASIN.
-            - is_variant: A boolean indicating whether the ASIN is a variant.
-            - is_standalone: A boolean indicating whether the ASIN is a standalone product.
-            - parent_asin: The parent ASIN associated with the sales estimate.
-            - variants: The variants associated with the sales estimate.
-            - data: The sales estimate data.
-    """
+    asin: str = Field(
+        default=..., description="The ASIN (Amazon Standard Identification Number) associated with the sales estimate."
+    )
+    is_parent: bool = Field(default=..., description="A boolean indicating whether the ASIN is a parent ASIN.")
+    is_variant: bool = Field(default=..., description="A boolean indicating whether the ASIN is a variant.")
+    is_standalone: bool = Field(
+        default=..., description="A boolean indicating whether the ASIN is a standalone product."
+    )
+    parent_asin: str = Field(default=..., description="The parent ASIN associated with the sales estimate.")
+    variants: str = Field(default=..., description="The variants associated with the sales estimate.")
+    data: List[SalesEstimateData] = Field(default=..., description="The sales estimate data.")
 
-    def _update_attributes(self, json_data):
-        sales_estimate_list = []
 
-        for data in json_data["data"]:
-            sales_estimate_list.append(
-                {
-                    "id": data["id"],
-                    "type": data["type"],
-                    "attributes": {
-                        "asin": data["attributes"]["asin"],
-                        "is_parent": data["attributes"]["is_parent"],
-                        "is_variant": data["attributes"]["is_variant"],
-                        "is_standalone": data["attributes"]["is_standalone"],
-                        "parent_asin": data["attributes"]["parent_asin"],
-                        "variants": data["attributes"]["variants"],
-                        "data": SalesEstimateData(data["attributes"]).data,
-                    },
-                }
-            )
-        return sales_estimate_list
+class SalesEstimates(BaseModel):
+    """Represents a list of sales estimates."""
+
+    id: str = Field(default=..., description="The ID of the sales estimate.")
+    type: str = Field(default=..., description="The type of the sales estimate.")
+    attributes: SalesEstimateAttributes = Field(default=..., description="The attributes of the sales estimate.")
