@@ -1,6 +1,8 @@
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_serializer
+
+from .serializer_helpers import serialize_datetime
 
 
 class KeywordAttributes(BaseModel):
@@ -43,10 +45,14 @@ class KeywordAttributes(BaseModel):
         default=..., description="The variation lowest organic rank of the keyword."
     )
 
+    @field_serializer("updated_at")
+    def serialize_updated_at(self, v: datetime):
+        return serialize_datetime(v)
+
 
 class KeywordByASIN(BaseModel):
     """represents a response object containing keyword data for a specific asin."""
 
-    links: str = Field(default=..., description="The links for the response.")
-    meta: str = Field(default=..., description="The metadata for the response.")
+    id: str = Field(default=..., description="The ID of the keyword.")
+    type: str = Field(default=..., description="The type of the keyword.")
     attributes: KeywordAttributes = Field(default=..., description="The attributes for the keyword.")

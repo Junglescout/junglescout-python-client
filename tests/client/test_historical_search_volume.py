@@ -1,8 +1,8 @@
+import json
 import os
 
 import pytest
 import requests_mock
-import json
 
 from jungle_scout.client import Client
 from jungle_scout.models.parameters import Marketplace, Sort

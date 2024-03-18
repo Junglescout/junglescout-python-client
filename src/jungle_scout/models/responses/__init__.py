@@ -2,6 +2,7 @@
 
 __all__ = [
     "APIResponse",
+    "APIResponseLink",
     "HistoricalSearchVolume",
     "HistoricalSearchVolumeAttributes",
     "KeywordByASIN",
@@ -22,7 +23,7 @@ __all__ = [
 ]
 
 
-from .api_response import APIResponse
+from .api_response import APIResponse, APIResponseLink
 from .historical_search_volume import (
     HistoricalSearchVolume,
     HistoricalSearchVolumeAttributes,

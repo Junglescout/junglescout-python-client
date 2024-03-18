@@ -14,25 +14,25 @@ class AttributesFactory(factory.DictFactory):
     monthly_search_volume_broad = fake.random_int(min=0, max=100)
     dominant_category = fake.name()
     recommended_promotions = fake.name()
-    sp_brand_ad_bid = fake.name()
-    ppc_bid_broad = fake.name()
-    ppc_bid_exact = fake.name()
-    ease_of_ranking_score = fake.name()
-    relevancy_score = fake.name()
-    organic_product_count = fake.name()
-    sponsored_product_count = fake.name()
+    sp_brand_ad_bid = fake.random_int()
+    ppc_bid_broad = fake.random_int()
+    ppc_bid_exact = fake.random_int()
+    ease_of_ranking_score = fake.random_int()
+    relevancy_score = fake.random_int()
+    organic_product_count = fake.random_int()
+    sponsored_product_count = fake.random_int()
     updated_at = fake.date_time_this_year().isoformat()
-    organic_rank = fake.name()
-    sponsored_rank = fake.name()
-    overall_rank = fake.name()
-    organic_ranking_asins_count = fake.name()
-    sponsored_ranking_asins_count = fake.name()
-    avg_competitor_organic_rank = fake.name()
-    avg_competitor_sponsored_rank = fake.name()
-    relative_organic_position = fake.name()
-    relative_sponsored_position = fake.name()
-    competitor_organic_rank = fake.name()
-    variation_lowest_organic_rank = fake.name()
+    organic_rank = fake.random_int()
+    sponsored_rank = fake.random_int()
+    overall_rank = fake.random_int()
+    organic_ranking_asins_count = fake.random_int()
+    sponsored_ranking_asins_count = fake.random_int()
+    avg_competitor_organic_rank = fake.random_int()
+    avg_competitor_sponsored_rank = fake.random_int()
+    relative_organic_position = fake.random_int()
+    relative_sponsored_position = fake.random_int()
+    competitor_organic_rank = fake.random_int()
+    variation_lowest_organic_rank = fake.random_int()
 
 
 class LinksFactory(factory.DictFactory):
@@ -42,7 +42,6 @@ class LinksFactory(factory.DictFactory):
 
 class KeywordsByAsinResponseFactory(factory.DictFactory):
     total_items = factory.Faker("pyint")
-
     data = factory.LazyAttribute(
         lambda o: [
             {
