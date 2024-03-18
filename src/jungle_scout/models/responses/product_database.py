@@ -20,7 +20,7 @@ class FeeBreakdown(BaseModel):
 
 
 class ProductDatabaseAttributes(BaseModel):
-    """Product database attributes"""
+    """Product database attributes."""
 
     title: str = Field(default=..., description="The title of the product.")
     price: int = Field(default=..., description="The price of the product.")
