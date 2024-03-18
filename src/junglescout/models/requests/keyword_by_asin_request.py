@@ -3,9 +3,9 @@ from typing import Any, Dict, List, Union
 
 from pydantic import computed_field, field_validator, model_serializer
 
-from jungle_scout.models.parameters import Attributes, Params
-from jungle_scout.models.requests import Method, RequestType
-from jungle_scout.models.requests.base_request import BaseRequest
+from junglescout.models.parameters import Attributes, Params
+from junglescout.models.requests import Method, RequestType
+from junglescout.models.requests.base_request import BaseRequest
 
 
 class KeywordByAsinParams(Params):

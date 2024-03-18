@@ -3,7 +3,7 @@ from typing import Dict, Optional
 
 import requests
 
-from jungle_scout.models.parameters import ApiType
+from junglescout.models.parameters import ApiType
 
 
 class Session(requests.Session):

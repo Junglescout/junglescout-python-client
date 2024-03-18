@@ -12,19 +12,19 @@ generate an API key by visiting the ...
     See the :js_api_docs:`Authentication <api#authentication>` section of the Jungle Scout API documentation
     for more information about authenticating with the API.
 
-See :class:`jungle_scout.client.Client` for more information about authenticating with the Jungle Scout API.
+See :class:`junglescout.client.Client` for more information about authenticating with the Jungle Scout API.
 
 Making Your First Request
 =========================
 
-All requests to the Jungle Scout API are made using the :class:`jungle_scout.client.Client` class. This class
+All requests to the Jungle Scout API are made using the :class:`junglescout.client.Client` class. This class
 provides a simple interface for making requests to the Jungle Scout API. The following example demonstrates how to
 make a request to the Jungle Scout API using the Python client.
 
 .. code-block:: python
 
-    from jungle_scout.client import Client
-    from jungle_scout.models.parameters import (
+    from junglescout.client import Client
+    from junglescout.models.parameters import (
         Marketplace,
     )
 
@@ -37,7 +37,7 @@ make a request to the Jungle Scout API using the Python client.
         asin=["B0CP9Z56SW", "B0154ASID6"],
     )
 
-See the :class:`jungle_scout.client.Client` class for more information about making requests to the Jungle Scout API.
+See the :class:`junglescout.client.Client` class for more information about making requests to the Jungle Scout API.
 
 Analyzing the Response
 ======================

@@ -4,9 +4,9 @@ from datetime import datetime
 import pytest
 import requests_mock
 
-from jungle_scout.client import Client
-from jungle_scout.models.parameters import Marketplace
-from jungle_scout.models.responses import APIResponse, KeywordByASIN
+from junglescout.client import Client
+from junglescout.models.parameters import Marketplace
+from junglescout.models.responses import APIResponse, KeywordByASIN
 from tests.factories.keyword_by_asin_factory import generate_keywords_by_asin_responses
 
 

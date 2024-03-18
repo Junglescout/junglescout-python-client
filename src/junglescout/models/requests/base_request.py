@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Generic, Optional, TypeVar
 
-from jungle_scout.models.parameters import Attributes, Params
-from jungle_scout.models.requests.method import Method
-from jungle_scout.models.requests.request_type import RequestType
+from junglescout.models.parameters import Attributes, Params
+from junglescout.models.requests.method import Method
+from junglescout.models.requests.request_type import RequestType
 
 ParamsType = TypeVar("ParamsType", bound=Params)
 AttributesType = TypeVar("AttributesType", bound=Attributes)

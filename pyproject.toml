@@ -1,6 +1,6 @@
 [tool.poetry]
 package-mode = true
-name = "jungle-scout"
+name = "junglescout"
 version = "1.0.0"
 license = "MIT"
 authors = ["Jungle Scout <support@junglescout.com>"]
@@ -112,13 +112,13 @@ convention = "google"
 "__init_.py" = ["E402", "F401"]
 "tests/*.py" = ["D"]
 "docs/*.py" = ["D"]
-"src/jungle_scout/models/requests/*.py" = ["D101", "D102"]
+"src/junglescout/models/requests/*.py" = ["D101", "D102"]
 
 [tool.semantic_release]
 major_on_zero = true
 build_command = "poetry build"
 version_variable = [
-    "src/jungle_scout/__init__.py:__version__"
+    "src/junglescout/__init__.py:__version__"
 ]
 version_toml = [
     "pyproject.toml:tool.poetry.version"

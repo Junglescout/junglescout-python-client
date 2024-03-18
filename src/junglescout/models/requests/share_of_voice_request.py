@@ -1,8 +1,8 @@
 from typing import Dict
 
-from jungle_scout.models.parameters import Attributes, Params
-from jungle_scout.models.requests import Method, RequestType
-from jungle_scout.models.requests.base_request import BaseRequest
+from junglescout.models.parameters import Attributes, Params
+from junglescout.models.requests import Method, RequestType
+from junglescout.models.requests.base_request import BaseRequest
 
 
 class ShareOfVoiceParams(Params):

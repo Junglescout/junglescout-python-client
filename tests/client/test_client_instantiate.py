@@ -2,8 +2,8 @@ import os
 
 import pytest
 
-from jungle_scout.client import Client
-from jungle_scout.models.parameters import Marketplace
+from junglescout.client import Client
+from junglescout.models.parameters import Marketplace
 
 
 @pytest.fixture()

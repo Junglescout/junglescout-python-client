@@ -3,8 +3,8 @@ import os
 import pytest
 import requests_mock
 
-from jungle_scout.client import Client
-from jungle_scout.models.parameters import Marketplace, Sort
+from junglescout.client import Client
+from junglescout.models.parameters import Marketplace, Sort
 from tests.factories.historical_search_volume_factory import (
     generate_historical_search_volume_responses,
 )

@@ -1,33 +1,26 @@
-import re
 from datetime import datetime
 from typing import Dict
 
 from pydantic import field_validator
 
-from jungle_scout.models.parameters import Attributes, Params
-from jungle_scout.models.requests import Method, RequestType
-from jungle_scout.models.requests.base_request import BaseRequest
+from junglescout.models.parameters import Attributes, Params
+from junglescout.models.requests import Method, RequestType
+from junglescout.models.requests.base_request import BaseRequest
 
 
-class SalesEstimatesParams(Params):
-    asin: str
+class HistoricalSearchVolumeParams(Params):
+    keyword: str
     start_date: str
     end_date: str
 
-    @field_validator("asin")
-    @classmethod
-    def validate_asin(cls, v: str) -> str:
-        assert bool(re.match(r"^(B[\dA-Z]{9}|\d{9}(X|\d))$", v))
-        return v
-
     @field_validator("start_date")
     @classmethod
-    def validate_start_date(cls, v: str) -> str:
+    def _validate_start_date(cls, v: str) -> str:
         return cls.__validate_date(v)
 
     @field_validator("end_date")
     @classmethod
-    def validate_end_date(cls, v: str) -> str:
+    def _validate_end_date(cls, v: str) -> str:
         return cls.__validate_date(v)
 
     @staticmethod
@@ -42,21 +35,21 @@ class SalesEstimatesParams(Params):
         return date
 
 
-class SalesEstimatesAttributes(Attributes):
+class HistoricalSearchVolumeAttributes(Attributes):
     pass
 
 
-class SalesEstimatesRequest(BaseRequest[SalesEstimatesParams, SalesEstimatesAttributes]):
+class HistoricalSearchVolumeRequest(BaseRequest[HistoricalSearchVolumeParams, HistoricalSearchVolumeAttributes]):
     @property
     def type(self) -> RequestType:
-        return RequestType.SALES_ESTIMATES
+        return RequestType.HISTORICAL_SEARCH_VOLUME
 
     @property
     def method(self) -> Method:
         return Method.GET
 
-    def build_params(self, params: SalesEstimatesParams) -> Dict:  # noqa: PLR6301
+    def build_params(self, params: HistoricalSearchVolumeParams) -> Dict:  # noqa: PLR6301
         return params.model_dump(by_alias=True, exclude_none=True)
 
-    def build_payload(self, attributes: SalesEstimatesAttributes) -> None:  # noqa: PLR6301,ARG002
+    def build_payload(self, attributes: HistoricalSearchVolumeAttributes):  # noqa: PLR6301,ARG002
         return None
