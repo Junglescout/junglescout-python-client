@@ -42,14 +42,15 @@ from jungle_scout.models.requests.share_of_voice_request import (
     ShareOfVoiceParams,
     ShareOfVoiceRequest,
 )
-from jungle_scout.models.responses.historical_search_volume import (
+from jungle_scout.models.responses import (
+    APIResponse,
     HistoricalSearchVolume,
+    KeywordByASIN,
+    KeywordByKeyword,
+    ProductDatabase,
+    SalesEstimates,
+    ShareOfVoice,
 )
-from jungle_scout.models.responses.keyword_by_asin import KeywordByASIN
-from jungle_scout.models.responses.keyword_by_keyword import KeywordByKeyword
-from jungle_scout.models.responses.product_database import ProductDatabase
-from jungle_scout.models.responses.sales_estimates import SalesEstimates
-from jungle_scout.models.responses.share_of_voice import ShareOfVoice
 from jungle_scout.session import Session
 
 
@@ -88,7 +89,7 @@ class Client:
         marketplace: Optional[Marketplace] = None,
         page_size: Optional[int] = None,
         page: Optional[str] = None,
-    ) -> KeywordByASIN:
+    ) -> APIResponse[KeywordByASIN]:
         """Get keywords by ASIN.
 
         Args:
@@ -102,7 +103,7 @@ class Client:
             page: The page to return.
 
         Returns:
-            KeywordByASIN: The response from the API.
+            The response from the API.
         """
         params = KeywordByAsinParams(
             marketplace=self._resolve_marketplace(marketplace), sort=sort_option, page=page, page_size=page_size
@@ -122,7 +123,7 @@ class Client:
 
         response = self.session.request(keyword_by_asin_request.method.value, url, data=payload)
         if response.ok:
-            return KeywordByASIN.model_validate_json(response.json())
+            return APIResponse[KeywordByASIN].model_validate(response.json())
         self._raise_for_status(response)
 
     def keywords_by_keyword(
@@ -134,7 +135,7 @@ class Client:
         marketplace: Optional[Marketplace] = None,
         page_size: Optional[int] = None,
         page: Optional[str] = None,
-    ) -> KeywordByKeyword:
+    ) -> APIResponse[KeywordByKeyword]:
         """Retrieves keyword data based on the provided search terms.
 
         Args:
@@ -148,7 +149,7 @@ class Client:
             page_size: The number of results to retrieve per page.
             page: The page token to retrieve a specific page of results. Used in pagination
         Returns:
-            KeywordByKeyword: An object containing the retrieved keyword data.
+            The response from the API.
 
         Raises:
             Exception: If the request to retrieve keyword data fails.
@@ -172,7 +173,7 @@ class Client:
         response = self.session.request(keywords_by_keyword_request.method.value, url, data=payload)
 
         if response.ok:
-            return KeywordByKeyword.model_validate_json(response.json())
+            return APIResponse[KeywordByKeyword].model_validate(response.json())
         self._raise_for_status(response)
 
     def sales_estimates(
@@ -182,7 +183,7 @@ class Client:
         end_date: str,
         sort_option: Optional[Sort] = None,
         marketplace: Optional[Marketplace] = None,
-    ) -> SalesEstimates:
+    ) -> APIResponse[SalesEstimates]:
         """Retrieves sales estimates for a given ASIN within a specified date range.
 
         Args:
@@ -194,7 +195,7 @@ class Client:
                 provided at the client level will be used.
 
         Returns:
-            SalesEstimates: An instance of the SalesEstimates class containing the sales estimate data.
+            The response from the API.
 
         Raises:
             Exception: If the API request fails or returns an error response.
@@ -214,7 +215,7 @@ class Client:
         response = self.session.request(sales_estimates_request.method.value, url)
 
         if response.ok:
-            return SalesEstimates.model_validate_json(response.json())
+            return APIResponse[SalesEstimates].model_validate(response.json())
         self._raise_for_status(response)
 
     def historical_search_volume(
@@ -224,7 +225,7 @@ class Client:
         end_date: str,
         sort_option: Optional[Sort] = None,
         marketplace: Optional[Marketplace] = None,
-    ) -> HistoricalSearchVolume:
+    ) -> APIResponse[HistoricalSearchVolume]:
         """Retrieves the historical search volume for a given keyword within a specified date range.
 
         Args:
@@ -236,7 +237,7 @@ class Client:
                 the default marketplace will be used.
 
         Returns:
-            HistoricalSearchVolume: An object representing the historical search volume data.
+            The response from the API.
 
         Raises:
             Exception: If the request to retrieve the historical search volume fails.
@@ -258,14 +259,14 @@ class Client:
         response = self.session.request(historical_search_volume_request.method.value, url)
 
         if response.ok:
-            return HistoricalSearchVolume.model_validate_json(response.json())
+            return APIResponse[HistoricalSearchVolume].model_validate(response.json())
         self._raise_for_status(response)
 
     def share_of_voice(
         self,
         keyword: str,
         marketplace: Optional[Marketplace] = None,
-    ) -> ShareOfVoice:
+    ) -> APIResponse[ShareOfVoice]:
         """Retrieves the share of voice for a given keyword in the specified marketplace.
 
         Args:
@@ -274,7 +275,7 @@ class Client:
                 If not provided, the default marketplace will be used.
 
         Returns:
-            ShareOfVoice: The share of voice data for the specified keyword.
+            The response from the API.
         """
         marketplace = self._resolve_marketplace(marketplace)
 
@@ -289,7 +290,7 @@ class Client:
         response = self.session.request(share_of_voice_request.method.value, url)
 
         if response.ok:
-            return ShareOfVoice.model_validate_json(response.json()["data"])
+            return APIResponse[ShareOfVoice].model_validate(response.json()["data"])
         self._raise_for_status(response)
 
     def product_database(
@@ -304,7 +305,7 @@ class Client:
         marketplace: Optional[Marketplace] = None,
         page_size: Optional[int] = 10,
         page: Optional[str] = None,
-    ) -> ProductDatabase:
+    ) -> APIResponse[ProductDatabase]:
         """Retrieves product data from the Jungle Scout Product Database.
 
         Args:
@@ -321,7 +322,7 @@ class Client:
             page: Page token for pagination.
 
         Returns:
-            ProductDatabase: An instance of the ProductDatabase class containing the retrieved product data.
+            The response from the API.
 
         Raises:
             Exception: If the request to the Jungle Scout API fails.
@@ -360,7 +361,7 @@ class Client:
         response = self.session.request(product_database_request.method.value, url, data=payload)
 
         if response.ok:
-            return ProductDatabase.model_validate_json(response.json())
+            return APIResponse[ProductDatabase].model_validate(response.json())
         self._raise_for_status(response)
 
     def _resolve_marketplace(self, provided_marketplace: Optional[Marketplace] = None) -> Marketplace:
@@ -371,7 +372,7 @@ class Client:
                 If not provided, the default marketplace will be used.
 
         Returns:
-            Marketplace: The resolved marketplace.
+            The resolved marketplace.
 
         Raises:
             AttributeError: If the resolved marketplace is not an instance of the Marketplace class.

@@ -1,6 +1,7 @@
 """Package for API response models."""
 
 __all__ = [
+    "APIResponse",
     "HistoricalSearchVolume",
     "HistoricalSearchVolumeAttributes",
     "KeywordByASIN",
@@ -21,6 +22,7 @@ __all__ = [
 ]
 
 
+from .api_response import APIResponse
 from .historical_search_volume import (
     HistoricalSearchVolume,
     HistoricalSearchVolumeAttributes,
