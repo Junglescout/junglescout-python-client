@@ -128,10 +128,6 @@ version_toml = [
 match = "main"
 prerelease = false
 
-[tool.semantic_release.changelog]
-changelog_file = "CHANGELOG.md"
-exclude_commit_patterns = []
-
 [tool.semantic_release.commit_parser_options]
 allowed_tags = ["build", "chore", "ci", "docs", "feat", "fix", "perf", "style", "refactor", "test"]
 minor_tags = ["feat"]
