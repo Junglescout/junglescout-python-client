@@ -41,7 +41,9 @@ class LinksFactory(factory.DictFactory):
 
 
 class KeywordsByAsinResponseFactory(factory.DictFactory):
-    total_items = factory.Faker("pyint")
+    class Params:
+        total_items = 1
+
     data = factory.LazyAttribute(
         lambda o: [
             {
@@ -56,5 +58,5 @@ class KeywordsByAsinResponseFactory(factory.DictFactory):
     meta = factory.LazyAttribute(lambda o: {"total_items": o.total_items})
 
 
-def generate_keywords_by_asin_responses(total_items: int = 1) -> dict:
+def generate_keywords_by_asin_responses(total_items: int = 1):
     return KeywordsByAsinResponseFactory(total_items=total_items)

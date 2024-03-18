@@ -66,7 +66,7 @@ def test_product_database(client, include_keywords, exclude_keywords, fake_respo
     assert result.data[0].type == fake_response["data"][0]["type"]
     assert result.data[0].id == fake_response["data"][0]["id"]
     assert result.links.model_dump() == fake_response["links"]
-    assert result.meta == fake_response["meta"]
+    assert result.meta.model_dump() == fake_response["meta"]
     assert result.data[0].attributes.seller_type == fake_response["data"][0]["attributes"]["seller_type"]
     assert (
         result.data[0].attributes.fee_breakdown.model_dump() == fake_response["data"][0]["attributes"]["fee_breakdown"]
@@ -156,7 +156,7 @@ def test_full_request_product_database(
     assert result.data[0].type == fake_response["data"][0]["type"]
     assert result.data[0].id == fake_response["data"][0]["id"]
     assert result.links.model_dump() == fake_response["links"]
-    assert result.meta == fake_response["meta"]
+    assert result.meta.model_dump() == fake_response["meta"]
     assert result.data[0].attributes.seller_type == fake_response["data"][0]["attributes"]["seller_type"]
     assert (
         result.data[0].attributes.fee_breakdown.model_dump() == fake_response["data"][0]["attributes"]["fee_breakdown"]

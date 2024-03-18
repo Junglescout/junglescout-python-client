@@ -28,7 +28,9 @@ class LinksFactory(factory.DictFactory):
 
 
 class KeywordsByKeywordResponseFactory(factory.DictFactory):
-    total_items = factory.Faker("pyint")
+    class Params:
+        total_items = 1
+
     data = factory.LazyAttribute(
         lambda o: [
             {

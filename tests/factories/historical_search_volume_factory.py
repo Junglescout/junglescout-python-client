@@ -11,6 +11,9 @@ class AttributesFactory(factory.DictFactory):
 
 
 class HistoricalSearchVolumeResponseFactory(factory.DictFactory):
+    class Params:
+        total_items = 1
+
     data = factory.LazyAttribute(
         lambda o: [
             {

@@ -55,7 +55,7 @@ def test_keywords_by_keywords(client, search_terms, fake_response):
     assert result.data[0].type == fake_response["data"][0]["type"]
     assert result.data[0].id == fake_response["data"][0]["id"]
     assert result.links.model_dump() == fake_response["links"]
-    assert result.meta == fake_response["meta"]
+    assert result.meta.model_dump() == fake_response["meta"]
     assert result.data[0].attributes.model_dump() == fake_response["data"][0]["attributes"]
 
 
