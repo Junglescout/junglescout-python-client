@@ -48,7 +48,7 @@ class KeywordsByKeywordRequest(BaseRequest[KeywordsByKeywordParams, KeywordsByKe
     def method(self) -> Method:
         return Method.POST
 
-    def build_params(self, params: KeywordsByKeywordParams) -> Dict:
+    def build_params(self, params: KeywordsByKeywordParams) -> Dict:  # noqa: PLR6301
         return params.model_dump(by_alias=True, exclude_none=True)
 
     def build_payload(self, attributes: KeywordsByKeywordAttributes) -> str:

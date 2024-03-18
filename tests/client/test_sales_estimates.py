@@ -5,24 +5,22 @@ import requests_mock
 
 from jungle_scout.client import Client
 from jungle_scout.models.parameters import Marketplace
+from jungle_scout.models.responses import APIResponse, SalesEstimates
 from tests.factories.sales_estimates_factory import generate_sales_estimates_responses
 
 
-@pytest.fixture
+@pytest.fixture()
 def client():
     return Client(api_key_name=os.environ["API_KEY_NAME"], api_key=os.environ["API_KEY"], marketplace=Marketplace.US)
 
 
 @pytest.mark.parametrize(
-    "asin, start_date, end_date, fake_response",
+    ("asin", "start_date", "end_date", "fake_response"),
     [
         ("B005IHSKYS", "2023-01-01", "2023-02-01", generate_sales_estimates_responses(total_items=1, data_items=3)),
         ("B0CL5KNB9M", "2022-04-01", "2022-05-01", generate_sales_estimates_responses(total_items=4, data_items=2)),
     ],
 )
-#  mock a GET request to the historical_search_volume endpoint
-
-
 def test_historical_search_volume(client, asin, start_date, end_date, fake_response):
     with requests_mock.Mocker() as mock:
         mock_url = f"{client.session.base_url}/sales_estimates_query"
@@ -48,5 +46,7 @@ def test_historical_search_volume(client, asin, start_date, end_date, fake_respo
     )
     assert history[0].method == "GET"
 
-    assert result.data[0] == fake_response["data"][0]
-    assert len(result.data[0]["attributes"]["data"]) == len(fake_response["data"][0]["attributes"]["data"])
+    assert isinstance(result, APIResponse)
+    assert isinstance(result.data[0], SalesEstimates)
+    assert result.data[0].model_dump() == fake_response["data"][0]
+    assert len(result.data[0].attributes.data) == len(fake_response["data"][0]["attributes"]["data"])

@@ -5,10 +5,14 @@ fake = Faker()
 
 
 class AttributesFactory(factory.DictFactory):
-    estimated_30_day_search_volume = factory.LazyAttribute(lambda o: fake.random_int(min=1, max=100))
-    exact_suggested_bid_median = factory.LazyAttribute(lambda o: fake.random_int(min=1, max=100))
-    product_count = factory.LazyAttribute(lambda o: fake.random_int(min=1, max=100))
-    updated_at = factory.LazyAttribute(lambda o: fake.date_time_this_year().isoformat())
+    class Params:
+        top_asins_count = 5
+        brands_count = 4
+
+    estimated_30_day_search_volume = fake.random_int(min=1, max=100)
+    exact_suggested_bid_median = fake.random_int(min=1, max=100)
+    product_count = fake.random_int(min=1, max=100)
+    updated_at = fake.date_time_this_year().isoformat()
     brands = factory.LazyAttribute(
         lambda o: [
             {
@@ -17,19 +21,19 @@ class AttributesFactory(factory.DictFactory):
                 "combined_weighted_sov": fake.random_int(min=1, max=100),
                 "combined_basic_sov": fake.random_int(min=1, max=100),
                 "combined_average_position": fake.random_int(min=1, max=100),
-                "combined_average_price": fake.random_int(min=1, max=100),
+                "combined_average_price": fake.pyfloat(),
                 "organic_products": fake.random_int(min=1, max=100),
                 "organic_weighted_sov": fake.random_int(min=1, max=100),
                 "organic_basic_sov": fake.random_int(min=1, max=100),
                 "organic_average_position": fake.random_int(min=1, max=100),
-                "organic_average_price": fake.random_int(min=1, max=100),
+                "organic_average_price": fake.pyfloat(),
                 "sponsored_products": fake.random_int(min=1, max=100),
                 "sponsored_weighted_sov": fake.random_int(min=1, max=100),
                 "sponsored_basic_sov": fake.random_int(min=1, max=100),
                 "sponsored_average_position": fake.random_int(min=1, max=100),
-                "sponsored_average_price": fake.random_int(min=1, max=100),
+                "sponsored_average_price": fake.pyfloat(),
             }
-            for _ in range(4)
+            for _each in range(o.brands_count)
         ]
     )
     top_asins = factory.LazyAttribute(
@@ -40,22 +44,28 @@ class AttributesFactory(factory.DictFactory):
                 "brand": fake.company(),
                 "clicks": fake.random_int(min=1, max=100),
                 "conversions": fake.random_int(min=1, max=100),
-                "conversion_rate": fake.random_int(min=1, max=100),
+                "conversion_rate": fake.pyfloat(),
             }
-            for _ in range(5)
+            for _each in range(o.top_asins_count)
         ]
     )
-    top_asins_model_start_date = factory.LazyAttribute(lambda o: fake.date_time_this_year().isoformat())
-    top_asins_model_end_date = factory.LazyAttribute(lambda o: fake.date_time_this_year().isoformat())
+    top_asins_model_start_date = fake.date_time_this_year().isoformat()
+    top_asins_model_end_date = fake.date_time_this_year().isoformat()
 
 
 class ShareOfVoiceResponseFactory(factory.DictFactory):
-    data = {
-        "type": "this_type",
-        "id": fake.bothify(text="us/B0####???"),
-        "attributes": AttributesFactory(),
-    }
+    class Params:
+        top_asins_count = 5
+        brands_count = 4
+
+    data = factory.LazyAttribute(
+        lambda o: {
+            "type": "this_type",
+            "id": fake.bothify(text="us/B0####???"),
+            "attributes": AttributesFactory(top_asins_count=o.top_asins_count, brands_count=o.brands_count),
+        }
+    )
 
 
-def generate_share_of_voice_responses(total_items: int = 1):
-    return ShareOfVoiceResponseFactory()
+def generate_share_of_voice_responses(top_asins_count: int = 5, brands_count: int = 4):
+    return ShareOfVoiceResponseFactory(top_asins_count=top_asins_count, brands_count=brands_count)

@@ -23,7 +23,6 @@ class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
         Returns:
             RequestType: The type of the request.
         """
-        pass
 
     @property
     @abstractmethod
@@ -33,7 +32,6 @@ class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
         Returns:
             Method: The HTTP method of the request.
         """
-        pass
 
     def __init__(self, params: ParamsType, attributes: AttributesType):
         """Initialize the BaseRequest.
@@ -55,7 +53,6 @@ class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
         Returns:
             Dict: The built parameters for the request.
         """
-        pass
 
     @abstractmethod
     def build_payload(self, attributes: AttributesType) -> Optional[str]:
@@ -67,4 +64,3 @@ class BaseRequest(ABC, Generic[ParamsType, AttributesType]):
         Returns:
             Optional[str]: The built payload for the request.
         """
-        pass

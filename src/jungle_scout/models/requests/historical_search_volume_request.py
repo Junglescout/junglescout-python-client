@@ -25,22 +25,14 @@ class HistoricalSearchVolumeParams(Params):
 
     @staticmethod
     def __validate_date(date: str) -> str:
-        assert len(date) == 10, "Date must be in the format YYYY-MM-DD"
+        valid_date_length = 10
+        assert len(date) == valid_date_length, "Date must be in the format YYYY-MM-DD"
         try:
-            datetime.strptime(date, "%Y-%m-%d")
-        except ValueError:
-            raise ValueError("Date must be in the format YYYY-MM-DD")
+            datetime.strptime(date, "%Y-%m-%d")  # noqa: DTZ007
+        except ValueError as exc:
+            msg = "Incorrect data format, should be YYYY-MM-DD"
+            raise ValueError(msg) from exc
         return date
-
-    # TODO: refactor an re-enable this validation
-    # @field_validator("end_date")
-    # @classmethod
-    # def check_dates(cls, v, values, **kwargs):
-    #     print(v, "v")
-    #     print(values, "values")
-    #     if "start_date" in values.data and v < values.data.start_date:
-    #         raise ValueError("end_date must be after start_date")
-    #     return v
 
 
 class HistoricalSearchVolumeAttributes(Attributes):
@@ -56,8 +48,8 @@ class HistoricalSearchVolumeRequest(BaseRequest[HistoricalSearchVolumeParams, Hi
     def method(self) -> Method:
         return Method.GET
 
-    def build_params(self, params: HistoricalSearchVolumeParams) -> Dict:
+    def build_params(self, params: HistoricalSearchVolumeParams) -> Dict:  # noqa: PLR6301
         return params.model_dump(by_alias=True, exclude_none=True)
 
-    def build_payload(self, attributes: HistoricalSearchVolumeAttributes):
+    def build_payload(self, attributes: HistoricalSearchVolumeAttributes):  # noqa: PLR6301,ARG002
         return None

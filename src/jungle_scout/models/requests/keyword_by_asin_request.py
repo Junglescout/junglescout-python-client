@@ -28,16 +28,19 @@ class KeywordByAsinAttributes(Attributes):
         if isinstance(v, str):
             cls.__validate_individual_asin(v)
         elif isinstance(v, list):
-            assert len(v) <= 10, "ASIN list cannot exceed 10"
+            max_asin_list_length = 10
+            assert len(v) <= max_asin_list_length, "ASIN list cannot exceed 10"
             for asin in v:
                 cls.__validate_individual_asin(asin)
         else:
-            raise ValueError("asin must be a string or a list of strings")
+            msg = "ASIN must be a string or a list of strings"
+            raise TypeError(msg)
         return v
 
     @staticmethod
     def __validate_individual_asin(asin: str):
-        assert len(asin) == 10, "ASIN must be 10 characters long"
+        asin_length = 10
+        assert len(asin) == asin_length, "ASIN must be 10 characters long"
 
     @model_serializer
     def serialize_model(self) -> Dict[str, Any]:
@@ -57,7 +60,7 @@ class KeywordByAsinRequest(BaseRequest[KeywordByAsinParams, KeywordByAsinAttribu
     def method(self) -> Method:
         return Method.POST
 
-    def build_params(self, params: KeywordByAsinParams) -> Dict:
+    def build_params(self, params: KeywordByAsinParams) -> Dict:  # noqa: PLR6301
         return params.model_dump(by_alias=True, exclude_none=True)
 
     def build_payload(self, attributes: KeywordByAsinAttributes) -> str:

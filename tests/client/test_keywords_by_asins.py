@@ -6,17 +6,17 @@ import requests_mock
 
 from jungle_scout.client import Client
 from jungle_scout.models.parameters import Marketplace
-from jungle_scout.models.responses.keyword_by_asin import KeywordByASIN
+from jungle_scout.models.responses import APIResponse, KeywordByASIN
 from tests.factories.keyword_by_asin_factory import generate_keywords_by_asin_responses
 
 
-@pytest.fixture
+@pytest.fixture()
 def client():
     return Client(api_key_name=os.environ["API_KEY_NAME"], api_key=os.environ["API_KEY"], marketplace=Marketplace.US)
 
 
 @pytest.mark.parametrize(
-    "asin, fake_response",
+    ("asin", "fake_response"),
     [
         ("B005IHSKYS", generate_keywords_by_asin_responses(total_items=1)),
         (
@@ -67,7 +67,9 @@ def test_keywords_by_asin(client, asin, fake_response):
     assert len(result.data) == len(history[0].json()["data"]["attributes"]["asins"])
 
     assert len(result.data) == len(fake_response["data"])
-    assert isinstance(result, KeywordByASIN)
-    assert result.data[0]["type"] == fake_response["data"][0]["type"]
-    assert result.data[0]["id"] == fake_response["data"][0]["id"]
-    assert isinstance(result.data[0]["attributes"]["updated_at"], datetime)
+    assert isinstance(result, APIResponse)
+    assert isinstance(result.data[0], KeywordByASIN)
+    assert result.data[0].type == fake_response["data"][0]["type"]
+    assert result.data[0].id == fake_response["data"][0]["id"]
+    assert isinstance(result.data[0].attributes.updated_at, datetime)
+    assert result.data[0].model_dump() == fake_response["data"][0]

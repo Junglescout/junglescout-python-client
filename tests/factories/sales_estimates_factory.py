@@ -5,6 +5,9 @@ fake = Faker()
 
 
 class AttributesFactory(factory.DictFactory):
+    class Params:
+        data_items = 3
+
     asin = fake.bothify(text="B0####???")
     is_parent = fake.boolean()
     is_variant = fake.boolean()
@@ -16,14 +19,18 @@ class AttributesFactory(factory.DictFactory):
             {
                 "date": fake.date_this_year().isoformat(),
                 "estimated_units_sold": fake.random_int(min=0, max=100),
-                "last_known_price": fake.random_int(min=0, max=100),
+                "last_known_price": fake.pyfloat(),
             }
-            for _ in range(3)
+            for _each in range(o.data_items)
         ]
     )
 
 
 class SalesEstimatesResponseFactory(factory.DictFactory):
+    class Params:
+        total_items = 1
+        data_items = 3
+
     data = factory.LazyAttribute(
         lambda o: [
             {
@@ -31,7 +38,7 @@ class SalesEstimatesResponseFactory(factory.DictFactory):
                 "id": fake.bothify(text="us/B0####???"),
                 "attributes": AttributesFactory(),
             }
-            for _ in range(o.total_items)
+            for _each in range(o.total_items)
         ]
     )
 

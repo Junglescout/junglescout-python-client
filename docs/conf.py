@@ -2,9 +2,9 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "jungle-scout"
-copyright = "2024, Jungle Scout <support@junglescout.com>"
+copyright = "2024, Jungle Scout <support@junglescout.com>"  # noqa: A001
 author = "Jungle Scout <support@junglescout.com>"
-release = "0.1.0"
+release = "0.1.0"  # TODO: integrate this with automated release process
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -15,6 +15,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx_autodoc_typehints",
     "sphinx.ext.extlinks",
+    "sphinxcontrib.autodoc_pydantic",
 ]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 extlinks = {

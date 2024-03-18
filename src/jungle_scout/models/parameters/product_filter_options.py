@@ -5,7 +5,9 @@ from pydantic import BaseModel, field_validator
 
 
 class ProductFilterOptions(BaseModel):
-    """Represents the filter options for product filtering. This class is used to filter products based on their attributes, used on Product Database.
+    """Represents the filter options for product filtering.
+
+    This class is used to filter products based on their attributes, used on Product Database.
 
     Attributes:
         - exclude_top_brands: Whether to exclude top brands.
@@ -60,10 +62,12 @@ class ProductFilterOptions(BaseModel):
     max_updated_at: Optional[str] = None
 
     @field_validator("min_updated_at", "max_updated_at")
+    @classmethod
     def _validate_date_format(cls, v):
         if v:
             try:
-                datetime.strptime(v, "%Y-%m-%d")
-            except ValueError:
-                raise ValueError("Incorrect data format, should be YYYY-MM-DD")
+                datetime.strptime(v, "%Y-%m-%d")  # noqa: DTZ007
+            except ValueError as exc:
+                msg = "Incorrect data format, should be YYYY-MM-DD"
+                raise ValueError(msg) from exc
         return v

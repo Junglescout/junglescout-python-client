@@ -33,20 +33,30 @@ class AttributesFactory(factory.DictFactory):
     date_first_available_is_estimated = factory.Faker("boolean")
     approximate_30_day_revenue = factory.Faker("pyfloat", positive=True)
     approximate_30_day_units_sold = factory.Faker("pyint")
-    ean_list = [fake.random_int(min=0, max=100) for _ in range(2)]
+    ean_list = factory.List([fake.random_int(min=0, max=100) for _ in range(2)])
     variant_reviews = factory.Faker("pyint")
     updated_at = fake.date_time_this_year().isoformat()
-    subcategory_ranks = [{"subcategory": fake.random_int(min=0, max=100), "rank": fake.random_int(min=0, max=100)}]
-    fee_breakdown = {
-        "fba_fee": fake.random_int(min=0, max=100),
-        "referral_fee": fake.random_int(min=0, max=100),
-        "variable_closing_fee": fake.random_int(min=0, max=100),
-        "total_fees": fake.random_int(min=0, max=100),
-    }
+    subcategory_ranks = factory.List(
+        [{"subcategory": fake.random_int(min=0, max=100), "rank": fake.random_int(min=0, max=100)}]
+    )
+    fee_breakdown = factory.Dict(
+        {
+            "fba_fee": fake.random_int(min=0, max=100),
+            "referral_fee": fake.random_int(min=0, max=100),
+            "variable_closing_fee": fake.random_int(min=0, max=100),
+            "total_fees": fake.random_int(min=0, max=100),
+        }
+    )
+
+
+class LinksFactory(factory.DictFactory):
+    self = fake.uri()
+    next = fake.uri()
 
 
 class ProductDatabaseResponseFactory(factory.DictFactory):
-    total_items = factory.Faker("pyint")
+    class Params:
+        total_items = 1
 
     data = factory.LazyAttribute(
         lambda o: [
@@ -58,7 +68,7 @@ class ProductDatabaseResponseFactory(factory.DictFactory):
             for _ in range(o.total_items)
         ]
     )
-    links = {"self": fake.uri(), "next": fake.uri()}
+    links = factory.LazyAttribute(lambda _: LinksFactory())
     meta = factory.LazyAttribute(lambda o: {"total_items": o.total_items})
 
 

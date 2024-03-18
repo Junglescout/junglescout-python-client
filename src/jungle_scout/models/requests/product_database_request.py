@@ -20,7 +20,7 @@ class ProductDatabaseParams(Params):
     product_sort_option: Optional[ProductSort] = None
 
     @field_serializer("product_sort_option")
-    def serialize_product_sort(self, value: Optional[ProductSort]):
+    def serialize_product_sort(self, value: Optional[ProductSort]):  # noqa: PLR6301
         return value.value if value else None
 
 
@@ -74,7 +74,7 @@ class ProductDatabaseRequest(BaseRequest[ProductDatabaseParams, ProductDatabaseA
     def method(self) -> Method:
         return Method.POST
 
-    def build_params(self, params: ProductDatabaseParams) -> Dict:
+    def build_params(self, params: ProductDatabaseParams) -> Dict:  # noqa: PLR6301
         return params.model_dump(by_alias=True, exclude_none=True)
 
     def build_payload(self, attributes: ProductDatabaseAttributes) -> str:

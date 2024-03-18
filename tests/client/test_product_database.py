@@ -12,17 +12,17 @@ from jungle_scout.models.parameters import (
     ProductTiers,
     SellerTypes,
 )
-from jungle_scout.models.responses.product_database import ProductDatabase
+from jungle_scout.models.responses import APIResponse, ProductDatabase
 from tests.factories.product_database_factory import generate_product_database_responses
 
 
-@pytest.fixture
+@pytest.fixture()
 def client():
     return Client(api_key_name=os.environ["API_KEY_NAME"], api_key=os.environ["API_KEY"], marketplace=Marketplace.US)
 
 
 @pytest.mark.parametrize(
-    "include_keywords, exclude_keywords, fake_response",
+    ("include_keywords", "exclude_keywords", "fake_response"),
     [
         (["yoga", "gym"], ["bath"], generate_product_database_responses(total_items=1)),
         (["yoga_mat", "mat", "yoga accessories"], ["floor mat"], generate_product_database_responses(total_items=10)),
@@ -61,18 +61,31 @@ def test_product_database(client, include_keywords, exclude_keywords, fake_respo
     }
 
     assert len(result.data) == len(fake_response["data"])
-    assert isinstance(result, ProductDatabase)
-    assert result.data[0]["type"] == fake_response["data"][0]["type"]
-    assert result.data[0]["id"] == fake_response["data"][0]["id"]
-    assert result.links == fake_response["links"]
-    assert result.meta == fake_response["meta"]
-    assert result.data[0]["attributes"]["seller_type"] == fake_response["data"][0]["attributes"]["seller_type"]
-    assert result.data[0]["attributes"]["fee_breakdown"] == fake_response["data"][0]["attributes"]["fee_breakdown"]
-    assert isinstance(result.data[0]["attributes"]["updated_at"], datetime)
+    assert isinstance(result, APIResponse)
+    assert isinstance(result.data[0], ProductDatabase)
+    assert result.data[0].type == fake_response["data"][0]["type"]
+    assert result.data[0].id == fake_response["data"][0]["id"]
+    assert result.links.model_dump() == fake_response["links"]
+    assert result.meta.model_dump() == fake_response["meta"]
+    assert result.data[0].attributes.seller_type == fake_response["data"][0]["attributes"]["seller_type"]
+    assert (
+        result.data[0].attributes.fee_breakdown.model_dump() == fake_response["data"][0]["attributes"]["fee_breakdown"]
+    )
+    assert isinstance(result.data[0].attributes.updated_at, datetime)
+    assert result.data[0].model_dump() == fake_response["data"][0]
 
 
 @pytest.mark.parametrize(
-    "include_keywords, exclude_keywords, page_size, product_filter_options, seller_types,product_tiers,product_sort_option, fake_response",
+    (
+        "include_keywords",
+        "exclude_keywords",
+        "page_size",
+        "product_filter_options",
+        "seller_types",
+        "product_tiers",
+        "product_sort_option",
+        "fake_response",
+    ),
     [
         (
             ["yoga", "gym"],
@@ -84,7 +97,6 @@ def test_product_database(client, include_keywords, exclude_keywords, fake_respo
             ProductSort.NAME.value,
             generate_product_database_responses(total_items=4),
         ),
-        # (["yoga_mat", "mat", "yoga accessories"], ["floor mat"], generate_product_database_responses(total_items=4)),
     ],
 )
 def test_full_request_product_database(
@@ -139,11 +151,15 @@ def test_full_request_product_database(
     }
 
     assert len(result.data) == len(fake_response["data"])
-    assert isinstance(result, ProductDatabase)
-    assert result.data[0]["type"] == fake_response["data"][0]["type"]
-    assert result.data[0]["id"] == fake_response["data"][0]["id"]
-    assert result.links == fake_response["links"]
-    assert result.meta == fake_response["meta"]
-    assert result.data[0]["attributes"]["seller_type"] == fake_response["data"][0]["attributes"]["seller_type"]
-    assert result.data[0]["attributes"]["fee_breakdown"] == fake_response["data"][0]["attributes"]["fee_breakdown"]
-    assert isinstance(result.data[0]["attributes"]["updated_at"], datetime)
+    assert isinstance(result, APIResponse)
+    assert isinstance(result.data[0], ProductDatabase)
+    assert result.data[0].type == fake_response["data"][0]["type"]
+    assert result.data[0].id == fake_response["data"][0]["id"]
+    assert result.links.model_dump() == fake_response["links"]
+    assert result.meta.model_dump() == fake_response["meta"]
+    assert result.data[0].attributes.seller_type == fake_response["data"][0]["attributes"]["seller_type"]
+    assert (
+        result.data[0].attributes.fee_breakdown.model_dump() == fake_response["data"][0]["attributes"]["fee_breakdown"]
+    )
+    assert isinstance(result.data[0].attributes.updated_at, datetime)
+    assert result.data[0].model_dump() == fake_response["data"][0]

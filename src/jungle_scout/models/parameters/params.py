@@ -7,26 +7,25 @@ from jungle_scout.models.parameters.sort import Sort
 
 
 class Params(BaseModel):
-    """Represents the parameters for a request to the Jungle Scout API.
+    """Represents the parameters for a request to the Jungle Scout API."""
 
-    Attributes:
-        - marketplace: The marketplace to query.
-        - sort: The sorting option for the results. Must be a valid Sort object. Defaults to None.
-        - page: The cursor for pagination. Defaults to None.
-        - page_size: The number of results per page. Defaults to 50.
-    """
-
-    marketplace: Marketplace
-    sort: Optional[Sort] = None
-    page: Optional[str] = Field(default=None, serialization_alias="page[cursor]")
-    page_size: Optional[int] = Field(default=50, serialization_alias="page[size]")
+    marketplace: Marketplace = Field(default=..., description="The marketplace to query.")
+    sort: Optional[Sort] = Field(
+        default=None, description="The sorting option for the results. Must be a valid Sort object."
+    )
+    page: Optional[str] = Field(
+        default=None, serialization_alias="page[cursor]", description="The cursor for pagination."
+    )
+    page_size: Optional[int] = Field(
+        default=50, serialization_alias="page[size]", description="The number of results per page."
+    )
 
     @field_serializer("marketplace")
-    def serialize_marketplace(self, value: Marketplace):
+    def serialize_marketplace(self, value: Marketplace):  # noqa: PLR6301
         """Serializes the marketplace parameter to the country code."""
         return value.country_code
 
     @field_serializer("sort")
-    def serialize_sort(self, value: Optional[Sort]):
+    def serialize_sort(self, value: Optional[Sort]):  # noqa: PLR6301
         """Serializes the sort parameter to the value if it exists."""
         return value.value if value else None
