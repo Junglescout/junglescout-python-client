@@ -1,7 +1,9 @@
 from datetime import datetime
 from typing import List
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_serializer
+
+from .serializer_helpers import serialize_date
 
 
 class SalesEstimateData(BaseModel):
@@ -10,6 +12,10 @@ class SalesEstimateData(BaseModel):
     date: datetime = Field(default=..., description="The date of the sales estimate.")
     estimated_units_sold: int = Field(default=..., description="The estimated units sold.")
     last_known_price: float = Field(default=..., description="The last known price.")
+
+    @field_serializer("date")
+    def serialize_date(self, v: datetime):
+        return serialize_date(v)
 
 
 class SalesEstimateAttributes(BaseModel):
@@ -24,7 +30,7 @@ class SalesEstimateAttributes(BaseModel):
         default=..., description="A boolean indicating whether the ASIN is a standalone product."
     )
     parent_asin: str = Field(default=..., description="The parent ASIN associated with the sales estimate.")
-    variants: str = Field(default=..., description="The variants associated with the sales estimate.")
+    variants: int = Field(default=..., description="The number of variants associated with the sales estimate.")
     data: List[SalesEstimateData] = Field(default=..., description="The sales estimate data.")
 
 

@@ -16,7 +16,7 @@ class AttributesFactory(factory.DictFactory):
             {
                 "date": fake.date_this_year().isoformat(),
                 "estimated_units_sold": fake.random_int(min=0, max=100),
-                "last_known_price": fake.random_int(min=0, max=100),
+                "last_known_price": fake.pyfloat(),
             }
             for _each in range(3)
         ]

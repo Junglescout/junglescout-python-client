@@ -5,6 +5,7 @@ import requests_mock
 
 from jungle_scout.client import Client
 from jungle_scout.models.parameters import Marketplace
+from jungle_scout.models.responses import APIResponse, SalesEstimates
 from tests.factories.sales_estimates_factory import generate_sales_estimates_responses
 
 
@@ -45,5 +46,7 @@ def test_historical_search_volume(client, asin, start_date, end_date, fake_respo
     )
     assert history[0].method == "GET"
 
-    assert result.data[0] == fake_response["data"][0]
-    assert len(result.data[0]["attributes"]["data"]) == len(fake_response["data"][0]["attributes"]["data"])
+    assert isinstance(result, APIResponse)
+    assert isinstance(result.data[0], SalesEstimates)
+    assert result.data[0].model_dump() == fake_response["data"][0]
+    assert len(result.data[0].attributes.data) == len(fake_response["data"][0]["attributes"]["data"])
