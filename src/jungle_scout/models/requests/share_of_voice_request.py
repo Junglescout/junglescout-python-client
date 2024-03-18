@@ -22,8 +22,8 @@ class ShareOfVoiceRequest(BaseRequest[ShareOfVoiceParams, ShareOfVoiceAttributes
     def method(self) -> Method:
         return Method.GET
 
-    def build_params(self, params: ShareOfVoiceParams) -> Dict:
+    def build_params(self, params: ShareOfVoiceParams) -> Dict:  # noqa: PLR6301
         return params.model_dump(by_alias=True, exclude_none=True)
 
-    def build_payload(self, attributes: ShareOfVoiceAttributes):
+    def build_payload(self, attributes: ShareOfVoiceAttributes):  # noqa: PLR6301,ARG002
         return None
