@@ -2,6 +2,25 @@
 
 
 
+## v1.0.0 (2024-03-18)
+
+### Breaking
+
+* feat: migrate to pydantic and add additional linting tests (#42)
+
+BREAKING CHANGE: `response` objects have changed from native `dict` objects to `pydantic.BaseModel` objects ([`d412e10`](https://github.com/Junglescout/jungle-scout-python-client/commit/d412e10450971a9f553fe8539ebcf2e0797b59dc))
+
+### Documentation
+
+* docs: cleanup docs (#41) ([`51a4d6d`](https://github.com/Junglescout/jungle-scout-python-client/commit/51a4d6de4f1257615431cc31aa60d61d4884f601))
+
+* docs: Add basic Documentation (#40) ([`aed6498`](https://github.com/Junglescout/jungle-scout-python-client/commit/aed6498050861133594bc9e733ca4b58a683e5b3))
+
+### Test
+
+* test: Add Final Integrity tests (#39) ([`e51f2f6`](https://github.com/Junglescout/jungle-scout-python-client/commit/e51f2f6abb9afcb9bbab8a9bdc99736c4bdd8938))
+
+
 ## v0.1.0 (2024-03-14)
 
 ### Feature
