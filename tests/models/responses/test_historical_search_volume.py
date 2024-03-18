@@ -1,7 +1,9 @@
 import json
 from datetime import datetime
 
-from jungle_scout.models.responses.historical_search_volume import HistoricalSearchVolume
+from jungle_scout.models.responses.historical_search_volume import (
+    HistoricalSearchVolume,
+)
 
 
 def test_historical_search_volume():

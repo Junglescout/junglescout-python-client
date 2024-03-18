@@ -1,6 +1,6 @@
 import json
-
 from datetime import datetime
+
 from jungle_scout.models.responses.product_database import ProductDatabase
 
 
