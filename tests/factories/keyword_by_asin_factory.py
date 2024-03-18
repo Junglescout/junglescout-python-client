@@ -54,7 +54,7 @@ class KeywordsByAsinResponseFactory(factory.DictFactory):
             for _ in range(o.total_items)
         ]
     )
-    links = factory.LazyAttribute(lambda _: LinksFactory())
+    links = LinksFactory()
     meta = factory.LazyAttribute(lambda o: {"total_items": o.total_items})
 
 

@@ -21,11 +21,9 @@ class Params(BaseModel):
     )
 
     @field_serializer("marketplace")
-    def serialize_marketplace(self, value: Marketplace):  # noqa: PLR6301
-        """Serializes the marketplace parameter to the country code."""
+    def _serialize_marketplace(self, value: Marketplace):  # noqa: PLR6301
         return value.country_code
 
     @field_serializer("sort")
-    def serialize_sort(self, value: Optional[Sort]):  # noqa: PLR6301
-        """Serializes the sort parameter to the value if it exists."""
+    def _serialize_sort(self, value: Optional[Sort]):  # noqa: PLR6301
         return value.value if value else None
