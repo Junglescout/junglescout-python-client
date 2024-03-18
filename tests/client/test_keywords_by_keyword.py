@@ -5,7 +5,7 @@ import requests_mock
 
 from jungle_scout.client import Client
 from jungle_scout.models.parameters import Marketplace, Sort
-from jungle_scout.models.responses import KeywordByKeyword, APIResponse
+from jungle_scout.models.responses import APIResponse, KeywordByKeyword
 from tests.factories.keywords_by_keyword_factory import (
     generate_keywords_by_keyword_responses,
 )

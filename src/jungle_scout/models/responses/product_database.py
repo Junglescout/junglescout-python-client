@@ -3,7 +3,7 @@ from typing import List
 
 from pydantic import BaseModel, Field, field_serializer
 
-from .serializer_helpers import serialize_datetime, serialize_date
+from .serializer_helpers import serialize_date, serialize_datetime
 
 
 class ProductDatabaseSubcategoryRanks(BaseModel):

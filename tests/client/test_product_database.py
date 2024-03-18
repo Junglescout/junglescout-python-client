@@ -12,7 +12,7 @@ from jungle_scout.models.parameters import (
     ProductTiers,
     SellerTypes,
 )
-from jungle_scout.models.responses import ProductDatabase, APIResponse
+from jungle_scout.models.responses import APIResponse, ProductDatabase
 from tests.factories.product_database_factory import generate_product_database_responses
 
 
