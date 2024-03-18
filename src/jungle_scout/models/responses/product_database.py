@@ -1,150 +1,71 @@
-from dateutil.parser import parse
+from datetime import datetime
 
-from jungle_scout.models.responses.base_response import BaseResponse
-
-
-# TODO: replace with pydantic model
-class ProductDatabase(BaseResponse):
-    """Represents a response from the product database API.
-
-    Attributes:
-        - links: The links for the response.
-        - meta: The metadata for the response.
-        - attributes: The attributes of the product, including:
-            id: The ID of the product.
-            type: The type of the product.
-            title: The title of the product.
-            price: The price of the product.
-            reviews: The number of reviews for the product.
-            category: The category of the product.
-            rating: The rating of the product.
-            image_url: The image URL of the product.
-            parent_asin: The parent ASIN of the product.
-            is_variant: Whether the product is a variant.
-            seller_type: The type of the seller.
-            variants: The variants of the product.
-            is_standalone: Whether the product is standalone.
-            is_parent: Whether the product is a parent.
-            brand: The brand of the product.
-            product_rank: The rank of the product.
-            weight_value: The weight value of the product.
-            weight_unit: The weight unit of the product.
-            length_value: The length value of the product.
-            width_value: The width value of the product.
-            height_value: The height value of the product.
-            dimensions_unit: The dimensions unit of the product.
-            listing_quality_score: The listing quality score of the product.
-            number_of_sellers: The number of sellers for the product.
-            buy_box_owner: The buy box owner of the product.
-            buy_box_owner_seller_id: The buy box owner seller ID of the product.
-            date_first_available: The date the product was first available.
-            date_first_available_is_estimated: Whether the date the product was first available is estimated.
-            approximate_30_day_revenue: The approximate 30 day revenue of the product.
-            approximate_30_day_units_sold: The approximate 30 day units sold of the product.
-            ean_list: The EAN list of the product.
-            variant_reviews: The variant reviews of the product.
-            updated_at: The date the product was last updated.
-            subcategory_ranks: The subcategory ranks of the product.
-            fee_breakdown: The fee breakdown of the product.
-    """
-
-    def __init__(self, json_data):
-        """Initialize the ProductDatabase.
-
-        Args:
-            json_data: The raw JSON data received from the API.
-        """
-        super().__init__(json_data)
-        self.links = self._update_links(json_data)
-        self.meta = self._update_meta(json_data)
-
-    def _update_attributes(self, json_data):
-
-        product_database_list = []
-
-        for data in json_data["data"]:
-            dict_item = {
-                "id": data["id"],
-                "type": data["type"],
-                "attributes": {
-                    "title": data["attributes"]["title"],
-                    "price": data["attributes"]["price"],
-                    "reviews": data["attributes"]["reviews"],
-                    "category": data["attributes"]["category"],
-                    "rating": data["attributes"]["rating"],
-                    "image_url": data["attributes"]["image_url"],
-                    "parent_asin": data["attributes"]["parent_asin"],
-                    "is_variant": data["attributes"]["is_variant"],
-                    "seller_type": data["attributes"]["seller_type"],
-                    "variants": data["attributes"]["variants"],
-                    "is_standalone": data["attributes"]["is_standalone"],
-                    "is_parent": data["attributes"]["is_parent"],
-                    "brand": data["attributes"]["brand"],
-                    "product_rank": data["attributes"]["product_rank"],
-                    "weight_value": data["attributes"]["weight_value"],
-                    "weight_unit": data["attributes"]["weight_unit"],
-                    "length_value": data["attributes"]["length_value"],
-                    "width_value": data["attributes"]["width_value"],
-                    "height_value": data["attributes"]["height_value"],
-                    "dimensions_unit": data["attributes"]["dimensions_unit"],
-                    "listing_quality_score": data["attributes"]["listing_quality_score"],
-                    "number_of_sellers": data["attributes"]["number_of_sellers"],
-                    "buy_box_owner": data["attributes"]["buy_box_owner"],
-                    "buy_box_owner_seller_id": data["attributes"]["buy_box_owner_seller_id"],
-                    "date_first_available": data["attributes"]["date_first_available"],
-                    "date_first_available_is_estimated": data["attributes"]["date_first_available_is_estimated"],
-                    "approximate_30_day_revenue": data["attributes"]["approximate_30_day_revenue"],
-                    "approximate_30_day_units_sold": data["attributes"]["approximate_30_day_units_sold"],
-                    "ean_list": data["attributes"]["ean_list"],
-                    "variant_reviews": data["attributes"]["variant_reviews"],
-                    "updated_at": parse(data["attributes"]["updated_at"]),
-                },
-            }
-
-            subcategory_ranks_data = data["attributes"]["subcategory_ranks"]
-            if subcategory_ranks_data is not None:
-                dict_item["attributes"].update({"subcategory_ranks": SubcategoryRanks(subcategory_ranks_data).data})
-
-            fee_breakdown_data = data["attributes"]["fee_breakdown"]
-            if fee_breakdown_data is not None:
-                dict_item["attributes"].update({"fee_breakdown": FeeBreakdown(fee_breakdown_data).data})
-
-            product_database_list.append(dict_item)
-
-        return product_database_list
-
-    def _update_links(self, json_data):
-        return json_data["links"]
-
-    def _update_meta(self, json_data):
-        return json_data["meta"]
+from pydantic import BaseModel, Field
 
 
-class SubcategoryRanks(BaseResponse):
+class SubcategoryRanks(BaseModel):
     """Represents a response object containing subcategory ranks."""
 
-    def _update_attributes(self, json_data):
-        subcategory_ranks_list = []
-
-        for data in json_data:
-            subcategory_ranks_list.append(
-                {
-                    "subcategory": data["subcategory"],
-                    "rank": data["rank"],
-                }
-            )
-
-        return subcategory_ranks_list
+    subcategory: str = Field(default=..., description="")
+    rank: str = Field(default=..., description="")
 
 
-class FeeBreakdown(BaseResponse):
+class FeeBreakdown(BaseModel):
     """Represents a response object containing fee breakdown."""
 
-    def _update_attributes(self, json_data):
+    fba_fee: int = Field(default=..., description="")
+    referral_fee: int = Field(default=..., description="")
+    variable_closing_fee: int = Field(default=..., description="")
+    total_fees: int = Field(default=..., description="")
 
-        return {
-            "fba_fee": json_data["fba_fee"],
-            "referral_fee": json_data["referral_fee"],
-            "variable_closing_fee": json_data["variable_closing_fee"],
-            "total_fees": json_data["total_fees"],
-        }
+
+class ProductDatabaseAttributes(BaseModel):
+    """Product database attributes"""
+
+    title: str = Field(default=..., description="The title of the product.")
+    price: int = Field(default=..., description="The price of the product.")
+    reviews: int = Field(default=..., description="The number of reviews for the product.")
+    category: str = Field(default=..., description="The category of the product.")
+    rating: str = Field(default=..., description="The rating of the product.")
+    image_url: str = Field(default=..., description="The image URL of the product.")
+    parent_asin: str = Field(default=..., description="The parent ASIN of the product.")
+    is_variant: bool = Field(default=..., description="Whether the product is a variant.")
+    seller_type: str = Field(default=..., description="The type of the seller.")
+    variants: str = Field(default=..., description="The variants of the product.")
+    is_standalone: str = Field(default=..., description="Whether the product is standalone.")
+    is_parent: str = Field(default=..., description="Whether the product is a parent.")
+    brand: str = Field(default=..., description="The brand of the product.")
+    product_rank: str = Field(default=..., description="The rank of the product.")
+    weight_value: str = Field(default=..., description="The weight value of the product.")
+    weight_unit: str = Field(default=..., description="The weight unit of the product.")
+    length_value: str = Field(default=..., description="The length value of the product.")
+    width_value: str = Field(default=..., description="The width value of the product.")
+    height_value: str = Field(default=..., description="The height value of the product.")
+    dimensions_unit: str = Field(default=..., description="The dimensions unit of the product.")
+    listing_quality_score: str = Field(default=..., description="The listing quality score of the product.")
+    number_of_sellers: str = Field(default=..., description="The number of sellers for the product.")
+    buy_box_owner: str = Field(default=..., description="The buy box owner of the product.")
+    buy_box_owner_seller_id: str = Field(default=..., description="The buy box owner seller ID of the product.")
+    date_first_available: str = Field(default=..., description="The date the product was first available.")
+    date_first_available_is_estimated: str = Field(
+        default=..., description="Whether the date the product was first available is estimated."
+    )
+    approximate_30_day_revenue: str = Field(default=..., description="The approximate 30 day revenue of the product.")
+    approximate_30_day_units_sold: str = Field(
+        default=..., description="The approximate 30 day units sold of the product."
+    )
+    ean_list: str = Field(default=..., description="The EAN list of the product.")
+    variant_reviews: str = Field(default=..., description="The variant reviews of the product.")
+    updated_at: datetime = Field(default=..., description="The date the product was last updated.")
+    subcategory_ranks: SubcategoryRanks = Field(default=..., description="The subcategory ranks of the product.")
+    fee_breakdown: FeeBreakdown = Field(default=..., description="The fee breakdown of the product.")
+
+
+class ProductDatabase(BaseModel):
+    """Represents a response from the product database API."""
+
+    links: str = Field(default=..., description="The links for the response.")
+    meta: str = Field(default=..., description="The metadata for the response.")
+    id: str = Field(default=..., description="The ID of the product.")
+    type: str = Field(default=..., description="The type of the product.")
+    attributes: ProductDatabaseAttributes

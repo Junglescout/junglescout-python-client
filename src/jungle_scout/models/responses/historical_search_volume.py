@@ -1,32 +1,19 @@
-from jungle_scout.models.responses.base_response import BaseResponse
+from datetime import datetime
+
+from pydantic import BaseModel, Field
 
 
-class HistoricalSearchVolume(BaseResponse):
-    """Represents a historical search volume response.
+class HistoricalSearchVolumeAttributes(BaseModel):
+    """Attributes for historical search volume."""
 
-    Attributes:
-        - id: The ID of the historical search volume.
-        - type: The type of the historical search volume.
-        - attributes: The attributes of the historical search volume, including:
-            - estimate_start_date: The start date of the estimated search volume.
-            - estimate_end_date: The end date of the estimated search volume.
-            - estimated_exact_search_volume: The estimated exact search volume.
-    """
+    estimate_start_date: datetime = Field(default=..., description="The start date of the estimated search volume.")
+    estimate_end_date: datetime = Field(default=..., description="The end date of the estimated search volume.")
+    estimated_exact_search_volume: int = Field(default=..., description="The estimated exact search volume.")
 
-    def _update_attributes(self, json_data):
-        historical_search_volume_list = []
 
-        for data in json_data["data"]:
-            historical_search_volume_list.append(
-                {
-                    "id": data["id"],
-                    "type": data["type"],
-                    "attributes": {
-                        "estimate_start_date": data["attributes"]["estimate_start_date"],
-                        "estimate_end_date": data["attributes"]["estimate_end_date"],
-                        "estimated_exact_search_volume": data["attributes"]["estimated_exact_search_volume"],
-                    },
-                }
-            )
+class HistoricalSearchVolume(BaseModel):
+    """Represents a historical search volume response."""
 
-        return historical_search_volume_list
+    id: str = Field(default=..., description="The ID of the historical search volume.")
+    type: str = Field(default=..., description="The type of the historical search volume.")
+    attributes: HistoricalSearchVolumeAttributes = Field(default=..., description="Attributes for the response.")
