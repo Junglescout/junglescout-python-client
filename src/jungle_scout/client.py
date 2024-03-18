@@ -135,7 +135,7 @@ class Client:
         marketplace: Optional[Marketplace] = None,
         page_size: Optional[int] = None,
         page: Optional[str] = None,
-    ) -> APIResponse[KeywordByKeyword]:
+    ) -> APIResponse[List[KeywordByKeyword]]:
         """Retrieves keyword data based on the provided search terms.
 
         Args:
@@ -173,7 +173,7 @@ class Client:
         response = self.session.request(keywords_by_keyword_request.method.value, url, data=payload)
 
         if response.ok:
-            return APIResponse[KeywordByKeyword].model_validate(response.json())
+            return APIResponse[List[KeywordByKeyword]].model_validate(response.json())
         self._raise_for_status(response)
 
     def sales_estimates(
@@ -225,7 +225,7 @@ class Client:
         end_date: str,
         sort_option: Optional[Sort] = None,
         marketplace: Optional[Marketplace] = None,
-    ) -> APIResponse[HistoricalSearchVolume]:
+    ) -> APIResponse[List[HistoricalSearchVolume]]:
         """Retrieves the historical search volume for a given keyword within a specified date range.
 
         Args:
@@ -259,7 +259,7 @@ class Client:
         response = self.session.request(historical_search_volume_request.method.value, url)
 
         if response.ok:
-            return APIResponse[HistoricalSearchVolume].model_validate(response.json())
+            return APIResponse[List[HistoricalSearchVolume]].model_validate(response.json())
         self._raise_for_status(response)
 
     def share_of_voice(
@@ -290,7 +290,7 @@ class Client:
         response = self.session.request(share_of_voice_request.method.value, url)
 
         if response.ok:
-            return APIResponse[ShareOfVoice].model_validate(response.json()["data"])
+            return APIResponse[ShareOfVoice].model_validate(response.json())
         self._raise_for_status(response)
 
     def product_database(
@@ -305,7 +305,7 @@ class Client:
         marketplace: Optional[Marketplace] = None,
         page_size: Optional[int] = 10,
         page: Optional[str] = None,
-    ) -> APIResponse[ProductDatabase]:
+    ) -> APIResponse[List[ProductDatabase]]:
         """Retrieves product data from the Jungle Scout Product Database.
 
         Args:
@@ -361,7 +361,7 @@ class Client:
         response = self.session.request(product_database_request.method.value, url, data=payload)
 
         if response.ok:
-            return APIResponse[ProductDatabase].model_validate(response.json())
+            return APIResponse[List[ProductDatabase]].model_validate(response.json())
         self._raise_for_status(response)
 
     def _resolve_marketplace(self, provided_marketplace: Optional[Marketplace] = None) -> Marketplace:

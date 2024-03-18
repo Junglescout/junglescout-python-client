@@ -13,7 +13,7 @@ class APIResponseLink(BaseModel):
 class APIResponse(BaseModel, Generic[DataT]):
     """Represents a response from the Jungle Scout API."""
 
-    data: Optional[List[DataT]] = Field(default=None, description="The data associated with the response.")
-    total_items: int = Field(default=..., description="The total items included in the response.")
+    data: Optional[DataT] = Field(default=None, description="The data associated with the response.")
+    total_items: int = Field(default=None, description="The total items included in the response.")
     links: APIResponseLink = Field(default=None, description="The links for the response.")
     meta: dict = Field(default=None, description="Additional metadata for the response.")

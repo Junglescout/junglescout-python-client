@@ -20,7 +20,7 @@ def client():
         ("ps5", Marketplace.US, generate_share_of_voice_responses()),
     ],
 )
-def test_historical_search_volume(client, keyword, marketplace, fake_response):
+def test_share_of_voice(client, keyword, marketplace, fake_response):
     with requests_mock.Mocker() as mock:
         mock_url = f"{client.session.base_url}/share_of_voice"
         mock.get(
@@ -39,5 +39,4 @@ def test_historical_search_volume(client, keyword, marketplace, fake_response):
     assert history[0].query == f"marketplace={marketplace.country_code}&page%5bsize%5d=50&keyword={keyword}"
     assert history[0].method == "GET"
 
-    assert result.data[0]["attributes"]["brands"] == fake_response["data"]["attributes"]["brands"]
-    assert result.data[0]["attributes"]["top_asins"] == fake_response["data"]["attributes"]["top_asins"]
+    assert result.data.attributes.model_dump() == fake_response["data"]["attributes"]
