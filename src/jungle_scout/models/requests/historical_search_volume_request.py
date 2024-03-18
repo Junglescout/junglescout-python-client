@@ -48,8 +48,8 @@ class HistoricalSearchVolumeRequest(BaseRequest[HistoricalSearchVolumeParams, Hi
     def method(self) -> Method:
         return Method.GET
 
-    def build_params(self, params: HistoricalSearchVolumeParams) -> Dict:
+    def build_params(self, params: HistoricalSearchVolumeParams) -> Dict:  # noqa: PLR6301
         return params.model_dump(by_alias=True, exclude_none=True)
 
-    def build_payload(self, attributes: HistoricalSearchVolumeAttributes):
+    def build_payload(self, attributes: HistoricalSearchVolumeAttributes):  # noqa: PLR6301,ARG002
         return None
