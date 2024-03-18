@@ -66,7 +66,8 @@ class ProductFilterOptions(BaseModel):
     def _validate_date_format(cls, v):
         if v:
             try:
-                datetime.strptime(v, "%Y-%m-%d")
-            except ValueError:
-                raise ValueError("Incorrect data format, should be YYYY-MM-DD")
+                datetime.strptime(v, "%Y-%m-%d")  # noqa: DTZ007
+            except ValueError as exc:
+                msg = "Incorrect data format, should be YYYY-MM-DD"
+                raise ValueError(msg) from exc
         return v
