@@ -1,8 +1,17 @@
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, List, Optional
 
 from pydantic import BaseModel, Field
 
 DataT = TypeVar("DataT")
+
+
+class APIResponseError(BaseModel):
+    """Represents an error in a response from the Jungle Scout API."""
+
+    title: str = Field(default=..., description="The title of the error.")
+    detail: str = Field(default=..., description="The detail of the error.")
+    code: str = Field(default=..., description="The code of the error.")
+    status: str = Field(default=..., description="The status code for the error.")
 
 
 class APIResponseLink(BaseModel):
@@ -15,7 +24,8 @@ class APIResponseLink(BaseModel):
 class APIResponseMeta(BaseModel):
     """Represents additional metadata for a response from the Jungle Scout API."""
 
-    total_items: int = Field(default=..., description="The total number of items in the response.")
+    total_items: Optional[int] = Field(default=None, description="The total number of items in the response.")
+    errors: Optional[List[APIResponseError]] = Field(default=None, description="The errors in the response.")
 
 
 class APIResponse(BaseModel, Generic[DataT]):
