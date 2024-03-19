@@ -14,7 +14,7 @@ class AttributesFactory(factory.DictFactory):
     parent_asin = factory.Faker("bothify", text="B0####???")
     is_variant = factory.Faker("boolean")
     seller_type = factory.Faker("sentence")
-    variants = factory.Faker("pyint")
+    variants = factory.List([fake.bothify(text="B0####???") for _ in range(2)])
     is_standalone = factory.Faker("boolean")
     is_parent = factory.Faker("boolean")
     brand = factory.Faker("sentence")
@@ -36,9 +36,7 @@ class AttributesFactory(factory.DictFactory):
     ean_list = factory.List([fake.random_int(min=0, max=100) for _ in range(2)])
     variant_reviews = factory.Faker("pyint")
     updated_at = fake.date_time_this_year().isoformat()
-    subcategory_ranks = factory.List(
-        [{"subcategory": fake.random_int(min=0, max=100), "rank": fake.random_int(min=0, max=100)}]
-    )
+    subcategory_ranks = factory.List([{"subcategory": fake.name(), "rank": fake.random_int(min=0, max=100)}])
     fee_breakdown = factory.Dict(
         {
             "fba_fee": fake.random_int(min=0, max=100),

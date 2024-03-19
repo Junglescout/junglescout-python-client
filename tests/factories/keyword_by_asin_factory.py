@@ -9,7 +9,7 @@ class AttributesFactory(factory.DictFactory):
     name = fake.name()
     primary_asin = fake.bothify(text="B0####???")
     monthly_trend = fake.random_int(min=0, max=100)
-    monthly_search_volume_exact = fake.random_number(digits=2, fix_len=True) / 100
+    monthly_search_volume_exact = fake.random_int(min=0, max=100)
     quarterly_trend = fake.random_number(digits=2, fix_len=True) / 100
     monthly_search_volume_broad = fake.random_int(min=0, max=100)
     dominant_category = fake.name()
@@ -31,7 +31,9 @@ class AttributesFactory(factory.DictFactory):
     avg_competitor_sponsored_rank = fake.random_int()
     relative_organic_position = fake.random_int()
     relative_sponsored_position = fake.random_int()
-    competitor_organic_rank = factory.List({"asin": fake.bothify(text="B0####???"), "organic_rank": fake.random_int()})
+    competitor_organic_rank = factory.List(
+        [{"asin": fake.bothify(text="B0####???"), "organic_rank": fake.random_int()}]
+    )
     variation_lowest_organic_rank = fake.random_int()
 
 

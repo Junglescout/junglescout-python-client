@@ -19,7 +19,7 @@ def test_keyword_by_asin():
                     "quarterly_trend": 1,
                     "monthly_search_volume_broad": 1,
                     "dominant_category": "foo",
-                    "recommended_promotions": "foo",
+                    "recommended_promotions": 1,
                     "sp_brand_ad_bid": 1,
                     "ppc_bid_broad": 1,
                     "ppc_bid_exact": 1,
@@ -37,7 +37,7 @@ def test_keyword_by_asin():
                     "avg_competitor_sponsored_rank": 1,
                     "relative_organic_position": 1,
                     "relative_sponsored_position": 1,
-                    "competitor_organic_rank": 1,
+                    "competitor_organic_rank": [{"asin": "foo", "organic_rank": 1}],
                     "variation_lowest_organic_rank": 1,
                 },
             }

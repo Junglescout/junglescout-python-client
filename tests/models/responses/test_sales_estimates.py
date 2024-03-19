@@ -16,7 +16,7 @@ def test_sales_estimates():
                     "is_variant": True,
                     "is_standalone": True,
                     "parent_asin": "foo",
-                    "variants": 1,
+                    "variants": ["foo"],
                     "data": [
                         {
                             "date": "2024-11-05",
