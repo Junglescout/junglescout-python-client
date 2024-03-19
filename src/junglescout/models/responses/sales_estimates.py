@@ -30,7 +30,7 @@ class SalesEstimateAttributes(BaseModel):
         default=..., description="A boolean indicating whether the ASIN is a standalone product."
     )
     parent_asin: str = Field(default=..., description="The parent ASIN associated with the sales estimate.")
-    variants: List = Field(default=..., description="The number of variants associated with the sales estimate.")
+    variants: List[str] = Field(default=..., description="The variant ASINs associated with the sales estimate.")
     data: List[SalesEstimateData] = Field(default=..., description="The sales estimate data.")
 
 
