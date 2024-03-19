@@ -18,7 +18,9 @@ def test_search_by_keyword_and_category(api_keys):
         sort_option=Sort.MONTHLY_TREND,
     )
     assert response.meta.errors is None
-    assert response.meta.total_items > 0
+    assert response.meta.total_items is not None
+    assert response.meta.total_items > 1
+    assert response.links.self is not None
     assert "keywords_by_keyword_query" in response.links.self
     assert response.links.next is None
     assert len(response.data) > 1
@@ -57,7 +59,9 @@ def test_search_by_keyword(api_keys):
     client = Client(**api_keys, marketplace=Marketplace.US)
     response = client.keywords_by_keyword(search_terms=search_term)
     assert response.meta.errors is None
-    assert response.meta.total_items > 0
+    assert response.meta.total_items is not None
+    assert response.meta.total_items > 1
+    assert response.links.self is not None
     assert "keywords_by_keyword_query" in response.links.self
     assert len(response.data) > 1
     assert response.data[0].id == f"us/{search_term}"

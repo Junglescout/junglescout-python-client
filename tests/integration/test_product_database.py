@@ -25,7 +25,9 @@ def test_with_keywords(api_keys):
     )
     assert response.data is not None
     assert response.meta.errors is None
+    assert response.meta.total_items is not None
     assert response.meta.total_items > 1
+    assert response.links.next is not None
     assert "product_database_query" in response.links.next
     assert len(response.data) > 1
     assert response.data[0].id.startswith("us")
