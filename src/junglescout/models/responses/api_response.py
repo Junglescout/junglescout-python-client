@@ -17,8 +17,8 @@ class APIResponseError(BaseModel):
 class APIResponseLink(BaseModel):
     """Represents the links for a response from the Jungle Scout API."""
 
-    self: str = Field(default=..., description="The current link.")
-    next: str = Field(default=..., description="The next link.")
+    self: Optional[str] = Field(default=None, description="The current link.")
+    next: Optional[str] = Field(default=None, description="The next link.")
 
 
 class APIResponseMeta(BaseModel):
