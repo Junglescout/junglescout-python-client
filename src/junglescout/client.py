@@ -385,10 +385,20 @@ class Client:
 
     # TODO: Improve our errors, displaying the actual API message error
     @staticmethod
-    def _raise_for_status(response: requests.Response) -> NoReturn:
+    def _raise_for_status(
+        response: requests.Response,
+    ) -> NoReturn:
         http_error_message = "Something went wrong"
         try:
             response.raise_for_status()
         except requests.HTTPError as requests_exception:
             http_error_message = requests_exception.args[0]
+            if response.content:
+                response_details = response.json()
+                error_details = response_details.get("errors", [])
+                if len(error_details) > 0:
+                    title = error_details[0].get("title", "")
+                    details = error_details[0].get("detail", "")
+                    http_error_message += f"\nTitle:{title}\nDetails: {details}"
+                raise requests.HTTPError(http_error_message, response=response) from requests_exception
         raise requests.HTTPError(http_error_message, response=response)
