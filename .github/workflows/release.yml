@@ -29,11 +29,27 @@ jobs:
           echo API_KEY="${{ secrets.INTEGRATION_TEST_API_KEY }}" >> .env
       - name: Run Integration Tests
         run: tox -e integration
-      - name: Create Version
+      - name: Create version
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: poetry run semantic-release version --no-changelog
+        run: |
+          CURRENT_VERSION=$(poetry run semantic-release --noop version --print-last-released-tag)
+          echo "Current version: ${CURRENT_VERSION}"
+          
+          poetry run semantic-release -vv version --no-changelog
+          
+          NEXT_VERSION=$(poetry run semantic-release --noop version --print-tag)
+          echo "Next version: ${NEXT_VERSION}"
+          
+          if [[ "${CURRENT_VERSION}" == "${NEXT_VERSION}" ]]; then
+            echo "SHOULD_PUBLISH=0" >> $GITHUB_ENV
+            echo "No new version to publish"
+          else
+            echo "SHOULD_PUBLISH=1" >> $GITHUB_ENV
+            echo "New version to publish"
+          fi
       - name: Publish to PyPI
+        if: env.SHOULD_PUBLISH == '1'
         env:
           POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
         run: poetry publish
