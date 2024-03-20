@@ -18,7 +18,7 @@ Install the Jungle Scout Python client.
 
 .. code-block:: bash
 
-    pip install jungle-scout-python-client
+    pip install junglescout-client
 
 Import the client and create an instance.
 
