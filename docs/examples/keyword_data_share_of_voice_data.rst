@@ -42,7 +42,9 @@ top keywords for the ASINs provided.
         keywords_by_asin = client.keywords_by_asin(
             asin=asins,
         )
-        df = pd.json_normalize(keywords_by_asin.data)
+        # We need to convert the model to a dictionary first
+        json_dump = keywords_by_asin.model_dump()
+        df = pd.json_normalize(json_dump["data"])
         df = df[["attributes.name", "attributes.monthly_trend", "attributes.monthly_search_volume_exact"]]
         df.rename(
             columns={
@@ -53,6 +55,7 @@ top keywords for the ASINs provided.
             inplace=True,
         )
         top_keywords = list(df["Keyword"][:number_of_keywords].values)
+
         return top_keywords
 
 Now we define a function that pulls data from the Share of Voice API endpoint. This function takes a list of
@@ -70,7 +73,8 @@ ASINs and returns the share of voice for each ASIN.
                 keyword=keyword,
                 marketplace=marketplace,
             )
-            data_sect = share_of_voice.data[0]
+            json_dump = share_of_voice.model_dump()
+            data_sect = json_dump["data"]
             attribute = data_sect["attributes"]
             df1 = pd.json_normalize(attribute["brands"])
             df1 = pd.json_normalize(attribute["top_asins"])
