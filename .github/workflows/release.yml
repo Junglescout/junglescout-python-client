@@ -36,7 +36,7 @@ jobs:
           CURRENT_VERSION=$(poetry run semantic-release --noop version --print-last-released-tag)
           echo "Current version: ${CURRENT_VERSION}"
           
-          poetry run semantic-release -vv version --no-changelog
+          poetry run semantic-release version --no-changelog
           
           NEXT_VERSION=$(poetry run semantic-release --noop version --print-tag)
           echo "Next version: ${NEXT_VERSION}"
