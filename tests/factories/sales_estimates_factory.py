@@ -13,7 +13,7 @@ class AttributesFactory(factory.DictFactory):
     is_variant = fake.boolean()
     is_standalone = fake.boolean()
     parent_asin = fake.bothify(text="B0####???")
-    variants = fake.random_int(min=0, max=100)
+    variants = factory.List([fake.name()])
     data = factory.LazyAttribute(
         lambda o: [
             {
