@@ -149,6 +149,7 @@ upload_to_vcs_release = true
 
 
 [project.urls]
+name = "junglescout-client"
 Homepage = "https://developer.junglescout.com/api"
 Documentation = "https://jungle-scout-junglescout-python-client.readthedocs-hosted.com/en/latest/"
 Collection = "https://postman.junglescout.com/"
