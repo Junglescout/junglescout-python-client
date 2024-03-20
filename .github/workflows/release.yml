@@ -23,6 +23,10 @@ jobs:
           cache: 'poetry'
       - name: Install dependencies
         run: poetry install
+      - name: Create .env file
+        run: |
+          echo API_KEY_NAME="${{ secrets.INTEGRATION_TEST_API_KEY_NAME }}" >> .env
+          echo API_KEY="${{ secrets.INTEGRATION_TEST_API_KEY }}" >> .env
       - name: Run Integration Tests
         run: tox -e integration
       - name: Create Version
