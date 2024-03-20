@@ -15,12 +15,20 @@ jobs:
           fetch-depth: 0
       - name: Install poetry
         run: pipx install poetry
+      - name: Install tox
+        run: pipx install tox
       - uses: actions/setup-python@v5
         with:
           python-version: 3.12
           cache: 'poetry'
       - name: Install dependencies
         run: poetry install
+      - name: Create .env file
+        run: |
+          echo API_KEY_NAME="${{ secrets.INTEGRATION_TEST_API_KEY_NAME }}" >> .env
+          echo API_KEY="${{ secrets.INTEGRATION_TEST_API_KEY }}" >> .env
+      - name: Run Integration Tests
+        run: tox -e integration
       - name: Create Version
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}

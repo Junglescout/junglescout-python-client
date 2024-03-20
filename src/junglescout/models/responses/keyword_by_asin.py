@@ -16,29 +16,39 @@ class CompetitorRank(BaseModel):
 class KeywordAttributes(BaseModel):
     """Keyword attributes for a specific ASIN."""
 
-    country: str = Field(default=..., description="The country of the keyword.")
-    name: str = Field(default=..., description="The name of the keyword.")
-    primary_asin: str = Field(default=..., description="The primary ASIN of the keyword.")
-    monthly_trend: float = Field(default=..., description="The monthly trend of the keyword.")
-    monthly_search_volume_exact: int = Field(default=..., description="The monthly search volume exact of the keyword.")
-    quarterly_trend: float = Field(default=..., description="The quarterly trend of the keyword.")
-    monthly_search_volume_broad: int = Field(default=..., description="The monthly search volume broad of the keyword.")
-    dominant_category: str = Field(default=..., description="The dominant category of the keyword.")
-    recommended_promotions: int = Field(default=..., description="The recommended promotions of the keyword.")
+    country: Optional[str] = Field(default=None, description="The country of the keyword.")
+    name: Optional[str] = Field(default=None, description="The name of the keyword.")
+    primary_asin: Optional[str] = Field(default=None, description="The primary ASIN of the keyword.")
+    monthly_trend: Optional[float] = Field(default=None, description="The monthly trend of the keyword.")
+    monthly_search_volume_exact: Optional[int] = Field(
+        default=None, description="The monthly search volume exact of the keyword."
+    )
+    quarterly_trend: Optional[float] = Field(default=None, description="The quarterly trend of the keyword.")
+    monthly_search_volume_broad: Optional[int] = Field(
+        default=None, description="The monthly search volume broad of the keyword."
+    )
+    dominant_category: Optional[str] = Field(default=None, description="The dominant category of the keyword.")
+    recommended_promotions: Optional[int] = Field(
+        default=None, description="The recommended promotions of the keyword."
+    )
     sp_brand_ad_bid: Optional[float] = Field(default=None, description="The SP brand ad bid of the keyword.")
     ppc_bid_broad: Optional[float] = Field(default=None, description="The PPC bid broad of the keyword.")
     ppc_bid_exact: Optional[float] = Field(default=None, description="The PPC bid exact of the keyword.")
-    ease_of_ranking_score: int = Field(default=..., description="The ease of ranking score of the keyword.")
-    relevancy_score: int = Field(default=..., description="The relevancy score of the keyword.")
-    organic_product_count: int = Field(default=..., description="The organic product count of the keyword.")
-    sponsored_product_count: int = Field(default=..., description="The sponsored product count of the keyword.")
+    ease_of_ranking_score: Optional[int] = Field(default=None, description="The ease of ranking score of the keyword.")
+    relevancy_score: Optional[int] = Field(default=None, description="The relevancy score of the keyword.")
+    organic_product_count: Optional[int] = Field(default=None, description="The organic product count of the keyword.")
+    sponsored_product_count: Optional[int] = Field(
+        default=None, description="The sponsored product count of the keyword."
+    )
     updated_at: datetime = Field(default=..., description="The date the keyword was last updated.")
-    organic_rank: int = Field(default=..., description="The organic rank of the keyword.")
+    organic_rank: Optional[int] = Field(default=None, description="The organic rank of the keyword.")
     sponsored_rank: Optional[int] = Field(default=None, description="The sponsored rank of the keyword.")
     overall_rank: Optional[int] = Field(default=None, description="The overall rank of the keyword.")
-    organic_ranking_asins_count: int = Field(default=..., description="The organic ranking ASINs count of the keyword.")
-    sponsored_ranking_asins_count: int = Field(
-        default=..., description="The sponsored ranking ASINs count of the keyword."
+    organic_ranking_asins_count: Optional[int] = Field(
+        default=None, description="The organic ranking ASINs count of the keyword."
+    )
+    sponsored_ranking_asins_count: Optional[int] = Field(
+        default=None, description="The sponsored ranking ASINs count of the keyword."
     )
     avg_competitor_organic_rank: Optional[int] = Field(
         default=None, description="The average competitor organic rank of the keyword."
@@ -46,10 +56,14 @@ class KeywordAttributes(BaseModel):
     avg_competitor_sponsored_rank: Optional[int] = Field(
         default=None, description="The average competitor sponsored rank of the keyword."
     )
-    relative_organic_position: int = Field(default=..., description="The relative organic position of the keyword.")
-    relative_sponsored_position: int = Field(default=..., description="The relative sponsored position of the keyword.")
-    competitor_organic_rank: List[CompetitorRank] = Field(
-        default=..., description="The competitor organic rank of the keyword."
+    relative_organic_position: Optional[int] = Field(
+        default=None, description="The relative organic position of the keyword."
+    )
+    relative_sponsored_position: Optional[int] = Field(
+        default=None, description="The relative sponsored position of the keyword."
+    )
+    competitor_organic_rank: Optional[List[CompetitorRank]] = Field(
+        default=None, description="The competitor organic rank of the keyword."
     )
     variation_lowest_organic_rank: Optional[int] = Field(
         default=None, description="The variation lowest organic rank of the keyword."

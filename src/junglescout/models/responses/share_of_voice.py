@@ -30,12 +30,12 @@ class ShareOfVoiceBrands(BaseModel):
 class ShareOfVoiceTopAsins(BaseModel):
     """Represents a list of top ASINs in the Share of Voice response."""
 
-    asin: str = Field(default=..., description="The ASIN.")
-    name: str = Field(default=..., description="The name.")
-    brand: str = Field(default=..., description="The brand.")
-    clicks: int = Field(default=..., description="The clicks.")
-    conversions: int = Field(default=..., description="The conversions.")
-    conversion_rate: float = Field(default=..., description="The conversion rate.")
+    asin: Optional[str] = Field(default=None, description="The ASIN.")
+    name: Optional[str] = Field(default=None, description="The name.")
+    brand: Optional[str] = Field(default=None, description="The brand.")
+    clicks: Optional[int] = Field(default=None, description="The clicks.")
+    conversions: Optional[int] = Field(default=None, description="The conversions.")
+    conversion_rate: Optional[float] = Field(default=None, description="The conversion rate.")
 
 
 class ShareOfVoiceAttributes(BaseModel):
