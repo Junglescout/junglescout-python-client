@@ -12,7 +12,7 @@ class AttributesFactory(factory.DictFactory):
     quarterly_trend = fake.random_int(min=0, max=100)
     monthly_search_volume_broad = fake.random_int(min=0, max=100)
     dominant_category = fake.name()
-    recommended_promotions = fake.name()
+    recommended_promotions = fake.random_int(min=0, max=100)
     sp_brand_ad_bid = fake.random_int()
     ppc_bid_broad = fake.random_int()
     ppc_bid_exact = fake.random_int()

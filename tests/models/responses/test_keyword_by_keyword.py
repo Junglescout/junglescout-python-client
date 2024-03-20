@@ -19,7 +19,7 @@ def test_keyword_by_keyword():
                     "quarterly_trend": 1,
                     "monthly_search_volume_broad": 1,
                     "dominant_category": "foo",
-                    "recommended_promotions": "foo",
+                    "recommended_promotions": 1,
                     "sp_brand_ad_bid": 1,
                     "ppc_bid_broad": 1,
                     "ppc_bid_exact": 1,

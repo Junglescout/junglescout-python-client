@@ -20,7 +20,7 @@ def test_product_database():
                     "parent_asin": "foo",
                     "is_variant": True,
                     "seller_type": "foo",
-                    "variants": 1,
+                    "variants": ["foo"],
                     "is_standalone": True,
                     "is_parent": True,
                     "brand": "foo",
@@ -42,7 +42,7 @@ def test_product_database():
                     "ean_list": [1, 2],
                     "variant_reviews": 1,
                     "updated_at": "2024-11-05",
-                    "subcategory_ranks": [{"subcategory": 1, "rank": 1}],
+                    "subcategory_ranks": [{"subcategory": "foo", "rank": 1}],
                     "fee_breakdown": {"fba_fee": 1, "referral_fee": 1, "variable_closing_fee": 1, "total_fees": 1},
                 },
             }
