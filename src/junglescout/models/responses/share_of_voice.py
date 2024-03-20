@@ -42,7 +42,7 @@ class ShareOfVoiceAttributes(BaseModel):
     """Attributes for the Share of Voice response."""
 
     estimated_30_day_search_volume: int = Field(default=..., description="The estimated 30-day search volume.")
-    exact_suggested_bid_median: Optional[int] = Field(
+    exact_suggested_bid_median: Optional[float] = Field(
         default=None, description="The median of the exact suggested bid."
     )
     product_count: int = Field(default=..., description="The count of products.")
