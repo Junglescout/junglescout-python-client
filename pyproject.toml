@@ -148,11 +148,10 @@ dist_glob_patterns = ["dist/*"]
 upload_to_vcs_release = true
 
 
-[project.urls]
-name = "junglescout-client"
+[tool.poetry.urls]
 Homepage = "https://developer.junglescout.com/api"
 Documentation = "https://jungle-scout-junglescout-python-client.readthedocs-hosted.com/en/latest/"
-Collection = "https://postman.junglescout.com/"
+"Postman Collection" = "https://postman.junglescout.com/"
 Repository = "https://github.com/Junglescout/junglescout-python-client.git"
 Issues = "https://github.com/Junglescout/junglescout-python-client/issues"
 Changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
