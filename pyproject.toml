@@ -146,3 +146,11 @@ env = "GH_TOKEN"
 [tool.semantic_release.publish]
 dist_glob_patterns = ["dist/*"]
 upload_to_vcs_release = true
+
+
+[tool.poetry.urls]
+Homepage = "https://developer.junglescout.com/api"
+Documentation = "https://jungle-scout-junglescout-python-client.readthedocs-hosted.com/en/latest/"
+"Postman Collection" = "https://postman.junglescout.com/"
+Repository = "https://github.com/Junglescout/junglescout-python-client.git"
+Issues = "https://github.com/Junglescout/junglescout-python-client/issues"
