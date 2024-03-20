@@ -26,6 +26,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: poetry run semantic-release version --no-changelog
       - name: Publish to PyPI
-        run: echo "Publishing to PyPI!"
-        # TODO: Uncomment the following line to publish to PyPI
-        # run: poetry publish
+        env:
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
+        run: poetry publish

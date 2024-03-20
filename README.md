@@ -10,10 +10,7 @@ the Jungle Scout API.
 ## Installation
 
 ```bash
-# TODO: remove the personal access token when this project is published to pypi
-# while this repository is still private, install
-# using Github personal access token for authentication
-pip install git+https://${GITHUB_PERSONAL_TOKEN}@github.com/Junglescout/junglescout-python-client.git@main
+pip install junglescout-client
 ```
 
 ## Usage

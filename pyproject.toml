@@ -1,6 +1,9 @@
 [tool.poetry]
 package-mode = true
-name = "junglescout"
+name = "junglescout-client"
+packages = [
+    { include = "junglescout", from = "src" },
+]
 version = "0.0.1"
 license = "MIT"
 authors = ["Jungle Scout <support@junglescout.com>"]
