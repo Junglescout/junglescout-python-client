@@ -309,8 +309,8 @@ class Client:
         """Retrieves product data from the Jungle Scout Product Database.
 
         Args:
-            include_keywords: List of keywords to include in the search.
-            exclude_keywords: List of keywords to exclude from the search.
+            include_keywords: List of keywords or ASINs to include in the search.
+            exclude_keywords: List of keywords or ASINs to exclude from the search.
             categories: List of categories to filter the search by. Must be valid inside the
                 categories of the selected Marketplace.
             product_tiers: List of product tiers to filter the search by. Must use the ProductTiers enum.
