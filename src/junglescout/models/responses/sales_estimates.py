@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel, Field, field_serializer
 
@@ -21,16 +21,20 @@ class SalesEstimateData(BaseModel):
 class SalesEstimateAttributes(BaseModel):
     """The attributes of the sales estimate."""
 
-    asin: str = Field(
-        default=..., description="The ASIN (Amazon Standard Identification Number) associated with the sales estimate."
+    asin: Optional[str] = Field(
+        default=None, description="The ASIN (Amazon Standard Identification Number) associated with the sales estimate."
     )
-    is_parent: bool = Field(default=..., description="A boolean indicating whether the ASIN is a parent ASIN.")
-    is_variant: bool = Field(default=..., description="A boolean indicating whether the ASIN is a variant.")
-    is_standalone: bool = Field(
-        default=..., description="A boolean indicating whether the ASIN is a standalone product."
+    is_parent: Optional[bool] = Field(
+        default=None, description="A boolean indicating whether the ASIN is a parent ASIN."
     )
-    parent_asin: str = Field(default=..., description="The parent ASIN associated with the sales estimate.")
-    variants: List[str] = Field(default=..., description="The variant ASINs associated with the sales estimate.")
+    is_variant: Optional[bool] = Field(default=None, description="A boolean indicating whether the ASIN is a variant.")
+    is_standalone: Optional[bool] = Field(
+        default=None, description="A boolean indicating whether the ASIN is a standalone product."
+    )
+    parent_asin: Optional[str] = Field(default=None, description="The parent ASIN associated with the sales estimate.")
+    variants: Optional[List[str]] = Field(
+        default=None, description="The variant ASINs associated with the sales estimate."
+    )
     data: List[SalesEstimateData] = Field(default=..., description="The sales estimate data.")
 
 
