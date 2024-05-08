@@ -1,6 +1,7 @@
 from datetime import datetime
 
 import pytest
+import requests
 
 from junglescout.client import Client
 from junglescout.models.parameters import (
@@ -9,6 +10,8 @@ from junglescout.models.parameters import (
     ProductTiers,
     SellerTypes,
 )
+
+HTTP_BAD_REQUEST_CODE = 400
 
 
 @pytest.mark.integration()
@@ -39,9 +42,9 @@ def test_with_keywords(api_keys):
 def test_with_keyword_that_does_not_exist(api_keys):
     keywords = ["thisisnotarealkeywordthisisnotarealkeywordthisisno"]
     client = Client(**api_keys, marketplace=Marketplace.US)
-    response = client.product_database(
-        include_keywords=keywords,
-        marketplace=Marketplace.US,
-    )
-    assert response.data == []
-    assert response.meta.total_items == 0
+    with pytest.raises(requests.HTTPError) as excinfo:
+        client.product_database(
+            include_keywords=keywords,
+            marketplace=Marketplace.US,
+        )
+    assert excinfo.value.response.status_code == HTTP_BAD_REQUEST_CODE
