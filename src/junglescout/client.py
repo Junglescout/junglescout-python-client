@@ -333,6 +333,9 @@ class Client:
         if seller_types is None:
             seller_types = [SellerTypes.AMZ, SellerTypes.FBA, SellerTypes.FBM]
 
+        if exclude_keywords is None:
+            exclude_keywords = []
+
         marketplace = self._resolve_marketplace(marketplace)
 
         params = ProductDatabaseParams(
