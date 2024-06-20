@@ -13,6 +13,13 @@ class CompetitorRank(BaseModel):
     organic_rank: int = Field(default=..., description="The organic rank of the competitor.")
 
 
+class SponsoredRank(BaseModel):
+    """Represents a sponsored rank for a specific keyword."""
+
+    asin: str = Field(default=..., description="The ASIN of the competitor.")
+    sponsored_rank: int = Field(default=..., description="The sponsored rank of the competitor.")
+
+
 class KeywordAttributes(BaseModel):
     """Keyword attributes for a specific ASIN."""
 
@@ -64,6 +71,9 @@ class KeywordAttributes(BaseModel):
     )
     competitor_organic_rank: Optional[List[CompetitorRank]] = Field(
         default=None, description="The competitor organic rank of the keyword."
+    )
+    competitor_sponsored_rank: Optional[List[SponsoredRank]] = Field(
+        default=None, description="The competitor sponsored rank of the keyword."
     )
     variation_lowest_organic_rank: Optional[int] = Field(
         default=None, description="The variation lowest organic rank of the keyword."
