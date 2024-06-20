@@ -4,7 +4,7 @@ name = "junglescout-client"
 packages = [
     { include = "junglescout", from = "src" },
 ]
-version = "0.1.4"
+version = "0.2.0"
 license = "MIT"
 authors = ["Jungle Scout <support@junglescout.com>"]
 description = "Jungle Scout API Client"
