@@ -393,5 +393,5 @@ class Client:
         try:
             response.raise_for_status()
         except requests.HTTPError as requests_exception:
-            http_error_message = requests_exception.args[0]
+            http_error_message = f"{requests_exception.args[0]} - {response.json()}"
         raise requests.HTTPError(http_error_message, response=response)
