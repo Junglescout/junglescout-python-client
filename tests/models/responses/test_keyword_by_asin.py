@@ -38,6 +38,7 @@ def test_keyword_by_asin():
                     "relative_organic_position": 1,
                     "relative_sponsored_position": 1,
                     "competitor_organic_rank": [{"asin": "foo", "organic_rank": 1}],
+                    "competitor_sponsored_rank": [{"asin": "foo", "sponsored_rank": 1}],
                     "variation_lowest_organic_rank": 1,
                 },
             }

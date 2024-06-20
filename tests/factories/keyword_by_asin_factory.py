@@ -34,6 +34,9 @@ class AttributesFactory(factory.DictFactory):
     competitor_organic_rank = factory.List(
         [{"asin": fake.bothify(text="B0####???"), "organic_rank": fake.random_int()}]
     )
+    competitor_sponsored_rank = factory.List(
+        [{"asin": fake.bothify(text="B0####???"), "sponsored_rank": fake.random_int()}]
+    )
     variation_lowest_organic_rank = fake.random_int()
 
 
