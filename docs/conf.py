@@ -4,7 +4,7 @@
 project = "jungle-scout"
 copyright = "2024, Jungle Scout <support@junglescout.com>"  # noqa: A001
 author = "Jungle Scout <support@junglescout.com>"
-release = "0.2.0"
+release = "0.2.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
