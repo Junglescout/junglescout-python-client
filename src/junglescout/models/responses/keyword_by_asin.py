@@ -47,7 +47,7 @@ class KeywordAttributes(BaseModel):
     sponsored_product_count: Optional[int] = Field(
         default=None, description="The sponsored product count of the keyword."
     )
-    updated_at: datetime = Field(default=..., description="The date the keyword was last updated.")
+    updated_at: Optional[datetime] = Field(default=..., description="The date the keyword was last updated.")
     organic_rank: Optional[int] = Field(default=None, description="The organic rank of the keyword.")
     sponsored_rank: Optional[int] = Field(default=None, description="The sponsored rank of the keyword.")
     overall_rank: Optional[int] = Field(default=None, description="The overall rank of the keyword.")

@@ -6,8 +6,8 @@ from pydantic import BaseModel, Field
 class KeywordByKeywordAttributes(BaseModel):
     """Attributes for keyword."""
 
-    country: str = Field(default=..., description="The country of the keyword.")
-    name: str = Field(default=..., description="The name of the keyword.")
+    country: Optional[str] = Field(default=..., description="The country of the keyword.")
+    name: Optional[str] = Field(default=..., description="The name of the keyword.")
     monthly_trend: Optional[float] = Field(default=None, description="The monthly trend of the keyword.")
     monthly_search_volume_exact: Optional[int] = Field(
         default=None, description="The monthly search volume exact of the keyword."

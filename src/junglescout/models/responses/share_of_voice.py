@@ -55,8 +55,12 @@ class ShareOfVoiceAttributes(BaseModel):
     top_asins: List[ShareOfVoiceTopAsins] = Field(
         default=..., description="The top ASINs associated with the Share of Voice data."
     )
-    top_asins_model_start_date: datetime = Field(default=..., description="The start date of the top ASINs model.")
-    top_asins_model_end_date: datetime = Field(default=..., description="The end date of the top ASINs model.")
+    top_asins_model_start_date: Optional[datetime] = Field(
+        default=..., description="The start date of the top ASINs model."
+    )
+    top_asins_model_end_date: Optional[datetime] = Field(
+        default=..., description="The end date of the top ASINs model."
+    )
 
     @field_serializer("top_asins_model_start_date")
     def _serialize_top_asins_model_start_date(self, v: datetime):  # noqa: PLR6301
