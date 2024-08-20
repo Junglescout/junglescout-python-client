@@ -41,13 +41,11 @@ class ShareOfVoiceTopAsins(BaseModel):
 class ShareOfVoiceAttributes(BaseModel):
     """Attributes for the Share of Voice response."""
 
-    estimated_30_day_search_volume: Optional[int] = Field(
-        default=..., description="The estimated 30-day search volume."
-    )
+    estimated_30_day_search_volume: int = Field(default=..., description="The estimated 30-day search volume.")
     exact_suggested_bid_median: Optional[float] = Field(
         default=None, description="The median of the exact suggested bid."
     )
-    product_count: Optional[int] = Field(default=..., description="The count of products.")
+    product_count: int = Field(default=..., description="The count of products.")
     updated_at: datetime = Field(
         default=..., description="The date and time when the Share of Voice data was last updated."
     )
