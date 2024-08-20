@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel, Field, field_serializer
 
@@ -8,9 +9,13 @@ from .serializer_helpers import serialize_date
 class HistoricalSearchVolumeAttributes(BaseModel):
     """Attributes for historical search volume."""
 
-    estimate_start_date: datetime = Field(default=..., description="The start date of the estimated search volume.")
-    estimate_end_date: datetime = Field(default=..., description="The end date of the estimated search volume.")
-    estimated_exact_search_volume: int = Field(default=..., description="The estimated exact search volume.")
+    estimate_start_date: Optional[datetime] = Field(
+        default=..., description="The start date of the estimated search volume."
+    )
+    estimate_end_date: Optional[datetime] = Field(
+        default=..., description="The end date of the estimated search volume."
+    )
+    estimated_exact_search_volume: Optional[int] = Field(default=..., description="The estimated exact search volume.")
 
     @field_serializer("estimate_start_date")
     def _serialize_estimate_start_date(self, v: datetime):  # noqa: PLR6301

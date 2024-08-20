@@ -67,7 +67,7 @@ class ProductDatabaseAttributes(BaseModel):
     )
     ean_list: Optional[List[int]] = Field(default=None, description="The EAN list of the product.")
     variant_reviews: Optional[int] = Field(default=None, description="The variant reviews of the product.")
-    updated_at: datetime = Field(default=..., description="The date the product was last updated.")
+    updated_at: Optional[datetime] = Field(default=..., description="The date the product was last updated.")
     subcategory_ranks: Optional[List[ProductDatabaseSubcategoryRanks]] = Field(
         default=None, description="The subcategory ranks of the product."
     )

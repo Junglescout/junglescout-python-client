@@ -41,11 +41,13 @@ class ShareOfVoiceTopAsins(BaseModel):
 class ShareOfVoiceAttributes(BaseModel):
     """Attributes for the Share of Voice response."""
 
-    estimated_30_day_search_volume: int = Field(default=..., description="The estimated 30-day search volume.")
+    estimated_30_day_search_volume: Optional[int] = Field(
+        default=..., description="The estimated 30-day search volume."
+    )
     exact_suggested_bid_median: Optional[float] = Field(
         default=None, description="The median of the exact suggested bid."
     )
-    product_count: int = Field(default=..., description="The count of products.")
+    product_count: Optional[int] = Field(default=..., description="The count of products.")
     updated_at: datetime = Field(
         default=..., description="The date and time when the Share of Voice data was last updated."
     )
@@ -55,8 +57,12 @@ class ShareOfVoiceAttributes(BaseModel):
     top_asins: List[ShareOfVoiceTopAsins] = Field(
         default=..., description="The top ASINs associated with the Share of Voice data."
     )
-    top_asins_model_start_date: datetime = Field(default=..., description="The start date of the top ASINs model.")
-    top_asins_model_end_date: datetime = Field(default=..., description="The end date of the top ASINs model.")
+    top_asins_model_start_date: Optional[datetime] = Field(
+        default=..., description="The start date of the top ASINs model."
+    )
+    top_asins_model_end_date: Optional[datetime] = Field(
+        default=..., description="The end date of the top ASINs model."
+    )
 
     @field_serializer("top_asins_model_start_date")
     def _serialize_top_asins_model_start_date(self, v: datetime):  # noqa: PLR6301
