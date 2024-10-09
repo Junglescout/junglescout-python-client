@@ -2,6 +2,7 @@ from typing import List, NoReturn, Optional, Union
 
 import requests
 
+from junglescout.client_base import BaseClient
 from junglescout.models.parameters import (
     ApiType,
     FilterOptions,
@@ -51,10 +52,10 @@ from junglescout.models.responses import (
     SalesEstimates,
     ShareOfVoice,
 )
-from junglescout.session import Session
+from junglescout.session import SyncSession
 
 
-class Client:
+class Client(BaseClient):
     """The Jungle Scout API client.
 
     This class is used to make requests to the Jungle Scout API. It provides methods to retrieve keyword data,
@@ -76,7 +77,9 @@ class Client:
             api_type: The type of the API.
             marketplace: The default marketplace to use for API requests.
         """
-        self.session = Session()
+        super().__init__(api_key_name, api_key, api_type, marketplace)
+        headers = self._build_headers()
+        self.session = SyncSession(headers)
         self.session.login(api_key_name=api_key_name, api_key=api_key, api_type=api_type)
         self.marketplace = marketplace
 
@@ -121,10 +124,12 @@ class Client:
 
         payload = keyword_by_asin_request.payload
 
-        response = self.session.request(keyword_by_asin_request.method.value, url, data=payload)
-        if response.ok:
+        response = self.session.request("POST", url, json=payload)
+
+        if response.status_code == 200:
             return APIResponse[List[KeywordByASIN]].model_validate(response.json())
-        self._raise_for_status(response)
+        else:
+            self._raise_for_status(response)
 
     def keywords_by_keyword(
         self,
@@ -385,13 +390,3 @@ class Client:
             return resolved_marketplace
         msg = "Marketplace cannot be resolved"
         raise AttributeError(msg)
-
-    # TODO: Improve our errors, displaying the actual API message error
-    @staticmethod
-    def _raise_for_status(response: requests.Response) -> NoReturn:
-        http_error_message = "Something went wrong"
-        try:
-            response.raise_for_status()
-        except requests.HTTPError as requests_exception:
-            http_error_message = f"{requests_exception.args[0]} - {response.json()}"
-        raise requests.HTTPError(http_error_message, response=response)
