@@ -1,11 +1,12 @@
+from abc import ABC
 from typing import Optional, NoReturn
 import httpx
-
-from junglescout.models.parameters import ApiType, Marketplace
 import urllib.parse
 
+from junglescout.models.parameters import ApiType, Marketplace
 
-class BaseClient:
+
+class BaseClient(ABC):
     def __init__(
         self,
         api_key_name: str,

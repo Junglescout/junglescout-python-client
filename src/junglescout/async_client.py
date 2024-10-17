@@ -100,7 +100,7 @@ class AsyncClient(BaseClient):
                 ASINs or a single ASIN.
             include_variants: Include variants in the response.
             filter_options: Filter options for the request.
-            sort_option: Sort option for the request.
+            sort_option: Sort option for the request. This is equivalent to -sort_option in the API.
             marketplace: The Amazon marketplace.
             page_size: The number of results to return per page.
             page: The page to return.

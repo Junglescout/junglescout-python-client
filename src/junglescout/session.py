@@ -1,4 +1,5 @@
 import urllib.parse
+from abc import ABC, abstractmethod
 from typing import Dict, Optional
 
 import httpx
@@ -6,7 +7,7 @@ import httpx
 from junglescout.models.parameters import ApiType
 
 
-class BaseSession():
+class BaseSession(ABC):
     """Represents a session with the Jungle Scout API."""
 
     def __init__(self, headers: Optional[dict] = None, default_connect_timeout=4, default_read_timeout=10):
@@ -51,6 +52,12 @@ class BaseSession():
             api_type: The type of API to use.
         """
         self.headers.update({"Authorization": f"{api_key_name}:{api_key}", "X_API_Type": api_type.value})
+        self.client = self._create_client()
+
+    @abstractmethod
+    def _create_client(self):
+        """Abstract method to create a client. Must be implemented by subclasses."""
+        pass
 
 
 class SyncSession(BaseSession):
@@ -81,16 +88,9 @@ class SyncSession(BaseSession):
         """Closes the synchronous client session."""
         self.client.close()
 
-    def login(self, api_key_name: str, api_key: str, api_type: ApiType = ApiType.JS):
-        """Sets the authorization headers for the session.
-
-        Args:
-            api_key_name: The name of the API key.
-            api_key: The API key.
-            api_type: The type of API to use.
-        """
-        super().login(api_key_name, api_key, api_type)
-        self.client = httpx.Client(
+    def _create_client(self):
+        """Creates and returns a synchronous HTTP client."""
+        return httpx.Client(
             headers=self.headers,
             timeout=httpx.Timeout(
                 timeout=self.default_read_timeout,
@@ -123,12 +123,12 @@ class AsyncSession(BaseSession):
             httpx.Response: The response from the server.
         """
         async with self.client as client:
-            request = await self.client.request(method, url, **kwargs)
+            request = await client.request(method, url, **kwargs)
         return request
 
-    def login(self, api_key_name: str, api_key: str, api_type: ApiType = ApiType.JS):
-        super().login(api_key_name, api_key, api_type)
-        self.client = httpx.AsyncClient(
+    def _create_client(self):
+        """Creates and returns an asynchronous HTTP client."""
+        return httpx.AsyncClient(
             headers=self.headers,
             timeout=httpx.Timeout(
                 timeout=self.default_read_timeout,
