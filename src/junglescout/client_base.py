@@ -1,12 +1,16 @@
-from abc import ABC
-from typing import Optional, NoReturn
+from abc import ABC, abstractmethod
+from typing import Optional, NoReturn, Generic, TypeVar
 import httpx
 import urllib.parse
 
 from junglescout.models.parameters import ApiType, Marketplace
+from junglescout.session import BaseSession
 
 
-class BaseClient(ABC):
+T = TypeVar("T", bound=BaseSession)
+
+
+class BaseClient(ABC, Generic[T]):
     def __init__(
         self,
         api_key_name: str,
@@ -19,13 +23,17 @@ class BaseClient(ABC):
         self.api_type = api_type
         self.marketplace = marketplace
         self.base_url = "https://developer.junglescout.com/api"
+        self.session: T = self._create_session()
+        self.session.login(api_key_name=api_key_name, api_key=api_key, api_type=api_type)
+
+    @abstractmethod
+    def create_session(self) -> T:
+        pass
 
     def _build_headers(self) -> dict:
         return {
             "Accept": "application/vnd.junglescout.v1+json",
             "Content-Type": "application/vnd.api+json",
-            #"Authorization": f"{self.api_key_name}:{self.api_key}",
-            #"X_API_Type": self.api_type.value,
         }
 
     def _build_url(self, *args, params: Optional[dict] = None) -> str:

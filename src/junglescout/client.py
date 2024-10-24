@@ -55,7 +55,7 @@ from junglescout.models.responses import (
 from junglescout.session import SyncSession
 
 
-class Client(BaseClient):
+class Client(BaseClient[SyncSession]):
     """The Jungle Scout API client.
 
     This class is used to make requests to the Jungle Scout API. It provides methods to retrieve keyword data,
@@ -78,10 +78,11 @@ class Client(BaseClient):
             marketplace: The default marketplace to use for API requests.
         """
         super().__init__(api_key_name, api_key, api_type, marketplace)
+    
+    def create_session(self) -> SyncSession:
         headers = self._build_headers()
-        self.session = SyncSession(headers)
-        self.session.login(api_key_name=api_key_name, api_key=api_key, api_type=api_type)
-        self.marketplace = marketplace
+        session = SyncSession(headers)
+        return session
 
     def keywords_by_asin(
         self,
