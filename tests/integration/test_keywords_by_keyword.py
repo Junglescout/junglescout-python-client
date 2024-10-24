@@ -3,7 +3,7 @@ import json
 import pytest
 from pydantic import ValidationError
 
-from junglescout.client import Client
+from junglescout import Client
 from junglescout.models.parameters import Marketplace, Sort
 
 

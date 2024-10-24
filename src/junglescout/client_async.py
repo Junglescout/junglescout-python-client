@@ -1,61 +1,17 @@
-from typing import List, NoReturn, Optional, Union
+from typing import List, Optional, Union
 
-import requests
-
-from junglescout.client_base import BaseClient
-from junglescout.models.parameters import (
-    ApiType,
-    FilterOptions,
-    Marketplace,
-    ProductFilterOptions,
-    ProductSort,
-    ProductTiers,
-    SellerTypes,
-    Sort,
-)
-from junglescout.models.requests.historical_search_volume_request import (
-    HistoricalSearchVolumeAttributes,
-    HistoricalSearchVolumeParams,
-    HistoricalSearchVolumeRequest,
-)
+from junglescout.client import Client
+from junglescout.models.parameters import ApiType, FilterOptions, Marketplace, Sort
 from junglescout.models.requests.keyword_by_asin_request import (
     KeywordByAsinAttributes,
     KeywordByAsinParams,
     KeywordByAsinRequest,
 )
-from junglescout.models.requests.keywords_by_keyword_request import (
-    KeywordsByKeywordAttributes,
-    KeywordsByKeywordParams,
-    KeywordsByKeywordRequest,
-)
-from junglescout.models.requests.product_database_request import (
-    ProductDatabaseAttributes,
-    ProductDatabaseParams,
-    ProductDatabaseRequest,
-)
-from junglescout.models.requests.sales_estimates_request import (
-    SalesEstimatesAttributes,
-    SalesEstimatesParams,
-    SalesEstimatesRequest,
-)
-from junglescout.models.requests.share_of_voice_request import (
-    ShareOfVoiceAttributes,
-    ShareOfVoiceParams,
-    ShareOfVoiceRequest,
-)
-from junglescout.models.responses import (
-    APIResponse,
-    HistoricalSearchVolume,
-    KeywordByASIN,
-    KeywordByKeyword,
-    ProductDatabase,
-    SalesEstimates,
-    ShareOfVoice,
-)
+from junglescout.models.responses import APIResponse, KeywordByASIN
 from junglescout.session import AsyncSession
 
 
-class AsyncClient(BaseClient[AsyncSession]):
+class ClientAsync(Client[AsyncSession]):
     """The Jungle Scout API client.
 
     This class is used to make requests to the Jungle Scout API. It provides methods to retrieve keyword data,
@@ -80,9 +36,9 @@ class AsyncClient(BaseClient[AsyncSession]):
         super().__init__(api_key_name, api_key, api_type, marketplace)
 
     def create_session(self) -> AsyncSession:
+        """Creates a new AsyncSession."""
         headers = self._build_headers()
-        session = AsyncSession(headers)
-        return session
+        return AsyncSession(headers)
 
     async def keywords_by_asin(
         self,
@@ -127,7 +83,6 @@ class AsyncClient(BaseClient[AsyncSession]):
 
         response = await self.session.request("POST", url, json=payload)
 
-        if response.status_code == 200:
+        if response.is_success:
             return APIResponse[List[KeywordByASIN]].model_validate(response.json())
-        else:
-            self._raise_for_status(response)
+        self._raise_for_status(response)

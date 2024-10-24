@@ -1,4 +1,3 @@
-import json
 from typing import Any, Dict, List, Union
 
 from pydantic import computed_field, field_validator, model_serializer
@@ -64,4 +63,6 @@ class KeywordByAsinRequest(BaseRequest[KeywordByAsinParams, KeywordByAsinAttribu
         return params.model_dump(by_alias=True, exclude_none=True)
 
     def build_payload(self, attributes: KeywordByAsinAttributes) -> str:
-        return {"data": {"type": self.type.value, "attributes": attributes.model_dump(by_alias=True, exclude_none=True)}}
+        return {
+            "data": {"type": self.type.value, "attributes": attributes.model_dump(by_alias=True, exclude_none=True)}
+        }

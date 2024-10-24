@@ -11,7 +11,7 @@ class SalesEstimateData(BaseModel):
 
     date: datetime = Field(default=..., description="The date of the sales estimate.")
     estimated_units_sold: int = Field(default=..., description="The estimated units sold.")
-    last_known_price: float = Field(default=..., description="The last known price.")
+    last_known_price: Optional[float] = Field(default=None, description="The last known price.")
 
     @field_serializer("date")
     def _serialize_date(self, v: datetime):  # noqa: PLR6301

@@ -1,28 +1,36 @@
 import urllib.parse
 from abc import ABC, abstractmethod
-from typing import Dict, Optional
+from typing import Dict, Generic, Optional, TypeVar
 
 import httpx
 
 from junglescout.models.parameters import ApiType
 
+T = TypeVar("T")
 
-class BaseSession(ABC):
+
+class BaseSession(ABC, Generic[T]):
     """Represents a session with the Jungle Scout API."""
 
-    def __init__(self, headers: Optional[dict] = None, default_connect_timeout=4, default_read_timeout=10):
+    def __init__(self, headers: dict, default_timeout_seconds=60):
         """Initializes a new session with the Jungle Scout API.
 
         Args:
-            default_connect_timeout: The default connection timeout in seconds.
-            default_read_timeout: The default read timeout in seconds.
+            headers: A dictionary of HTTP headers to include in requests.
+            default_timeout_seconds: The default timeout for requests.
         """
         super().__init__()
-        self.default_connect_timeout = default_connect_timeout
-        self.default_read_timeout = default_read_timeout
         self.base_url = "https://developer.junglescout.com/api"
         self.headers = headers
-        self.client = None
+        self.default_timeout_seconds = default_timeout_seconds
+        self._client = None
+
+    @property
+    def client(self) -> T:
+        """Returns the client for the session, creating it if necessary."""
+        if self._client is None:
+            self._client = self._create_client()
+        return self._client
 
     def build_url(self, *args, params: Optional[Dict] = None):
         """Support function that builds a URL using the base URL and additional path arguments.
@@ -52,15 +60,14 @@ class BaseSession(ABC):
             api_type: The type of API to use.
         """
         self.headers.update({"Authorization": f"{api_key_name}:{api_key}", "X_API_Type": api_type.value})
-        self.client = self._create_client()
 
     @abstractmethod
-    def _create_client(self):
+    def _create_client(self) -> T:
         """Abstract method to create a client. Must be implemented by subclasses."""
-        pass
+        raise NotImplementedError
 
 
-class SyncSession(BaseSession):
+class SyncSession(BaseSession[httpx.Client]):
     """Represents a synchronous session with the Jungle Scout API."""
 
     def __init__(self, headers: dict):
@@ -92,15 +99,11 @@ class SyncSession(BaseSession):
         """Creates and returns a synchronous HTTP client."""
         return httpx.Client(
             headers=self.headers,
-            timeout=httpx.Timeout(
-                timeout=self.default_read_timeout,
-                connect=self.default_connect_timeout,
-                read=self.default_read_timeout,
-            ),
+            timeout=httpx.Timeout(self.default_timeout_seconds),
         )
 
 
-class AsyncSession(BaseSession):
+class AsyncSession(BaseSession[httpx.AsyncClient]):
     """Represents an asynchronous session with the Jungle Scout API."""
 
     def __init__(self, headers: dict):
@@ -123,16 +126,11 @@ class AsyncSession(BaseSession):
             httpx.Response: The response from the server.
         """
         async with self.client as client:
-            request = await client.request(method, url, **kwargs)
-        return request
+            return await client.request(method, url, **kwargs)
 
     def _create_client(self):
         """Creates and returns an asynchronous HTTP client."""
         return httpx.AsyncClient(
             headers=self.headers,
-            timeout=httpx.Timeout(
-                timeout=self.default_read_timeout,
-                connect=self.default_connect_timeout,
-                read=self.default_read_timeout,
-            ),
+            timeout=httpx.Timeout(self.default_timeout_seconds),
         )

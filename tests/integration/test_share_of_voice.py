@@ -1,7 +1,8 @@
 import pytest
-from requests.exceptions import HTTPError
+from httpx import HTTPStatusError
 
-from junglescout.client import Client
+from junglescout import Client
+from junglescout.exceptions import JungleScoutHTTPError
 from junglescout.models.parameters import Marketplace
 from junglescout.models.responses import ShareOfVoiceTopAsins
 
@@ -23,9 +24,10 @@ def test_share_of_voice(api_keys):
 def test_share_of_voice_with_long_keyword(api_keys):
     keyword = "this is a super long keyword that will raise an error because it is too long and specific"
     client = Client(**api_keys, marketplace=Marketplace.US)
-    with pytest.raises(HTTPError) as exc_info:
+    with pytest.raises(JungleScoutHTTPError) as exc_info:
         client.share_of_voice(keyword=keyword, marketplace=Marketplace.US)
-    assert exc_info.value.response.json() == {
+    assert isinstance(exc_info.value.httpx_exception, HTTPStatusError)
+    assert exc_info.value.httpx_exception.response.json() == {
         "errors": [
             {
                 "title": "Invalid parameter value for: 'keyword'",
@@ -42,9 +44,10 @@ def test_share_of_voice_with_long_keyword(api_keys):
 def test_share_of_voice_with_no_results(api_keys):
     keyword = "thisisnotarealkeywordthisisnotarealkeywordthisisno"
     client = Client(**api_keys, marketplace=Marketplace.US)
-    with pytest.raises(HTTPError) as exc_info:
+    with pytest.raises(JungleScoutHTTPError) as exc_info:
         client.share_of_voice(keyword=keyword, marketplace=Marketplace.US)
-    assert exc_info.value.response.json() == {
+    assert isinstance(exc_info.value.httpx_exception, HTTPStatusError)
+    assert exc_info.value.httpx_exception.response.json() == {
         "errors": [
             {
                 "title": "Record not found",

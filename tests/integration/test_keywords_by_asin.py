@@ -1,6 +1,6 @@
 import pytest
 
-from junglescout.client import Client
+from junglescout import Client
 from junglescout.models.parameters import FilterOptions, Marketplace, Sort
 
 

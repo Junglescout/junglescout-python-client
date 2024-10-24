@@ -1,9 +1,10 @@
 import os
 
+import httpx
 import pytest
-import requests_mock
+import respx
 
-from junglescout.client import Client
+from junglescout import Client
 from junglescout.models.parameters import Marketplace, Sort
 from tests.factories.historical_search_volume_factory import (
     generate_historical_search_volume_responses,
@@ -22,31 +23,22 @@ def client():
         ("ps5", "2022-04-01", "2022-05-01", generate_historical_search_volume_responses(total_items=10)),
     ],
 )
+@respx.mock
 def test_historical_search_volume(client, keyword, start_date, end_date, fake_response):
-    with requests_mock.Mocker() as mock:
-        mock_url = f"{client.session.base_url}/keywords/historical_search_volume"
-        mock.get(
-            mock_url,
-            json=fake_response,
-        )
+    mock_url = f"{client.session.base_url}/keywords/historical_search_volume"
+    mock_route = respx.get(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
+    result = client.historical_search_volume(keyword=keyword, start_date=start_date, end_date=end_date)
 
-        result = client.historical_search_volume(keyword=keyword, start_date=start_date, end_date=end_date)
+    assert mock_route.called
+    assert mock_route.call_count == 1
 
-    assert mock.called
-    assert mock.call_count == 1
-
-    history = mock.request_history
-    assert len(history) == 1
+    request: httpx.Request = mock_route.calls[0].request
+    assert str(request.url.copy_with(query=None)) == mock_url
     assert (
-        history[0].url
-        == f"{mock_url}?marketplace=us&page%5Bsize%5D=50&keyword={keyword}&start_date={start_date}&end_date={end_date}"
+        str(request.url.params)
+        == f"marketplace=us&page%5Bsize%5D=50&keyword={keyword}&start_date={start_date}&end_date={end_date}"
     )
-    assert (
-        history[0].query
-        == f"marketplace=us&page%5bsize%5d=50&keyword={keyword}&start_date={start_date}&end_date={end_date}"
-    )
-    assert history[0].method == "GET"
-
+    assert request.method == "GET"
     assert result.data[0].model_dump() == fake_response["data"][0]
 
 
@@ -71,35 +63,26 @@ def test_historical_search_volume(client, keyword, start_date, end_date, fake_re
         ),
     ],
 )
+@respx.mock
 def test_historical_search_volume_sort_options(
     client, keyword, start_date, end_date, sort_options, marketplace, fake_response
 ):
-    with requests_mock.Mocker() as mock:
-        mock_url = f"{client.session.base_url}/keywords/historical_search_volume"
-        mock.get(
-            mock_url,
-            json=fake_response,
-        )
+    mock_url = f"{client.session.base_url}/keywords/historical_search_volume"
+    mock_route = respx.get(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
+    result = client.historical_search_volume(
+        keyword=keyword, start_date=start_date, end_date=end_date, sort_option=sort_options, marketplace=marketplace
+    )
 
-        result = client.historical_search_volume(
-            keyword=keyword, start_date=start_date, end_date=end_date, sort_option=sort_options, marketplace=marketplace
-        )
+    assert mock_route.called
+    assert mock_route.call_count == 1
 
-    assert mock.called
-    assert mock.call_count == 1
-
-    history = mock.request_history
-    assert len(history) == 1
-    assert history[0].url == (
-        f"{mock_url}?marketplace={marketplace.country_code}&"
+    request: httpx.Request = mock_route.calls[0].request
+    assert str(request.url.copy_with(query=None)) == mock_url
+    assert str(request.url.params) == (
+        f"marketplace={marketplace.country_code}&"
         f"sort={sort_options.value}&page%5Bsize%5D=50&"
         f"keyword={keyword}&start_date={start_date}&end_date={end_date}"
     )
-    assert history[0].query == (
-        f"marketplace={marketplace.country_code}&"
-        f"sort={sort_options.value}&page%5bsize%5d=50&"
-        f"keyword={keyword}&start_date={start_date}&end_date={end_date}"
-    )
-    assert history[0].method == "GET"
+    assert request.method == "GET"
 
     assert result.data[0].model_dump() == fake_response["data"][0]
