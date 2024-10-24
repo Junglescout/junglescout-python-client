@@ -23,7 +23,7 @@ class BaseClient(ABC, Generic[T]):
         self.api_type = api_type
         self.marketplace = marketplace
         self.base_url = "https://developer.junglescout.com/api"
-        self.session: T = self._create_session()
+        self.session: T = self.create_session()
         self.session.login(api_key_name=api_key_name, api_key=api_key, api_type=api_type)
 
     @abstractmethod
