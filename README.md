@@ -7,6 +7,10 @@ See the [Jungle Scout API Documentation](https://developer.junglescout.com) and 
 [Jungle Scout Postman Collection](https://postman.junglescout.com) for more information about
 the Jungle Scout API.
 
+## Rate Limits
+
+The current API request limit per minute is 300, and our burst limit per second is 15.
+
 ## Installation
 
 ```bash

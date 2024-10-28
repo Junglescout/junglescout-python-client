@@ -44,6 +44,11 @@ Analyzing the Response
 
 Responses from the Jungle Scout API are returned as instances of...
 
+Rate Limiting
+=============
+
+The Jungle Scout API enforces rate limits as following: 300 requests per minute or 15 requests per second. If you exceed the rate limit, you will receive a 429 status code in response to your request.
+
 What's Next?
 ============
 
