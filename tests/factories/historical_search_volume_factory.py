@@ -1,3 +1,5 @@
+from typing import Any
+
 import factory
 from faker import Faker
 
@@ -26,5 +28,5 @@ class HistoricalSearchVolumeResponseFactory(factory.DictFactory):
     )
 
 
-def generate_historical_search_volume_responses(total_items: int = 1):
+def generate_historical_search_volume_responses(total_items: int = 1) -> dict[str, Any]:
     return HistoricalSearchVolumeResponseFactory(total_items=total_items)

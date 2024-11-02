@@ -1,3 +1,5 @@
+from typing import Any
+
 import factory
 from faker import Faker
 
@@ -70,5 +72,5 @@ class ProductDatabaseResponseFactory(factory.DictFactory):
     meta = factory.LazyAttribute(lambda o: {"total_items": o.total_items})
 
 
-def generate_product_database_responses(total_items: int = 1):
+def generate_product_database_responses(total_items: int = 1) -> dict[str, Any]:
     return ProductDatabaseResponseFactory(total_items=total_items)

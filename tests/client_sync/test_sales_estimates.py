@@ -1,9 +1,10 @@
 import os
 
+import httpx
 import pytest
-import requests_mock
+import respx
 
-from junglescout.client import Client
+from junglescout import Client
 from junglescout.models.parameters import Marketplace
 from junglescout.models.responses import APIResponse, SalesEstimates
 from tests.factories.sales_estimates_factory import generate_sales_estimates_responses
@@ -21,30 +22,22 @@ def client():
         ("B0CL5KNB9M", "2022-04-01", "2022-05-01", generate_sales_estimates_responses(total_items=4, data_items=2)),
     ],
 )
+@respx.mock
 def test_historical_search_volume(client, asin, start_date, end_date, fake_response):
-    with requests_mock.Mocker() as mock:
-        mock_url = f"{client.session.base_url}/sales_estimates_query"
-        mock.get(
-            mock_url,
-            json=fake_response,
-        )
+    mock_url = f"{client.session.base_url}/sales_estimates_query"
+    mock_route = respx.get(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
+    result = client.sales_estimates(asin=asin, start_date=start_date, end_date=end_date)
 
-        result = client.sales_estimates(asin=asin, start_date=start_date, end_date=end_date)
+    assert mock_route.called
+    assert mock_route.call_count == 1
 
-    assert mock.called
-    assert mock.call_count == 1
-
-    history = mock.request_history
-    assert len(history) == 1
+    request: httpx.Request = mock_route.calls[0].request
+    assert str(request.url.copy_with(query=None)) == mock_url
     assert (
-        history[0].url
-        == f"{mock_url}?marketplace=us&page%5Bsize%5D=50&asin={asin}&start_date={start_date}&end_date={end_date}"
+        str(request.url.params)
+        == f"marketplace=us&page%5Bsize%5D=50&asin={asin}&start_date={start_date}&end_date={end_date}"
     )
-    assert (
-        history[0].query
-        == f"marketplace=us&page%5bsize%5d=50&asin={asin.lower()}&start_date={start_date}&end_date={end_date}"
-    )
-    assert history[0].method == "GET"
+    assert request.method == "GET"
 
     assert isinstance(result, APIResponse)
     assert isinstance(result.data[0], SalesEstimates)

@@ -1,7 +1,8 @@
 import pytest
-import requests
+from httpx import HTTPStatusError
 
-from junglescout.client import Client
+from junglescout import Client
+from junglescout.exceptions import JungleScoutHTTPError
 from junglescout.models.parameters import Marketplace
 
 HTTP_UNPROCESSABLE_ENTITY_CODE = 422
@@ -24,13 +25,14 @@ def test_sales_estimates(api_keys):
 
 
 @pytest.mark.integration()
+@pytest.mark.skip("This test is skipped because the ASIN currently has rank data.")
 def test_sales_estimates_asin_without_rank_data(api_keys):
     client = Client(**api_keys, marketplace=Marketplace.US)
-    with pytest.raises(requests.HTTPError) as excinfo:
+    with pytest.raises(JungleScoutHTTPError) as exc_info:
         client.sales_estimates(asin="B0CRMZ9PFR", start_date="2023-01-01", end_date="2023-12-01")
-
-    assert excinfo.value.response.status_code == HTTP_UNPROCESSABLE_ENTITY_CODE
-    assert excinfo.value.response.json()["errors"][0]["code"] == "MISSING_RANK_DATA"
+    assert isinstance(exc_info.value.httpx_exception, HTTPStatusError)
+    assert exc_info.value.httpx_exception.response.status_code == HTTP_UNPROCESSABLE_ENTITY_CODE
+    assert exc_info.value.httpx_exception.response.json()["errors"][0]["code"] == "MISSING_RANK_DATA"
 
 
 @pytest.mark.integration()

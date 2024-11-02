@@ -1,10 +1,12 @@
+import json
 import os
 from datetime import datetime
 
+import httpx
 import pytest
-import requests_mock
+import respx
 
-from junglescout.client import Client
+from junglescout import Client
 from junglescout.models.parameters import Marketplace
 from junglescout.models.responses import APIResponse, KeywordByASIN
 from tests.factories.keyword_by_asin_factory import generate_keywords_by_asin_responses
@@ -40,31 +42,29 @@ def client():
         ),
     ],
 )
+@respx.mock
 def test_keywords_by_asin(client, asin, fake_response):
-    with requests_mock.Mocker() as mock:
-        mock_url = f"{client.session.base_url}/keywords/keywords_by_asin_query"
-        mock.post(
-            mock_url,
-            json=fake_response,
-        )
+    mock_url = f"{client.session.base_url}/keywords/keywords_by_asin_query"
+    # TODO: what's the response code here????
+    mock_route = respx.post(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
+    result = client.keywords_by_asin(asin=asin)
 
-        result = client.keywords_by_asin(asin=asin)
+    assert mock_route.called
+    assert mock_route.call_count == 1
 
-    assert mock.called
-    assert mock.call_count == 1
+    request: httpx.Request = mock_route.calls[0].request
+    assert str(request.url.copy_with(query=None)) == mock_url
+    assert str(request.url.params) == "marketplace=us"
+    assert request.method == "POST"
 
-    history = mock.request_history
-    assert len(history) == 1
-    assert history[0].url == f"{mock_url}?marketplace=us"
-    assert history[0].query == "marketplace=us"
-    assert history[0].method == "POST"
-    assert history[0].json() == {
+    request_content = json.loads(request.content)
+    assert request_content == {
         "data": {
             "type": "keywords_by_asin_query",
             "attributes": {"asins": [asin] if isinstance(asin, str) else asin, "include_variants": True},
         }
     }
-    assert len(result.data) == len(history[0].json()["data"]["attributes"]["asins"])
+    assert len(result.data) == len(request_content["data"]["attributes"]["asins"])
 
     assert len(result.data) == len(fake_response["data"])
     assert isinstance(result, APIResponse)

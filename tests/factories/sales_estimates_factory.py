@@ -1,3 +1,5 @@
+from typing import Any
+
 import factory
 from faker import Faker
 
@@ -43,5 +45,5 @@ class SalesEstimatesResponseFactory(factory.DictFactory):
     )
 
 
-def generate_sales_estimates_responses(total_items: int = 1, data_items: int = 3):
+def generate_sales_estimates_responses(total_items: int = 1, data_items: int = 3) -> dict[str, Any]:
     return SalesEstimatesResponseFactory(total_items=total_items, data_items=data_items)

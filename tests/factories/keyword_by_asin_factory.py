@@ -1,3 +1,5 @@
+from typing import Any
+
 import factory
 from faker import Faker
 
@@ -63,5 +65,5 @@ class KeywordsByAsinResponseFactory(factory.DictFactory):
     meta = factory.LazyAttribute(lambda o: {"total_items": o.total_items})
 
 
-def generate_keywords_by_asin_responses(total_items: int = 1):
+def generate_keywords_by_asin_responses(total_items: int = 1) -> dict[str, Any]:
     return KeywordsByAsinResponseFactory(total_items=total_items)

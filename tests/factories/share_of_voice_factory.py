@@ -1,3 +1,5 @@
+from typing import Any
+
 import factory
 from faker import Faker
 
@@ -67,5 +69,5 @@ class ShareOfVoiceResponseFactory(factory.DictFactory):
     )
 
 
-def generate_share_of_voice_responses(top_asins_count: int = 5, brands_count: int = 4):
+def generate_share_of_voice_responses(top_asins_count: int = 5, brands_count: int = 4) -> dict[str, Any]:
     return ShareOfVoiceResponseFactory(top_asins_count=top_asins_count, brands_count=brands_count)
