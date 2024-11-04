@@ -9,7 +9,7 @@ from junglescout.models.parameters import ApiType
 T = TypeVar("T")
 
 
-class BaseSession(ABC, Generic[T]):
+class Session(ABC, Generic[T]):
     """Represents a session with the Jungle Scout API."""
 
     def __init__(self, headers: dict, default_timeout_seconds=60):
@@ -67,7 +67,7 @@ class BaseSession(ABC, Generic[T]):
         raise NotImplementedError
 
 
-class SyncSession(BaseSession[httpx.Client]):
+class SyncSession(Session[httpx.Client]):
     """Represents a synchronous session with the Jungle Scout API."""
 
     def __init__(self, headers: dict):
@@ -103,7 +103,7 @@ class SyncSession(BaseSession[httpx.Client]):
         )
 
 
-class AsyncSession(BaseSession[httpx.AsyncClient]):
+class AsyncSession(Session[httpx.AsyncClient]):
     """Represents an asynchronous session with the Jungle Scout API."""
 
     def __init__(self, headers: dict):

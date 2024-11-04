@@ -1,11 +1,27 @@
-import json
 from typing import Any, Dict, List, Optional
 
-from pydantic import ValidationInfo, field_validator, model_serializer
+from pydantic import BaseModel, ValidationInfo, field_validator, model_serializer
 
-from junglescout.models.parameters import Attributes, Marketplace, Params
+from junglescout.models.parameters import (
+    Attributes,
+    FilterOptions,
+    Marketplace,
+    Params,
+    Sort,
+)
 from junglescout.models.requests import Method, RequestType
-from junglescout.models.requests.base_request import BaseRequest
+from junglescout.models.requests.request import Request
+from junglescout.session import Session
+
+
+class KeywordsByKeywordArgs(BaseModel):
+    search_terms: str
+    categories: Optional[List[str]]
+    filter_options: Optional[FilterOptions]
+    sort_option: Optional[Sort]
+    marketplace: Marketplace
+    page_size: Optional[int]
+    page: Optional[str]
 
 
 class KeywordsByKeywordParams(Params):
@@ -39,7 +55,12 @@ class KeywordsByKeywordAttributes(Attributes):
         return serialized_model
 
 
-class KeywordsByKeywordRequest(BaseRequest[KeywordsByKeywordParams, KeywordsByKeywordAttributes]):
+class KeywordsByKeywordRequest(Request[KeywordsByKeywordArgs, KeywordsByKeywordParams, KeywordsByKeywordAttributes]):
+    @property
+    def url(self) -> str:
+        # TODO: use type instead of "keywords"?
+        return self.session.build_url("keywords", self.type.value, params=self.params_serialized)
+
     @property
     def type(self):
         return RequestType.KEYWORDS_BY_KEYWORD
@@ -48,10 +69,26 @@ class KeywordsByKeywordRequest(BaseRequest[KeywordsByKeywordParams, KeywordsByKe
     def method(self) -> Method:
         return Method.POST
 
-    def build_params(self, params: KeywordsByKeywordParams) -> Dict:  # noqa: PLR6301
-        return params.model_dump(by_alias=True, exclude_none=True)
+    def serialize_params(self) -> Dict:
+        return self.params.model_dump(by_alias=True, exclude_none=True)
 
-    def build_payload(self, attributes: KeywordsByKeywordAttributes) -> str:
-        return json.dumps(
-            {"data": {"type": self.type.value, "attributes": attributes.model_dump(by_alias=True, exclude_none=True)}}
+    def serialize_payload(self) -> Dict:
+        return {
+            "data": {
+                "type": self.type.value,
+                "attributes": self.attributes.model_dump(by_alias=True, exclude_none=True),
+            }
+        }
+
+    @classmethod
+    def from_args(cls, args: KeywordsByKeywordArgs, session: Session) -> "KeywordsByKeywordRequest":
+        params = KeywordsByKeywordParams(
+            marketplace=args.marketplace, sort=args.sort_option, page=args.page, page_size=args.page_size
         )
+        attributes = KeywordsByKeywordAttributes(
+            filter_options=args.filter_options,
+            marketplace=args.marketplace,
+            search_terms=args.search_terms,
+            categories=args.categories,
+        )
+        return cls(params=params, attributes=attributes, session=session)

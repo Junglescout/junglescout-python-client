@@ -3,9 +3,8 @@ from typing import List, Optional, Union
 from junglescout.client import Client
 from junglescout.models.parameters import ApiType, FilterOptions, Marketplace, Sort
 from junglescout.models.requests.keyword_by_asin_request import (
-    KeywordByAsinAttributes,
-    KeywordByAsinParams,
     KeywordByAsinRequest,
+    KeywordByAsinRequestArgs,
 )
 from junglescout.models.responses import APIResponse, KeywordByASIN
 from junglescout.session import AsyncSession
@@ -65,24 +64,19 @@ class ClientAsync(Client[AsyncSession]):
         Returns:
             The response from the API.
         """
-        params = KeywordByAsinParams(
-            marketplace=self._resolve_marketplace(marketplace), sort=sort_option, page=page, page_size=page_size
+        args = KeywordByAsinRequestArgs(
+            asin=asin,
+            include_variants=include_variants,
+            filter_options=filter_options,
+            sort_option=sort_option,
+            marketplace=self._resolve_marketplace(marketplace),
+            page_size=page_size,
+            page=page,
         )
-
-        attributes = KeywordByAsinAttributes(
-            asin=asin, filter_options=filter_options, include_variants=include_variants
+        request_instance = KeywordByAsinRequest.from_args(args, self.session)
+        response = await self.session.request(
+            request_instance.method.value, request_instance.url, json=request_instance.payload_serialized
         )
-
-        keyword_by_asin_request = KeywordByAsinRequest(params=params, attributes=attributes)
-
-        url = self.session.build_url(
-            "keywords", keyword_by_asin_request.type.value, params=keyword_by_asin_request.params
-        )
-
-        payload = keyword_by_asin_request.payload
-
-        response = await self.session.request("POST", url, json=payload)
-
         if response.is_success:
             return APIResponse[List[KeywordByASIN]].model_validate(response.json())
         self._raise_for_status(response)

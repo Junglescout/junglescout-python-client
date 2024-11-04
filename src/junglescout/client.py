@@ -6,9 +6,9 @@ import httpx
 
 from junglescout.exceptions import JungleScoutError, JungleScoutHTTPError
 from junglescout.models.parameters import ApiType, Marketplace
-from junglescout.session import BaseSession
+from junglescout.session import Session
 
-T = TypeVar("T", bound=BaseSession)
+T = TypeVar("T", bound=Session)
 
 
 class Client(ABC, Generic[T]):

@@ -1,3 +1,4 @@
+import json
 from typing import List, Optional, Union
 
 from junglescout.client import Client
@@ -12,33 +13,27 @@ from junglescout.models.parameters import (
     Sort,
 )
 from junglescout.models.requests.historical_search_volume_request import (
-    HistoricalSearchVolumeAttributes,
-    HistoricalSearchVolumeParams,
+    HistoricalSearchVolumeArgs,
     HistoricalSearchVolumeRequest,
 )
 from junglescout.models.requests.keyword_by_asin_request import (
-    KeywordByAsinAttributes,
-    KeywordByAsinParams,
     KeywordByAsinRequest,
+    KeywordByAsinRequestArgs,
 )
 from junglescout.models.requests.keywords_by_keyword_request import (
-    KeywordsByKeywordAttributes,
-    KeywordsByKeywordParams,
+    KeywordsByKeywordArgs,
     KeywordsByKeywordRequest,
 )
 from junglescout.models.requests.product_database_request import (
-    ProductDatabaseAttributes,
-    ProductDatabaseParams,
+    ProductDatabaseArgs,
     ProductDatabaseRequest,
 )
 from junglescout.models.requests.sales_estimates_request import (
-    SalesEstimatesAttributes,
-    SalesEstimatesParams,
+    SalesEstimatesArgs,
     SalesEstimatesRequest,
 )
 from junglescout.models.requests.share_of_voice_request import (
-    ShareOfVoiceAttributes,
-    ShareOfVoiceParams,
+    ShareOfVoiceArgs,
     ShareOfVoiceRequest,
 )
 from junglescout.models.responses import (
@@ -106,24 +101,19 @@ class ClientSync(Client[SyncSession]):
         Returns:
             The response from the API.
         """
-        params = KeywordByAsinParams(
-            marketplace=self._resolve_marketplace(marketplace), sort=sort_option, page=page, page_size=page_size
+        args = KeywordByAsinRequestArgs(
+            asin=asin,
+            include_variants=include_variants,
+            filter_options=filter_options,
+            sort_option=sort_option,
+            marketplace=self._resolve_marketplace(marketplace),
+            page_size=page_size,
+            page=page,
         )
-
-        attributes = KeywordByAsinAttributes(
-            asin=asin, filter_options=filter_options, include_variants=include_variants
+        request_instance = KeywordByAsinRequest.from_args(args, self.session)
+        response = self.session.request(
+            request_instance.method.value, request_instance.url, json=request_instance.payload_serialized
         )
-
-        keyword_by_asin_request = KeywordByAsinRequest(params=params, attributes=attributes)
-
-        url = self.session.build_url(
-            "keywords", keyword_by_asin_request.type.value, params=keyword_by_asin_request.params
-        )
-
-        payload = keyword_by_asin_request.payload
-
-        response = self.session.request("POST", url, json=payload)
-
         if response.is_success:
             return APIResponse[List[KeywordByASIN]].model_validate(response.json())
         self._raise_for_status(response)
@@ -156,24 +146,19 @@ class ClientSync(Client[SyncSession]):
         Raises:
             Exception: If the request to retrieve keyword data fails.
         """
-        marketplace = self._resolve_marketplace(marketplace)
-
-        params = KeywordsByKeywordParams(marketplace=marketplace, sort=sort_option, page=page, page_size=page_size)
-
-        attributes = KeywordsByKeywordAttributes(
-            marketplace=marketplace, search_terms=search_terms, filter_options=filter_options, categories=categories
+        args = KeywordsByKeywordArgs(
+            search_terms=search_terms,
+            categories=categories,
+            filter_options=filter_options,
+            sort_option=sort_option,
+            marketplace=self._resolve_marketplace(marketplace),
+            page_size=page_size,
+            page=page,
         )
-
-        keywords_by_keyword_request = KeywordsByKeywordRequest(params, attributes)
-
-        url = self.session.build_url(
-            "keywords", keywords_by_keyword_request.type.value, params=keywords_by_keyword_request.params
+        request_instance = KeywordsByKeywordRequest.from_args(args, self.session)
+        response = self.session.request(
+            request_instance.method.value, request_instance.url, data=json.dumps(request_instance.payload_serialized)
         )
-
-        payload = keywords_by_keyword_request.payload
-
-        response = self.session.request(keywords_by_keyword_request.method.value, url, data=payload)
-
         if response.is_success:
             return APIResponse[List[KeywordByKeyword]].model_validate(response.json())
         self._raise_for_status(response)
@@ -202,20 +187,15 @@ class ClientSync(Client[SyncSession]):
         Raises:
             Exception: If the API request fails or returns an error response.
         """
-        marketplace = self._resolve_marketplace(marketplace)
-
-        params = SalesEstimatesParams(
-            marketplace=marketplace, sort=sort_option, asin=asin, start_date=start_date, end_date=end_date
+        args = SalesEstimatesArgs(
+            asin=asin,
+            start_date=start_date,
+            end_date=end_date,
+            sort_option=sort_option,
+            marketplace=self._resolve_marketplace(marketplace),
         )
-
-        attributes = SalesEstimatesAttributes()
-
-        sales_estimates_request = SalesEstimatesRequest(params, attributes)
-
-        url = self.session.build_url(sales_estimates_request.type.value, params=sales_estimates_request.params)
-
-        response = self.session.request(sales_estimates_request.method.value, url)
-
+        request_instance = SalesEstimatesRequest.from_args(args, self.session)
+        response = self.session.request(request_instance.method.value, request_instance.url)
         if response.is_success:
             return APIResponse[List[SalesEstimates]].model_validate(response.json())
         self._raise_for_status(response)
@@ -244,22 +224,15 @@ class ClientSync(Client[SyncSession]):
         Raises:
             Exception: If the request to retrieve the historical search volume fails.
         """
-        marketplace = self._resolve_marketplace(marketplace)
-
-        params = HistoricalSearchVolumeParams(
-            marketplace=marketplace, sort=sort_option, keyword=keyword, start_date=start_date, end_date=end_date
+        args = HistoricalSearchVolumeArgs(
+            keyword=keyword,
+            start_date=start_date,
+            end_date=end_date,
+            sort_option=sort_option,
+            marketplace=self._resolve_marketplace(marketplace),
         )
-
-        attributes = HistoricalSearchVolumeAttributes()
-
-        historical_search_volume_request = HistoricalSearchVolumeRequest(params, attributes)
-
-        url = self.session.build_url(
-            "keywords", historical_search_volume_request.type.value, params=historical_search_volume_request.params
-        )
-
-        response = self.session.request(historical_search_volume_request.method.value, url)
-
+        request_instance = HistoricalSearchVolumeRequest.from_args(args, self.session)
+        response = self.session.request(request_instance.method.value, request_instance.url)
         if response.is_success:
             return APIResponse[List[HistoricalSearchVolume]].model_validate(response.json())
         self._raise_for_status(response)
@@ -279,18 +252,12 @@ class ClientSync(Client[SyncSession]):
         Returns:
             The response from the API.
         """
-        marketplace = self._resolve_marketplace(marketplace)
-
-        params = ShareOfVoiceParams(marketplace=marketplace, keyword=keyword)
-
-        attributes = ShareOfVoiceAttributes()
-
-        share_of_voice_request = ShareOfVoiceRequest(params, attributes)
-
-        url = self.session.build_url(share_of_voice_request.type.value, params=share_of_voice_request.params)
-
-        response = self.session.request(share_of_voice_request.method.value, url)
-
+        args = ShareOfVoiceArgs(
+            keyword=keyword,
+            marketplace=self._resolve_marketplace(marketplace),
+        )
+        request_instance = ShareOfVoiceRequest.from_args(args, self.session)
+        response = self.session.request(request_instance.method.value, request_instance.url)
         if response.is_success:
             return APIResponse[ShareOfVoice].model_validate(response.json())
         self._raise_for_status(response)
@@ -329,61 +296,22 @@ class ClientSync(Client[SyncSession]):
         Raises:
             Exception: If the request to the Jungle Scout API fails.
         """
-        if product_tiers is None:
-            product_tiers = [ProductTiers.OVERSIZE, ProductTiers.STANDARD]
-
-        if seller_types is None:
-            seller_types = [SellerTypes.AMZ, SellerTypes.FBA, SellerTypes.FBM]
-
-        if exclude_keywords is None:
-            exclude_keywords = []
-
-        marketplace = self._resolve_marketplace(marketplace)
-
-        params = ProductDatabaseParams(
-            marketplace=marketplace,
-            product_sort_option=product_sort_option,
-            page_size=page_size,
-            page=page,
-        )
-
-        attributes = ProductDatabaseAttributes(
-            marketplace=marketplace,
+        args = ProductDatabaseArgs(
             include_keywords=include_keywords,
             exclude_keywords=exclude_keywords,
             categories=categories,
             product_tiers=product_tiers,
             seller_types=seller_types,
             product_filter_options=product_filter_options,
+            product_sort_option=product_sort_option,
+            marketplace=self._resolve_marketplace(marketplace),
+            page_size=page_size,
+            page=page,
         )
-
-        product_database_request = ProductDatabaseRequest(params, attributes)
-
-        url = self.session.build_url(product_database_request.type.value, params=product_database_request.params)
-
-        payload = product_database_request.payload
-
-        response = self.session.request(product_database_request.method.value, url, data=payload)
-
+        request_instance = ProductDatabaseRequest.from_args(args, self.session)
+        response = self.session.request(
+            request_instance.method.value, request_instance.url, data=json.dumps(request_instance.payload_serialized)
+        )
         if response.is_success:
             return APIResponse[List[ProductDatabase]].model_validate(response.json())
         self._raise_for_status(response)
-
-    def _resolve_marketplace(self, provided_marketplace: Optional[Marketplace] = None) -> Marketplace:
-        """Resolves the marketplace to be used for the API request.
-
-        Args:
-            provided_marketplace (Optional[Marketplace]): The marketplace to be used for the API request.
-                If not provided, the default marketplace will be used.
-
-        Returns:
-            The resolved marketplace.
-
-        Raises:
-            AttributeError: If the resolved marketplace is not an instance of the Marketplace class.
-        """
-        resolved_marketplace = provided_marketplace or self.marketplace
-        if isinstance(resolved_marketplace, Marketplace):
-            return resolved_marketplace
-        msg = "Marketplace cannot be resolved"
-        raise AttributeError(msg)

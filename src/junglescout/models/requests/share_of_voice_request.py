@@ -1,8 +1,16 @@
 from typing import Dict
 
-from junglescout.models.parameters import Attributes, Params
+from pydantic import BaseModel
+
+from junglescout.models.parameters import Attributes, Marketplace, Params
 from junglescout.models.requests import Method, RequestType
-from junglescout.models.requests.base_request import BaseRequest
+from junglescout.models.requests.request import Request
+from junglescout.session import Session
+
+
+class ShareOfVoiceArgs(BaseModel):
+    keyword: str
+    marketplace: Marketplace
 
 
 class ShareOfVoiceParams(Params):
@@ -13,7 +21,11 @@ class ShareOfVoiceAttributes(Attributes):
     pass
 
 
-class ShareOfVoiceRequest(BaseRequest[ShareOfVoiceParams, ShareOfVoiceAttributes]):
+class ShareOfVoiceRequest(Request[ShareOfVoiceArgs, ShareOfVoiceParams, ShareOfVoiceAttributes]):
+    @property
+    def url(self) -> str:
+        return self.session.build_url(self.type.value, params=self.params_serialized)
+
     @property
     def type(self) -> RequestType:
         return RequestType.SHARE_OF_VOICE
@@ -22,8 +34,14 @@ class ShareOfVoiceRequest(BaseRequest[ShareOfVoiceParams, ShareOfVoiceAttributes
     def method(self) -> Method:
         return Method.GET
 
-    def build_params(self, params: ShareOfVoiceParams) -> Dict:  # noqa: PLR6301
-        return params.model_dump(by_alias=True, exclude_none=True)
+    def serialize_params(self) -> Dict:
+        return self.params.model_dump(by_alias=True, exclude_none=True)
 
-    def build_payload(self, attributes: ShareOfVoiceAttributes):  # noqa: PLR6301,ARG002
-        return None
+    @classmethod
+    def from_args(cls, args: ShareOfVoiceArgs, session: Session) -> "ShareOfVoiceRequest":
+        params = ShareOfVoiceParams(
+            marketplace=args.marketplace,
+            keyword=args.keyword,
+        )
+        attributes = ShareOfVoiceAttributes()
+        return cls(params=params, attributes=attributes, session=session)
