@@ -1,4 +1,4 @@
-from typing import Annotated, Any, TypeVar
+from typing import Annotated, Any, TypeVar, Union
 
 from pydantic import AfterValidator
 from pydantic_core import PydanticUseDefault
@@ -16,4 +16,4 @@ def _default_if_none(value: Any) -> Any:
 
 T = TypeVar("T")
 
-DefaultIfNone = Annotated[T | None, AfterValidator(_default_if_none)]
+DefaultIfNone = Annotated[Union[T, None], AfterValidator(_default_if_none)]
