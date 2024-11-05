@@ -19,7 +19,7 @@ from junglescout.models.parameters import (
     ProductTiers,
     SellerTypes,
 )
-from junglescout.models.requests import Method, RequestType
+from junglescout.models.requests.method import Method
 from junglescout.models.requests.request import Request
 from junglescout.session import Session
 
@@ -93,11 +93,7 @@ class ProductDatabaseAttributes(Attributes):
 class ProductDatabaseRequest(Request[ProductDatabaseArgs, ProductDatabaseParams, ProductDatabaseAttributes]):
     @property
     def url(self) -> str:
-        return self.session.build_url(self.type.value, params=self.params_serialized)
-
-    @property
-    def type(self):
-        return RequestType.PRODUCT_DATABASE
+        return self.session.build_url("product_database_query", params=self.params_serialized)
 
     @property
     def method(self) -> Method:
@@ -109,7 +105,7 @@ class ProductDatabaseRequest(Request[ProductDatabaseArgs, ProductDatabaseParams,
     def serialize_payload(self) -> Dict:
         return {
             "data": {
-                "type": self.type.value,
+                "type": "product_database_query",
                 "attributes": self.attributes.model_dump(by_alias=True, exclude_none=True),
             }
         }

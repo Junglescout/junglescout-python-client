@@ -9,7 +9,7 @@ from junglescout.models.parameters import (
     Params,
     Sort,
 )
-from junglescout.models.requests import Method, RequestType
+from junglescout.models.requests.method import Method
 from junglescout.models.requests.request import Request
 from junglescout.session import Session
 
@@ -58,12 +58,7 @@ class KeywordsByKeywordAttributes(Attributes):
 class KeywordsByKeywordRequest(Request[KeywordsByKeywordArgs, KeywordsByKeywordParams, KeywordsByKeywordAttributes]):
     @property
     def url(self) -> str:
-        # TODO: use type instead of "keywords"?
-        return self.session.build_url("keywords", self.type.value, params=self.params_serialized)
-
-    @property
-    def type(self):
-        return RequestType.KEYWORDS_BY_KEYWORD
+        return self.session.build_url("keywords", "keywords_by_keyword_query", params=self.params_serialized)
 
     @property
     def method(self) -> Method:
@@ -75,7 +70,7 @@ class KeywordsByKeywordRequest(Request[KeywordsByKeywordArgs, KeywordsByKeywordP
     def serialize_payload(self) -> Dict:
         return {
             "data": {
-                "type": self.type.value,
+                "type": "keywords_by_keyword_query",
                 "attributes": self.attributes.model_dump(by_alias=True, exclude_none=True),
             }
         }

@@ -3,7 +3,6 @@ from typing import Dict, Generic, Optional, Type, TypeVar
 
 from junglescout.models.parameters import Attributes, Params
 from junglescout.models.requests.method import Method
-from junglescout.models.requests.request_type import RequestType
 from junglescout.session import Session
 
 ArgsType = TypeVar("ArgsType")
@@ -35,15 +34,6 @@ class Request(ABC, Generic[ArgsType, ParamsType, AttributesType]):
 
         Returns:
             The URL for the request.
-        """
-
-    @property
-    @abstractmethod
-    def type(self) -> RequestType:
-        """Get the type of the request.
-
-        Returns:
-            The type of the request.
         """
 
     @property

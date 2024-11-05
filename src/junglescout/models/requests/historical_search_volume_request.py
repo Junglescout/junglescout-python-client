@@ -4,7 +4,7 @@ from typing import Dict, Optional
 from pydantic import BaseModel, field_validator
 
 from junglescout.models.parameters import Attributes, Marketplace, Params, Sort
-from junglescout.models.requests import Method, RequestType
+from junglescout.models.requests.method import Method
 from junglescout.models.requests.request import Request
 from junglescout.session import Session
 
@@ -53,11 +53,7 @@ class HistoricalSearchVolumeRequest(
 ):
     @property
     def url(self) -> str:
-        return self.session.build_url("keywords", self.type.value, params=self.params_serialized)
-
-    @property
-    def type(self) -> RequestType:
-        return RequestType.HISTORICAL_SEARCH_VOLUME
+        return self.session.build_url("keywords", "historical_search_volume", params=self.params_serialized)
 
     @property
     def method(self) -> Method:

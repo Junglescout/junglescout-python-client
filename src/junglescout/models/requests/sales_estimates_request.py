@@ -5,7 +5,7 @@ from typing import Dict, Optional
 from pydantic import BaseModel, field_validator
 
 from junglescout.models.parameters import Attributes, Marketplace, Params, Sort
-from junglescout.models.requests import Method, RequestType
+from junglescout.models.requests.method import Method
 from junglescout.models.requests.request import Request
 from junglescout.session import Session
 
@@ -58,12 +58,7 @@ class SalesEstimatesAttributes(Attributes):
 class SalesEstimatesRequest(Request[SalesEstimatesArgs, SalesEstimatesParams, SalesEstimatesAttributes]):
     @property
     def url(self) -> str:
-        # TODO: do not use self.type.value and use string directly??
-        return self.session.build_url(self.type.value, params=self.params_serialized)
-
-    @property
-    def type(self) -> RequestType:
-        return RequestType.SALES_ESTIMATES
+        return self.session.build_url("sales_estimates_query", params=self.params_serialized)
 
     @property
     def method(self) -> Method:

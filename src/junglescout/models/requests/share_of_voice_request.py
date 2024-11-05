@@ -3,7 +3,7 @@ from typing import Dict
 from pydantic import BaseModel
 
 from junglescout.models.parameters import Attributes, Marketplace, Params
-from junglescout.models.requests import Method, RequestType
+from junglescout.models.requests.method import Method
 from junglescout.models.requests.request import Request
 from junglescout.session import Session
 
@@ -24,11 +24,7 @@ class ShareOfVoiceAttributes(Attributes):
 class ShareOfVoiceRequest(Request[ShareOfVoiceArgs, ShareOfVoiceParams, ShareOfVoiceAttributes]):
     @property
     def url(self) -> str:
-        return self.session.build_url(self.type.value, params=self.params_serialized)
-
-    @property
-    def type(self) -> RequestType:
-        return RequestType.SHARE_OF_VOICE
+        return self.session.build_url("share_of_voice", params=self.params_serialized)
 
     @property
     def method(self) -> Method:
