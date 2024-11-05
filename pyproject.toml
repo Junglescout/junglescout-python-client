@@ -26,7 +26,6 @@ ipython = {version = "^8.22.2", python = ">=3.10,<4.0"}
 pytest-dotenv = "^0.5.2"
 pyright = "^1.1.352"
 ruff = "^0.3.0"
-requests-mock = "^1.11.0"
 factory-boy = "^3.3.0"
 sphinx = "^7.2.6"
 sphinx-autodoc-typehints = "^2.0.0"
