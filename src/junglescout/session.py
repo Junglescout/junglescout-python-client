@@ -23,14 +23,11 @@ class Session(ABC, Generic[T]):
         self.base_url = "https://developer.junglescout.com/api"
         self.headers = headers
         self.default_timeout_seconds = default_timeout_seconds
-        self._client = None
 
     @property
+    @abstractmethod
     def client(self) -> T:
-        """Returns the client for the session, creating it if necessary."""
-        if self._client is None:
-            self._client = self._create_client()
-        return self._client
+        """The httpx client used to make requests to the Jungle Scout API."""
 
     def build_url(self, *args, params: Optional[Dict] = None):
         """Support function that builds a URL using the base URL and additional path arguments.
@@ -61,11 +58,6 @@ class Session(ABC, Generic[T]):
         """
         self.headers.update({"Authorization": f"{api_key_name}:{api_key}", "X_API_Type": api_type.value})
 
-    @abstractmethod
-    def _create_client(self) -> T:
-        """Abstract method to create a client. Must be implemented by subclasses."""
-        raise NotImplementedError
-
 
 class SyncSession(Session[httpx.Client]):
     """Represents a synchronous session with the Jungle Scout API."""
@@ -77,6 +69,17 @@ class SyncSession(Session[httpx.Client]):
             headers: A dictionary of HTTP headers to include in requests.
         """
         super().__init__(headers)
+        self._client: Optional[httpx.Client] = None
+
+    @property
+    def client(self) -> httpx.Client:
+        """The synchronous httpx client used to make requests to the Jungle Scout API."""
+        if self._client is None:
+            self._client = httpx.Client(
+                headers=self.headers,
+                timeout=httpx.Timeout(self.default_timeout_seconds),
+            )
+        return self._client
 
     def request(self, method: str, url: str, **kwargs) -> httpx.Response:
         """Sends a request using the synchronous client.
@@ -95,13 +98,6 @@ class SyncSession(Session[httpx.Client]):
         """Closes the synchronous client session."""
         self.client.close()
 
-    def _create_client(self):
-        """Creates and returns a synchronous HTTP client."""
-        return httpx.Client(
-            headers=self.headers,
-            timeout=httpx.Timeout(self.default_timeout_seconds),
-        )
-
 
 class AsyncSession(Session[httpx.AsyncClient]):
     """Represents an asynchronous session with the Jungle Scout API."""
@@ -113,6 +109,17 @@ class AsyncSession(Session[httpx.AsyncClient]):
             headers: A dictionary of HTTP headers to include in requests.
         """
         super().__init__(headers)
+        self._client: Optional[httpx.AsyncClient] = None
+
+    @property
+    def client(self) -> httpx.AsyncClient:
+        """The asynchronous httpx client used to make requests to the Jungle Scout API."""
+        if self._client is None:
+            self._client = httpx.AsyncClient(
+                headers=self.headers,
+                timeout=httpx.Timeout(self.default_timeout_seconds),
+            )
+        return self._client
 
     async def request(self, method: str, url: str, **kwargs) -> httpx.Response:
         """Sends a request using the asynchronous client.
@@ -127,10 +134,3 @@ class AsyncSession(Session[httpx.AsyncClient]):
         """
         async with self.client as client:
             return await client.request(method, url, **kwargs)
-
-    def _create_client(self):
-        """Creates and returns an asynchronous HTTP client."""
-        return httpx.AsyncClient(
-            headers=self.headers,
-            timeout=httpx.Timeout(self.default_timeout_seconds),
-        )

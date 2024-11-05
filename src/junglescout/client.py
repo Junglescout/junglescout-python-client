@@ -34,13 +34,11 @@ class Client(ABC, Generic[T]):
         self.api_type = api_type
         self.marketplace = marketplace
         self.base_url = "https://developer.junglescout.com/api"
-        self.session: T = self.create_session()
-        self.session.login(api_key_name=api_key_name, api_key=api_key, api_type=api_type)
 
+    @property
     @abstractmethod
-    def create_session(self) -> T:
-        """Abstract method to create a session. Must be implemented by subclasses."""
-        raise NotImplementedError
+    def session(self) -> T:
+        """The session used to make requests to the Jungle Scout API."""
 
     @staticmethod
     def _build_headers() -> dict:
@@ -62,7 +60,6 @@ class Client(ABC, Generic[T]):
         msg = "Marketplace cannot be resolved"
         raise AttributeError(msg)
 
-    # TODO: Improve our errors, displaying the actual API message error
     @staticmethod
     def _raise_for_status(response: httpx.Response) -> NoReturn:
         uncaught_exception = Exception

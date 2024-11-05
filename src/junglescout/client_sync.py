@@ -49,7 +49,7 @@ from junglescout.session import SyncSession
 
 
 class ClientSync(Client[SyncSession]):
-    """The Jungle Scout API client.
+    """The Jungle Scout Synchronous API client.
 
     This class is used to make synchronous requests to the Jungle Scout API.
     """
@@ -61,7 +61,7 @@ class ClientSync(Client[SyncSession]):
         api_type: ApiType = ApiType.JS,
         marketplace: Optional[Marketplace] = None,
     ):
-        """Initializes the Jungle Scout API client.
+        """Initializes the Jungle Scout Synchronous API client.
 
         Args:
             api_key_name: The name of the API key.
@@ -70,11 +70,16 @@ class ClientSync(Client[SyncSession]):
             marketplace: The default marketplace to use for API requests.
         """
         super().__init__(api_key_name, api_key, api_type, marketplace)
+        self._session: Optional[SyncSession] = None
 
-    def create_session(self) -> SyncSession:
-        """Creates a new SyncSession."""
-        headers = self._build_headers()
-        return SyncSession(headers)
+    @property
+    def session(self) -> SyncSession:
+        """The session used to make requests to the Jungle Scout API."""
+        if self._session is None:
+            headers = self._build_headers()
+            self._session = SyncSession(headers)
+            self._session.login(api_key_name=self.api_key_name, api_key=self.api_key, api_type=self.api_type)
+        return self._session
 
     def keywords_by_asin(
         self,

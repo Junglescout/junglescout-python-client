@@ -11,10 +11,10 @@ from junglescout.session import AsyncSession
 
 
 class ClientAsync(Client[AsyncSession]):
-    """The Jungle Scout API client.
+    """The Jungle Scout Asynchronous API client.
 
-    This class is used to make requests to the Jungle Scout API. It provides methods to retrieve keyword data,
-    sales estimates, historical search volume, and share of voice data.
+    This client provides async/await support for making non-blocking requests to the Jungle Scout API. All
+    API methods are coroutines that should be awaited.
     """
 
     def __init__(
@@ -33,11 +33,16 @@ class ClientAsync(Client[AsyncSession]):
             marketplace: The default marketplace to use for API requests.
         """
         super().__init__(api_key_name, api_key, api_type, marketplace)
+        self._session: Optional[AsyncSession] = None
 
-    def create_session(self) -> AsyncSession:
-        """Creates a new AsyncSession."""
-        headers = self._build_headers()
-        return AsyncSession(headers)
+    @property
+    def session(self) -> AsyncSession:
+        """The session used to make requests to the Jungle Scout API."""
+        if self._session is None:
+            headers = self._build_headers()
+            self._session = AsyncSession(headers)
+            self._session.login(api_key_name=self.api_key_name, api_key=self.api_key, api_type=self.api_type)
+        return self._session
 
     async def keywords_by_asin(
         self,
