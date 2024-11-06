@@ -1,6 +1,6 @@
 import urllib.parse
 from abc import ABC, abstractmethod
-from typing import Dict, Generic, Optional, TypeVar
+from typing import Coroutine, Dict, Generic, Optional, TypeVar, Union
 
 import httpx
 
@@ -30,7 +30,7 @@ class Session(ABC, Generic[T]):
         """The httpx client used to make requests to the Jungle Scout API."""
 
     @abstractmethod
-    def close(self):
+    def close(self) -> Union[None, Coroutine]:
         """Closes the httpx client associated with the session."""
 
     def build_url(self, *args, params: Optional[Dict] = None):

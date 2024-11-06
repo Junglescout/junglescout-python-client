@@ -1,12 +1,10 @@
 import json
-import os
 from datetime import datetime
 
 import httpx
 import pytest
 import respx
 
-from junglescout import Client
 from junglescout.models.parameters import (
     Marketplace,
     ProductFilterOptions,
