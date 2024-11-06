@@ -29,6 +29,10 @@ class Session(ABC, Generic[T]):
     def client(self) -> T:
         """The httpx client used to make requests to the Jungle Scout API."""
 
+    @abstractmethod
+    def close(self):
+        """Closes the httpx client associated with the session."""
+
     def build_url(self, *args, params: Optional[Dict] = None):
         """Support function that builds a URL using the base URL and additional path arguments.
 
@@ -132,5 +136,8 @@ class AsyncSession(Session[httpx.AsyncClient]):
         Returns:
             httpx.Response: The response from the server.
         """
-        async with self.client as client:
-            return await client.request(method, url, **kwargs)
+        return await self.client.request(method, url, **kwargs)
+
+    async def close(self):
+        """Closes the asynchronous client session."""
+        await self.client.aclose()

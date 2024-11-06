@@ -14,10 +14,11 @@ from tests.factories.share_of_voice_factory import generate_share_of_voice_respo
     ],
 )
 @respx.mock
-def test_share_of_voice(client_sync, keyword, marketplace, fake_response):
-    mock_url = f"{client_sync.session.base_url}/share_of_voice"
+@pytest.mark.asyncio()
+async def test_share_of_voice(client_async, keyword, marketplace, fake_response):
+    mock_url = f"{client_async.session.base_url}/share_of_voice"
     mock_route = respx.get(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
-    result = client_sync.share_of_voice(keyword=keyword, marketplace=marketplace)
+    result = await client_async.share_of_voice(keyword=keyword, marketplace=marketplace)
 
     assert mock_route.called
     assert mock_route.call_count == 1

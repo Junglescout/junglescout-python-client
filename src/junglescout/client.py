@@ -72,6 +72,6 @@ class Client(ABC, Generic[T]):
             except ValueError:
                 error_message = default_error_message
             raise JungleScoutHTTPError(error_message, http_error_exc) from http_error_exc
-        except Exception as exc:
+        except RuntimeError as exc:
             uncaught_exception = exc
         raise JungleScoutError(default_error_message) from uncaught_exception

@@ -1,10 +1,12 @@
 import json
+import os
 from datetime import datetime
 
 import httpx
 import pytest
 import respx
 
+from junglescout import Client
 from junglescout.models.parameters import (
     Marketplace,
     ProductFilterOptions,
@@ -24,11 +26,12 @@ from tests.factories.product_database_factory import generate_product_database_r
     ],
 )
 @respx.mock
-def test_product_database(client_sync, include_keywords, exclude_keywords, fake_response):
-    mock_url = f"{client_sync.session.base_url}/product_database_query"
+@pytest.mark.asyncio()
+async def test_product_database(client_async, include_keywords, exclude_keywords, fake_response):
+    mock_url = f"{client_async.session.base_url}/product_database_query"
     # TODO: what's the response code here????
     mock_route = respx.post(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
-    result = client_sync.product_database(include_keywords=include_keywords, exclude_keywords=exclude_keywords)
+    result = await client_async.product_database(include_keywords=include_keywords, exclude_keywords=exclude_keywords)
 
     assert mock_route.called
     assert mock_route.call_count == 1
@@ -92,8 +95,9 @@ def test_product_database(client_sync, include_keywords, exclude_keywords, fake_
     ],
 )
 @respx.mock
-def test_full_request_product_database(
-    client_sync,
+@pytest.mark.asyncio()
+async def test_full_request_product_database(
+    client_async,
     include_keywords,
     exclude_keywords,
     page_size,
@@ -103,10 +107,10 @@ def test_full_request_product_database(
     product_sort_option,
     fake_response,
 ):
-    mock_url = f"{client_sync.session.base_url}/product_database_query"
+    mock_url = f"{client_async.session.base_url}/product_database_query"
     # TODO: what's the response code here????
     mock_route = respx.post(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
-    result = client_sync.product_database(
+    result = await client_async.product_database(
         include_keywords=include_keywords,
         exclude_keywords=exclude_keywords,
         page_size=page_size,

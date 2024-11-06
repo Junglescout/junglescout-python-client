@@ -16,10 +16,11 @@ from tests.factories.historical_search_volume_factory import (
     ],
 )
 @respx.mock
-def test_historical_search_volume(client_sync, keyword, start_date, end_date, fake_response):
-    mock_url = f"{client_sync.session.base_url}/keywords/historical_search_volume"
+@pytest.mark.asyncio()
+async def test_historical_search_volume(client_async, keyword, start_date, end_date, fake_response):
+    mock_url = f"{client_async.session.base_url}/keywords/historical_search_volume"
     mock_route = respx.get(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
-    result = client_sync.historical_search_volume(keyword=keyword, start_date=start_date, end_date=end_date)
+    result = await client_async.historical_search_volume(keyword=keyword, start_date=start_date, end_date=end_date)
 
     assert mock_route.called
     assert mock_route.call_count == 1
@@ -56,12 +57,13 @@ def test_historical_search_volume(client_sync, keyword, start_date, end_date, fa
     ],
 )
 @respx.mock
-def test_historical_search_volume_sort_options(
-    client_sync, keyword, start_date, end_date, sort_options, marketplace, fake_response
+@pytest.mark.asyncio()
+async def test_historical_search_volume_sort_options(
+    client_async, keyword, start_date, end_date, sort_options, marketplace, fake_response
 ):
-    mock_url = f"{client_sync.session.base_url}/keywords/historical_search_volume"
+    mock_url = f"{client_async.session.base_url}/keywords/historical_search_volume"
     mock_route = respx.get(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
-    result = client_sync.historical_search_volume(
+    result = await client_async.historical_search_volume(
         keyword=keyword, start_date=start_date, end_date=end_date, sort_option=sort_options, marketplace=marketplace
     )
 

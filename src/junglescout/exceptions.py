@@ -1,7 +1,7 @@
 import httpx
 
 
-class JungleScoutError(Exception):
+class JungleScoutError(RuntimeError):
     """Base exception for all Jungle Scout Exceptions."""
 
 

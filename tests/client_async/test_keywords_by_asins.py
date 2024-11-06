@@ -35,11 +35,12 @@ from tests.factories.keyword_by_asin_factory import generate_keywords_by_asin_re
     ],
 )
 @respx.mock
-def test_keywords_by_asin(client_sync, asin, fake_response):
-    mock_url = f"{client_sync.session.base_url}/keywords/keywords_by_asin_query"
+@pytest.mark.asyncio()
+async def test_keywords_by_asin(client_async, asin, fake_response):
+    mock_url = f"{client_async.session.base_url}/keywords/keywords_by_asin_query"
     # TODO: what's the response code here????
     mock_route = respx.post(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
-    result = client_sync.keywords_by_asin(asin=asin)
+    result = await client_async.keywords_by_asin(asin=asin)
 
     assert mock_route.called
     assert mock_route.call_count == 1
