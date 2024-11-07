@@ -1,18 +1,19 @@
 import pytest
 from httpx import HTTPStatusError
 
-from junglescout import ClientSync
+from junglescout import ClientAsync
 from junglescout.exceptions import JungleScoutHTTPError
 from junglescout.models.parameters import Marketplace
 from junglescout.models.responses import ShareOfVoiceTopAsins
 
 
 @pytest.mark.integration()
-def test_share_of_voice(api_keys):
+@pytest.mark.asyncio()
+async def test_share_of_voice(api_keys):
     keyword = "yoga mat"
-    client = ClientSync(**api_keys, marketplace=Marketplace.US)
-    response = client.share_of_voice(keyword=keyword, marketplace=Marketplace.US)
-    client.close()
+    client = ClientAsync(**api_keys, marketplace=Marketplace.US)
+    response = await client.share_of_voice(keyword=keyword, marketplace=Marketplace.US)
+    await client.close()
     assert client.is_closed
     assert response.data is not None
     assert response.data.type == "share_of_voice"
@@ -23,10 +24,11 @@ def test_share_of_voice(api_keys):
 
 
 @pytest.mark.integration()
-def test_share_of_voice_using_context_manager(api_keys):
+@pytest.mark.asyncio()
+async def test_share_of_voice_using_context_manager(api_keys):
     keyword = "yoga mat"
-    with ClientSync(**api_keys, marketplace=Marketplace.US) as client:
-        response = client.share_of_voice(keyword=keyword, marketplace=Marketplace.US)
+    async with ClientAsync(**api_keys, marketplace=Marketplace.US) as client:
+        response = await client.share_of_voice(keyword=keyword, marketplace=Marketplace.US)
     assert client.is_closed
     assert response.data is not None
     assert response.data.type == "share_of_voice"
@@ -37,12 +39,13 @@ def test_share_of_voice_using_context_manager(api_keys):
 
 
 @pytest.mark.integration()
-def test_share_of_voice_with_long_keyword(api_keys):
+@pytest.mark.asyncio()
+async def test_share_of_voice_with_long_keyword(api_keys):
     keyword = "this is a super long keyword that will raise an error because it is too long and specific"
-    client = ClientSync(**api_keys, marketplace=Marketplace.US)
+    client = ClientAsync(**api_keys, marketplace=Marketplace.US)
     with pytest.raises(JungleScoutHTTPError) as exc_info:
-        client.share_of_voice(keyword=keyword, marketplace=Marketplace.US)
-    client.close()
+        await client.share_of_voice(keyword=keyword, marketplace=Marketplace.US)
+    await client.close()
     assert client.is_closed
     assert isinstance(exc_info.value.httpx_exception, HTTPStatusError)
     assert exc_info.value.httpx_exception.response.json() == {
@@ -59,12 +62,13 @@ def test_share_of_voice_with_long_keyword(api_keys):
 
 
 @pytest.mark.integration()
-def test_share_of_voice_with_no_results(api_keys):
+@pytest.mark.asyncio()
+async def test_share_of_voice_with_no_results(api_keys):
     keyword = "thisisnotarealkeywordthisisnotarealkeywordthisisno"
-    client = ClientSync(**api_keys, marketplace=Marketplace.US)
+    client = ClientAsync(**api_keys, marketplace=Marketplace.US)
     with pytest.raises(JungleScoutHTTPError) as exc_info:
-        client.share_of_voice(keyword=keyword, marketplace=Marketplace.US)
-    client.close()
+        await client.share_of_voice(keyword=keyword, marketplace=Marketplace.US)
+    await client.close()
     assert client.is_closed
     assert isinstance(exc_info.value.httpx_exception, HTTPStatusError)
     assert exc_info.value.httpx_exception.response.json() == {

@@ -2,7 +2,7 @@ from datetime import datetime
 
 import pytest
 
-from junglescout import ClientSync
+from junglescout import ClientAsync
 from junglescout.models.parameters import (
     Marketplace,
     ProductSort,
@@ -12,9 +12,10 @@ from junglescout.models.parameters import (
 
 
 @pytest.mark.integration()
-def test_with_keywords(api_keys):
-    client = ClientSync(**api_keys, marketplace=Marketplace.US)
-    response = client.product_database(
+@pytest.mark.asyncio()
+async def test_with_keywords(api_keys):
+    client = ClientAsync(**api_keys, marketplace=Marketplace.US)
+    response = await client.product_database(
         include_keywords=["yoga mat", "yoga"],
         exclude_keywords=["mat"],
         marketplace=Marketplace.US,
@@ -23,7 +24,7 @@ def test_with_keywords(api_keys):
         product_tiers=[ProductTiers.OVERSIZE],
         product_sort_option=ProductSort.NAME,
     )
-    client.close()
+    await client.close()
     assert client.is_closed
     assert response.data is not None
     assert response.meta.errors is None
@@ -38,9 +39,10 @@ def test_with_keywords(api_keys):
 
 
 @pytest.mark.integration()
-def test_with_keywords_using_context_manager(api_keys):
-    with ClientSync(**api_keys, marketplace=Marketplace.US) as client:
-        response = client.product_database(
+@pytest.mark.asyncio()
+async def test_with_keywords_using_context_manager(api_keys):
+    async with ClientAsync(**api_keys, marketplace=Marketplace.US) as client:
+        response = await client.product_database(
             include_keywords=["yoga mat", "yoga"],
             exclude_keywords=["mat"],
             marketplace=Marketplace.US,
@@ -63,15 +65,16 @@ def test_with_keywords_using_context_manager(api_keys):
 
 
 @pytest.mark.integration()
-def test_with_only_keywords(api_keys):
-    client = ClientSync(**api_keys, marketplace=Marketplace.US)
-    response = client.product_database(
+@pytest.mark.asyncio()
+async def test_with_only_keywords(api_keys):
+    client = ClientAsync(**api_keys, marketplace=Marketplace.US)
+    response = await client.product_database(
         include_keywords=["yoga mat", "yoga"],
         marketplace=Marketplace.DE,
         page_size=5,
         product_sort_option=ProductSort.NAME,
     )
-    client.close()
+    await client.close()
     assert client.is_closed
     assert response.data is not None
     assert response.meta.errors is None
@@ -86,14 +89,15 @@ def test_with_only_keywords(api_keys):
 
 
 @pytest.mark.integration()
-def test_with_keyword_that_does_not_exist(api_keys):
+@pytest.mark.asyncio()
+async def test_with_keyword_that_does_not_exist(api_keys):
     keywords = ["thisisnotarealkeywordthisisnotarealkeywordthisisno"]
-    client = ClientSync(**api_keys, marketplace=Marketplace.US)
-    response = client.product_database(
+    client = ClientAsync(**api_keys, marketplace=Marketplace.US)
+    response = await client.product_database(
         include_keywords=keywords,
         marketplace=Marketplace.US,
     )
-    client.close()
+    await client.close()
     assert client.is_closed
     assert response.data == []
     assert response.links.next is None

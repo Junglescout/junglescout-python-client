@@ -3,17 +3,18 @@ from datetime import datetime
 import pytest
 from httpx import HTTPStatusError
 
-from junglescout import ClientSync
+from junglescout import ClientAsync
 from junglescout.exceptions import JungleScoutHTTPError
 from junglescout.models.parameters import Marketplace
 
 
 @pytest.mark.integration()
-def test_historical_search_volume(api_keys):
+@pytest.mark.asyncio()
+async def test_historical_search_volume(api_keys):
     keyword = "yoga"
-    client = ClientSync(**api_keys, marketplace=Marketplace.US)
-    response = client.historical_search_volume(keyword=keyword, start_date="2023-04-01", end_date="2023-04-30")
-    client.close()
+    client = ClientAsync(**api_keys, marketplace=Marketplace.US)
+    response = await client.historical_search_volume(keyword=keyword, start_date="2023-04-01", end_date="2023-04-30")
+    await client.close()
     assert client.is_closed
     assert len(response.data) > 1
     assert f"us/{keyword}" in response.data[0].id
@@ -24,10 +25,13 @@ def test_historical_search_volume(api_keys):
 
 
 @pytest.mark.integration()
-def test_historical_search_volume_using_context_manager(api_keys):
+@pytest.mark.asyncio()
+async def test_historical_search_volume_using_context_manager(api_keys):
     keyword = "yoga"
-    with ClientSync(**api_keys, marketplace=Marketplace.US) as client:
-        response = client.historical_search_volume(keyword=keyword, start_date="2023-04-01", end_date="2023-04-30")
+    async with ClientAsync(**api_keys, marketplace=Marketplace.US) as client:
+        response = await client.historical_search_volume(
+            keyword=keyword, start_date="2023-04-01", end_date="2023-04-30"
+        )
     assert client.is_closed
     assert len(response.data) > 1
     assert f"us/{keyword}" in response.data[0].id
@@ -38,12 +42,13 @@ def test_historical_search_volume_using_context_manager(api_keys):
 
 
 @pytest.mark.integration()
-def test_historical_search_volume_with_too_large_of_range(api_keys):
+@pytest.mark.asyncio()
+async def test_historical_search_volume_with_too_large_of_range(api_keys):
     keyword = "yoga"
-    client = ClientSync(**api_keys, marketplace=Marketplace.US)
+    client = ClientAsync(**api_keys, marketplace=Marketplace.US)
     with pytest.raises(JungleScoutHTTPError) as exc_info:
-        client.historical_search_volume(keyword=keyword, start_date="2023-01-01", end_date="2024-04-30")
-    client.close()
+        await client.historical_search_volume(keyword=keyword, start_date="2023-01-01", end_date="2024-04-30")
+    await client.close()
     assert client.is_closed
     assert isinstance(exc_info.value.httpx_exception, HTTPStatusError)
     assert exc_info.value.httpx_exception.response.json() == {
@@ -60,20 +65,22 @@ def test_historical_search_volume_with_too_large_of_range(api_keys):
 
 
 @pytest.mark.integration()
-def test_historical_search_volume_with_keyword_that_does_not_exist(api_keys):
+@pytest.mark.asyncio()
+async def test_historical_search_volume_with_keyword_that_does_not_exist(api_keys):
     keyword = "thisisnotarealkeywordthisisnotarealkeywordthisisno"
-    client = ClientSync(**api_keys, marketplace=Marketplace.US)
-    response = client.historical_search_volume(keyword=keyword, start_date="2023-01-01", end_date="2023-04-30")
-    client.close()
+    client = ClientAsync(**api_keys, marketplace=Marketplace.US)
+    response = await client.historical_search_volume(keyword=keyword, start_date="2023-01-01", end_date="2023-04-30")
+    await client.close()
     assert client.is_closed
     assert response.data == []
 
 
 @pytest.mark.integration()
-def test_historical_search_volume_with_old_data(api_keys):
+@pytest.mark.asyncio()
+async def test_historical_search_volume_with_old_data(api_keys):
     keyword = "yoga mat"
-    client = ClientSync(**api_keys, marketplace=Marketplace.US)
-    response = client.historical_search_volume(keyword=keyword, start_date="1960-01-01", end_date="1960-01-31")
-    client.close()
+    client = ClientAsync(**api_keys, marketplace=Marketplace.US)
+    response = await client.historical_search_volume(keyword=keyword, start_date="1960-01-01", end_date="1960-01-31")
+    await client.close()
     assert client.is_closed
     assert response.data == []
