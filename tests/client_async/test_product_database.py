@@ -27,7 +27,6 @@ from tests.factories.product_database_factory import generate_product_database_r
 @pytest.mark.asyncio()
 async def test_product_database(client_async, include_keywords, exclude_keywords, fake_response):
     mock_url = f"{client_async.session.base_url}/product_database_query"
-    # TODO: what's the response code here????
     mock_route = respx.post(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
     result = await client_async.product_database(include_keywords=include_keywords, exclude_keywords=exclude_keywords)
 
@@ -106,7 +105,6 @@ async def test_full_request_product_database(
     fake_response,
 ):
     mock_url = f"{client_async.session.base_url}/product_database_query"
-    # TODO: what's the response code here????
     mock_route = respx.post(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
     result = await client_async.product_database(
         include_keywords=include_keywords,
