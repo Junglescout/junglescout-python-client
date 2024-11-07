@@ -5,8 +5,6 @@ from junglescout import ClientSync
 from junglescout.exceptions import JungleScoutHTTPError
 from junglescout.models.parameters import Marketplace
 
-HTTP_UNPROCESSABLE_ENTITY_CODE = 422
-
 
 @pytest.mark.integration()
 def test_sales_estimates(api_keys):
@@ -14,6 +12,23 @@ def test_sales_estimates(api_keys):
     client = ClientSync(**api_keys, marketplace=Marketplace.US)
     response = client.sales_estimates(asin=variant_asin, start_date="2023-01-01", end_date="2023-01-31")
     client.close()
+    assert client.is_closed
+    assert len(response.data) == 1
+    assert response.data[0].id == f"us/{variant_asin}"
+    assert response.data[0].type == "sales_estimate_result"
+    assert response.data[0].attributes.asin == variant_asin
+    assert response.data[0].attributes.is_parent is False
+    assert response.data[0].attributes.is_variant is True
+    assert response.data[0].attributes.is_standalone is False
+    assert response.data[0].attributes.variants == []
+    assert len(response.data[0].attributes.data) > 1
+
+
+@pytest.mark.integration()
+def test_sales_estimates_using_context_manager(api_keys):
+    variant_asin = "B078DZ9BRD"
+    with ClientSync(**api_keys, marketplace=Marketplace.US) as client:
+        response = client.sales_estimates(asin=variant_asin, start_date="2023-01-01", end_date="2023-01-31")
     assert client.is_closed
     assert len(response.data) == 1
     assert response.data[0].id == f"us/{variant_asin}"
@@ -35,7 +50,8 @@ def test_sales_estimates_asin_without_rank_data(api_keys):
     client.close()
     assert client.is_closed
     assert isinstance(exc_info.value.httpx_exception, HTTPStatusError)
-    assert exc_info.value.httpx_exception.response.status_code == HTTP_UNPROCESSABLE_ENTITY_CODE
+    http_unprocessable_entity_code = 422
+    assert exc_info.value.httpx_exception.response.status_code == http_unprocessable_entity_code
     assert exc_info.value.httpx_exception.response.json()["errors"][0]["code"] == "MISSING_RANK_DATA"
 
 

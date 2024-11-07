@@ -23,6 +23,20 @@ def test_share_of_voice(api_keys):
 
 
 @pytest.mark.integration()
+def test_share_of_voice(api_keys):
+    keyword = "yoga mat"
+    with ClientSync(**api_keys, marketplace=Marketplace.US) as client:
+        response = client.share_of_voice(keyword=keyword, marketplace=Marketplace.US)
+    assert client.is_closed
+    assert response.data is not None
+    assert response.data.type == "share_of_voice"
+    assert response.data.id == f"us/{keyword}"
+    assert response.data.attributes.estimated_30_day_search_volume > 0
+    assert isinstance(response.data.attributes.brands[0].brand, str)
+    assert isinstance(response.data.attributes.top_asins[0], ShareOfVoiceTopAsins)
+
+
+@pytest.mark.integration()
 def test_share_of_voice_with_long_keyword(api_keys):
     keyword = "this is a super long keyword that will raise an error because it is too long and specific"
     client = ClientSync(**api_keys, marketplace=Marketplace.US)

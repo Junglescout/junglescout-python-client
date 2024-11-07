@@ -17,6 +17,31 @@ def test_search_by_keyword_and_category(api_keys):
         marketplace=Marketplace.US,
         sort_option=Sort.MONTHLY_TREND,
     )
+    client.close()
+    assert client.is_closed
+    assert response.meta.errors is None
+    assert response.meta.total_items is not None
+    assert response.meta.total_items > 1
+    assert response.links.self is not None
+    assert "keywords_by_keyword_query" in response.links.self
+    assert response.links.next is None
+    assert len(response.data) > 1
+    assert response.data[0].id == f"us/{search_term}"
+    assert response.data[0].type == "keywords_by_keyword_result"
+    assert response.data[0].attributes.country == "us"
+
+
+@pytest.mark.integration()
+def test_search_by_keyword_and_category(api_keys):
+    search_term = "yoga"
+    with ClientSync(**api_keys, marketplace=Marketplace.US) as client:
+        response = client.keywords_by_keyword(
+            search_terms=search_term,
+            categories=["Home & Kitchen", "Musical Instruments"],
+            marketplace=Marketplace.US,
+            sort_option=Sort.MONTHLY_TREND,
+        )
+    assert client.is_closed
     assert response.meta.errors is None
     assert response.meta.total_items is not None
     assert response.meta.total_items > 1
