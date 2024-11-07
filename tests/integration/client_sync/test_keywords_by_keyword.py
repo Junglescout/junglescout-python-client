@@ -3,14 +3,14 @@ import json
 import pytest
 from pydantic import ValidationError
 
-from junglescout import Client
+from junglescout import ClientSync
 from junglescout.models.parameters import Marketplace, Sort
 
 
 @pytest.mark.integration()
 def test_search_by_keyword_and_category(api_keys):
     search_term = "yoga"
-    client = Client(**api_keys, marketplace=Marketplace.US)
+    client = ClientSync(**api_keys, marketplace=Marketplace.US)
     response = client.keywords_by_keyword(
         search_terms=search_term,
         categories=["Home & Kitchen", "Musical Instruments"],
@@ -33,7 +33,7 @@ def test_search_by_keyword_and_category(api_keys):
 def test_for_categories_that_do_not_exist(api_keys):
     search_term = "yoga"
     non_existent_category = "This does not exist"
-    client = Client(**api_keys, marketplace=Marketplace.US)
+    client = ClientSync(**api_keys, marketplace=Marketplace.US)
     with pytest.raises(ValidationError) as exc_info:
         client.keywords_by_keyword(
             search_terms=search_term,
@@ -41,6 +41,7 @@ def test_for_categories_that_do_not_exist(api_keys):
             marketplace=Marketplace.US,
             sort_option=Sort.MONTHLY_TREND,
         )
+    client.close()
 
     error_dict = json.loads(exc_info.value.json())[0]
     partial_expected_error_dict = {
@@ -51,13 +52,16 @@ def test_for_categories_that_do_not_exist(api_keys):
         "ctx": {"error": f"Category '{non_existent_category}' not found in marketplace categories"},
     }
     assert partial_expected_error_dict.items() <= error_dict.items()
+    assert client.is_closed
 
 
 @pytest.mark.integration()
 def test_search_by_keyword(api_keys):
     search_term = "Protein Shake"
-    client = Client(**api_keys, marketplace=Marketplace.US)
+    client = ClientSync(**api_keys, marketplace=Marketplace.US)
     response = client.keywords_by_keyword(search_terms=search_term)
+    client.close()
+    assert client.is_closed
     assert response.meta.errors is None
     assert response.meta.total_items is not None
     assert response.meta.total_items > 1

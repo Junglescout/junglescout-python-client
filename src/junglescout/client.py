@@ -40,6 +40,11 @@ class Client(ABC, Generic[T]):
     def session(self) -> T:
         """The session used to make requests to the Jungle Scout API."""
 
+    @property
+    @abstractmethod
+    def is_closed(self) -> bool:
+        """Boolean indicating if the client session is closed."""
+
     @staticmethod
     def _build_headers() -> dict:
         return {

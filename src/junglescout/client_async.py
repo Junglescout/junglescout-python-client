@@ -89,6 +89,13 @@ class ClientAsync(Client[AsyncSession]):
             await self.session.client.aclose()
             self._session = None
 
+    @property
+    def is_closed(self) -> bool:
+        """Boolean indicating if the client session is closed."""
+        if self._session is not None:
+            return self.session.client.is_closed
+        return True
+
     async def __aenter__(self) -> "ClientAsync":
         """Enter the async context manager.
 

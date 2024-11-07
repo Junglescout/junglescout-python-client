@@ -2,7 +2,7 @@ from datetime import datetime
 
 import pytest
 
-from junglescout import Client
+from junglescout import ClientSync
 from junglescout.models.parameters import (
     Marketplace,
     ProductSort,
@@ -15,7 +15,7 @@ HTTP_BAD_REQUEST_CODE = 400
 
 @pytest.mark.integration()
 def test_with_keywords(api_keys):
-    client = Client(**api_keys, marketplace=Marketplace.US)
+    client = ClientSync(**api_keys, marketplace=Marketplace.US)
     response = client.product_database(
         include_keywords=["yoga mat", "yoga"],
         exclude_keywords=["mat"],
@@ -25,6 +25,8 @@ def test_with_keywords(api_keys):
         product_tiers=[ProductTiers.OVERSIZE],
         product_sort_option=ProductSort.NAME,
     )
+    client.close()
+    assert client.is_closed
     assert response.data is not None
     assert response.meta.errors is None
     assert response.meta.total_items is not None
@@ -39,13 +41,15 @@ def test_with_keywords(api_keys):
 
 @pytest.mark.integration()
 def test_with_only_keywords(api_keys):
-    client = Client(**api_keys, marketplace=Marketplace.US)
+    client = ClientSync(**api_keys, marketplace=Marketplace.US)
     response = client.product_database(
         include_keywords=["yoga mat", "yoga"],
         marketplace=Marketplace.DE,
         page_size=5,
         product_sort_option=ProductSort.NAME,
     )
+    client.close()
+    assert client.is_closed
     assert response.data is not None
     assert response.meta.errors is None
     assert response.meta.total_items is not None
@@ -61,10 +65,12 @@ def test_with_only_keywords(api_keys):
 @pytest.mark.integration()
 def test_with_keyword_that_does_not_exist(api_keys):
     keywords = ["thisisnotarealkeywordthisisnotarealkeywordthisisno"]
-    client = Client(**api_keys, marketplace=Marketplace.US)
+    client = ClientSync(**api_keys, marketplace=Marketplace.US)
     response = client.product_database(
         include_keywords=keywords,
         marketplace=Marketplace.US,
     )
+    client.close()
+    assert client.is_closed
     assert response.data == []
     assert response.links.next is None

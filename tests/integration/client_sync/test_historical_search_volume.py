@@ -3,7 +3,7 @@ from datetime import datetime
 import pytest
 from httpx import HTTPStatusError
 
-from junglescout import Client
+from junglescout import ClientSync
 from junglescout.exceptions import JungleScoutHTTPError
 from junglescout.models.parameters import Marketplace
 
@@ -11,8 +11,10 @@ from junglescout.models.parameters import Marketplace
 @pytest.mark.integration()
 def test_historical_search_volume(api_keys):
     keyword = "yoga"
-    client = Client(**api_keys, marketplace=Marketplace.US)
+    client = ClientSync(**api_keys, marketplace=Marketplace.US)
     response = client.historical_search_volume(keyword=keyword, start_date="2023-04-01", end_date="2023-04-30")
+    client.close()
+    assert client.is_closed
     assert len(response.data) > 1
     assert f"us/{keyword}" in response.data[0].id
     assert response.data[0].type == "historical_keyword_search_volume"
@@ -24,7 +26,9 @@ def test_historical_search_volume(api_keys):
 @pytest.mark.integration()
 def test_historical_search_volume_with_too_large_of_range(api_keys):
     keyword = "yoga"
-    client = Client(**api_keys, marketplace=Marketplace.US)
+    client = ClientSync(**api_keys, marketplace=Marketplace.US)
+    client.close()
+    assert client.is_closed
     with pytest.raises(JungleScoutHTTPError) as exc_info:
         client.historical_search_volume(keyword=keyword, start_date="2023-01-01", end_date="2024-04-30")
     assert isinstance(exc_info.value.httpx_exception, HTTPStatusError)
@@ -44,7 +48,9 @@ def test_historical_search_volume_with_too_large_of_range(api_keys):
 @pytest.mark.integration()
 def test_historical_search_volume_with_keyword_that_does_not_exist(api_keys):
     keyword = "thisisnotarealkeywordthisisnotarealkeywordthisisno"
-    client = Client(**api_keys, marketplace=Marketplace.US)
+    client = ClientSync(**api_keys, marketplace=Marketplace.US)
+    client.close()
+    assert client.is_closed
     response = client.historical_search_volume(keyword=keyword, start_date="2023-01-01", end_date="2023-04-30")
     assert response.data == []
 
@@ -52,6 +58,8 @@ def test_historical_search_volume_with_keyword_that_does_not_exist(api_keys):
 @pytest.mark.integration()
 def test_historical_search_volume_with_old_data(api_keys):
     keyword = "yoga mat"
-    client = Client(**api_keys, marketplace=Marketplace.US)
+    client = ClientSync(**api_keys, marketplace=Marketplace.US)
+    client.close()
+    assert client.is_closed
     response = client.historical_search_volume(keyword=keyword, start_date="1960-01-01", end_date="1960-01-31")
     assert response.data == []
