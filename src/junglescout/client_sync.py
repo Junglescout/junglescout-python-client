@@ -1,5 +1,6 @@
 import json
-from typing import List, Optional, Union
+from types import TracebackType
+from typing import List, Optional, Type, Union
 
 from junglescout.client import Client
 from junglescout.models.parameters import (
@@ -80,6 +81,35 @@ class ClientSync(Client[SyncSession]):
             self._session = SyncSession(headers)
             self._session.login(api_key_name=self.api_key_name, api_key=self.api_key, api_type=self.api_type)
         return self._session
+
+    def close(self) -> None:
+        """Closes all connections used by the client."""
+        if self._session is not None:
+            self.session.client.close()
+            self._session = None
+
+    def __enter__(self) -> "ClientSync":
+        """Enter the context manager.
+
+        Returns:
+            self: The client instance.
+        """
+        return self
+
+    def __exit__(
+        self,
+        exc_type: Optional[Type[BaseException]] = None,
+        exc_val: Optional[BaseException] = None,
+        exc_tb: Optional[TracebackType] = None,
+    ) -> None:
+        """Exit the context manager and cleanup resources.
+
+        Args:
+            exc_type: The type of the exception that occurred, if any.
+            exc_val: The instance of the exception that occurred, if any.
+            exc_tb: The traceback of the exception that occurred, if any.
+        """
+        self.close()
 
     def keywords_by_asin(
         self,

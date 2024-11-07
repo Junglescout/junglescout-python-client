@@ -1,5 +1,6 @@
 import json
-from typing import List, Optional, Union
+from types import TracebackType
+from typing import List, Optional, Type, Union
 
 from junglescout.client import Client
 from junglescout.models.parameters import (
@@ -81,6 +82,35 @@ class ClientAsync(Client[AsyncSession]):
             self._session = AsyncSession(headers)
             self._session.login(api_key_name=self.api_key_name, api_key=self.api_key, api_type=self.api_type)
         return self._session
+
+    async def close(self) -> None:
+        """Closes all connections used by the client."""
+        if self._session is not None:
+            await self.session.client.aclose()
+            self._session = None
+
+    async def __aenter__(self) -> "ClientAsync":
+        """Enter the async context manager.
+
+        Returns:
+            self: The client instance.
+        """
+        return self
+
+    async def __aexit__(
+        self,
+        exc_type: Optional[Type[BaseException]] = None,
+        exc_val: Optional[BaseException] = None,
+        exc_tb: Optional[TracebackType] = None,
+    ) -> None:
+        """Exit the async context manager and cleanup resources.
+
+        Args:
+            exc_type: The type of the exception that occurred, if any.
+            exc_val: The instance of the exception that occurred, if any.
+            exc_tb: The traceback of the exception that occurred, if any.
+        """
+        await self.close()
 
     async def keywords_by_asin(
         self,
