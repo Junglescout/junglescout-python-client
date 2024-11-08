@@ -199,7 +199,9 @@ class ClientSync(Client[SyncSession]):
         )
         request_instance = KeywordsByKeywordRequest.from_args(args, self.session)
         response = self.session.request(
-            request_instance.method.value, request_instance.url, data=json.dumps(request_instance.payload_serialized)
+            request_instance.method.value,
+            request_instance.url,
+            content=json.dumps(request_instance.payload_serialized).encode("utf-8"),
         )
         if response.is_success:
             return APIResponse[List[KeywordByKeyword]].model_validate(response.json())
@@ -352,7 +354,9 @@ class ClientSync(Client[SyncSession]):
         )
         request_instance = ProductDatabaseRequest.from_args(args, self.session)
         response = self.session.request(
-            request_instance.method.value, request_instance.url, data=json.dumps(request_instance.payload_serialized)
+            request_instance.method.value,
+            request_instance.url,
+            content=json.dumps(request_instance.payload_serialized).encode("utf-8"),
         )
         if response.is_success:
             return APIResponse[List[ProductDatabase]].model_validate(response.json())
