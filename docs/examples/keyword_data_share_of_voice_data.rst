@@ -21,7 +21,7 @@ First, set up your API key and API Key Name and instantiate the client
 
 .. code-block:: python
 
-    from junglescout.client import Client
+    from junglescout import ClientSync
     from junglescout.models.parameters import (
         Marketplace,
     )
@@ -29,7 +29,7 @@ First, set up your API key and API Key Name and instantiate the client
     API_KEY_NAME = "API_KEY_NAME"
     API_KEY = "API_KEY"
 
-    client = Client(api_key_name=API_KEY_NAME, api_key=API_KEY, marketplace=Marketplace.US)
+    client = ClientSync(api_key_name=API_KEY_NAME, api_key=API_KEY, marketplace=Marketplace.US)
 
 Now, we define a function to pull in the top keywords for the ASINs provided. This function will return the
 top keywords for the ASINs provided.

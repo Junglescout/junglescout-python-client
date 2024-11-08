@@ -21,6 +21,8 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 extlinks = {
     "js_api_docs": ("https://developer.junglescout.com/%s", "[API Docs; page %s]"),
     "js_postman": ("https://postman.junglescout.com/%s", "[Postman Collection; page %s]"),
+    "pydantic": ("https://docs.pydantic.dev/latest/%s", "[Pydantic; page %s]"),
+    "httpx": ("https://www.python-httpx.org/%s", "[httpx; page %s]"),
 }
 
 # -- Options for HTML output -------------------------------------------------

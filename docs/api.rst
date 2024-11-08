@@ -2,12 +2,20 @@
 API Reference
 =============
 
-Client
-======
+Synchronous Client
+==================
 
-API Reference for Jungle Scout API.
+API Reference for Synchronous Jungle Scout API.
 
-.. autoclass:: junglescout.client.Client
+.. autoclass:: junglescout.client_sync.ClientSync
+   :members:
+
+Asynchronous Client
+===================
+
+API Reference for Asynchronous Jungle Scout API.
+
+.. autoclass:: junglescout.client_async.ClientAsync
    :members:
 
 Parameters
