@@ -2,8 +2,8 @@
 Jungle Scout Python Client
 ##########################
 
-This is a Python client for the :js_api_docs:`Jungle Scout API <api>` which provides which provides sync and
-async interfaces.
+This is a Python client with both synchronous and asynchronous interfaces for interacting with the
+:js_api_docs:`Jungle Scout API <api>`.
 
 .. important::
     See the :js_api_docs:`Jungle Scout API reference <api>` for more information about the

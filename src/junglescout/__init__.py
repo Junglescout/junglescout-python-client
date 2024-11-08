@@ -9,4 +9,5 @@ __version__ = "0.2.2"
 from .client_async import ClientAsync
 from .client_sync import ClientSync
 
+# Importing Client from client_sync for backwards compatibility. This will be removed in the next major release.
 Client = ClientSync

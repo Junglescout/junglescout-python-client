@@ -7,7 +7,9 @@ client.
 
 .. code-block:: python
 
-    from junglescout.client import ClientAsync
+    import asyncio
+
+    from junglescout import ClientAsync
     from junglescout.models.parameters import (
         Marketplace,
     )
@@ -17,9 +19,11 @@ client.
 
     async def example_coroutine():
         async with ClientAsync(api_key_name=API_KEY_NAME, api_key=API_KEY, marketplace=Marketplace.US) as client:
-            keywords_by_asin = await client.keywords_by_asin(
+            return await client.keywords_by_asin(
                 asin=["B0CP9Z56SW", "B0154ASID6"],
             )
+
+    response = asyncio.run(example_coroutine())
 
 .. note::
     The Jungle Scout Python client uses :httpx:`HTTPX <>` under the hood for making async HTTP requests. In order to get

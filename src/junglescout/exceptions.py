@@ -2,11 +2,11 @@ import httpx
 
 
 class JungleScoutError(RuntimeError):
-    """Base exception for all Jungle Scout Exceptions."""
+    """Base exception for all Jungle Scout Client Exceptions."""
 
 
 class JungleScoutHTTPError(JungleScoutError):
-    """Base exception for Jungle Scout HTTP errors."""
+    """Base exception for Jungle Scout Client HTTP errors."""
 
     def __init__(
         self,
