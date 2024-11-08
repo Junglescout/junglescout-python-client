@@ -1,10 +1,10 @@
-import os
+import json
 from datetime import datetime
 
+import httpx
 import pytest
-import requests_mock
+import respx
 
-from junglescout.client import Client
 from junglescout.models.parameters import (
     Marketplace,
     ProductFilterOptions,
@@ -16,11 +16,6 @@ from junglescout.models.responses import APIResponse, ProductDatabase
 from tests.factories.product_database_factory import generate_product_database_responses
 
 
-@pytest.fixture()
-def client():
-    return Client(api_key_name=os.environ["API_KEY_NAME"], api_key=os.environ["API_KEY"], marketplace=Marketplace.US)
-
-
 @pytest.mark.parametrize(
     ("include_keywords", "exclude_keywords", "fake_response"),
     [
@@ -28,26 +23,23 @@ def client():
         (["yoga_mat", "mat", "yoga accessories"], ["floor mat"], generate_product_database_responses(total_items=10)),
     ],
 )
-def test_product_database(client, include_keywords, exclude_keywords, fake_response):
-    with requests_mock.Mocker() as mock:
-        mock_url = f"{client.session.base_url}/product_database_query"
-        mock.post(
-            mock_url,
-            json=fake_response,
-        )
+@respx.mock
+@pytest.mark.asyncio()
+async def test_product_database(client_async, include_keywords, exclude_keywords, fake_response):
+    mock_url = f"{client_async.session.base_url}/product_database_query"
+    mock_route = respx.post(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
+    result = await client_async.product_database(include_keywords=include_keywords, exclude_keywords=exclude_keywords)
 
-        result = client.product_database(include_keywords=include_keywords, exclude_keywords=exclude_keywords)
+    assert mock_route.called
+    assert mock_route.call_count == 1
 
-    assert mock.called
-    assert mock.call_count == 1
+    request: httpx.Request = mock_route.calls[0].request
+    assert str(request.url.copy_with(query=None)) == mock_url
+    assert str(request.url.params) == "marketplace=us&page%5Bsize%5D=10"
+    assert request.method == "POST"
 
-    history = mock.request_history
-
-    assert len(history) == 1
-    assert history[0].url == f"{mock_url}?marketplace=us&page%5Bsize%5D=10"
-    assert history[0].query == "marketplace=us&page%5bsize%5d=10"
-    assert history[0].method == "POST"
-    assert history[0].json() == {
+    request_content = json.loads(request.content)
+    assert request_content == {
         "data": {
             "type": "product_database_query",
             "attributes": {
@@ -99,8 +91,10 @@ def test_product_database(client, include_keywords, exclude_keywords, fake_respo
         ),
     ],
 )
-def test_full_request_product_database(
-    client,
+@respx.mock
+@pytest.mark.asyncio()
+async def test_full_request_product_database(
+    client_async,
     include_keywords,
     exclude_keywords,
     page_size,
@@ -110,33 +104,28 @@ def test_full_request_product_database(
     product_sort_option,
     fake_response,
 ):
-    with requests_mock.Mocker() as mock:
-        mock_url = f"{client.session.base_url}/product_database_query"
-        mock.post(
-            mock_url,
-            json=fake_response,
-        )
+    mock_url = f"{client_async.session.base_url}/product_database_query"
+    mock_route = respx.post(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
+    result = await client_async.product_database(
+        include_keywords=include_keywords,
+        exclude_keywords=exclude_keywords,
+        page_size=page_size,
+        product_filter_options=product_filter_options,
+        seller_types=seller_types,
+        product_tiers=product_tiers,
+        product_sort_option=product_sort_option,
+    )
 
-        result = client.product_database(
-            include_keywords=include_keywords,
-            exclude_keywords=exclude_keywords,
-            page_size=page_size,
-            product_filter_options=product_filter_options,
-            seller_types=seller_types,
-            product_tiers=product_tiers,
-            product_sort_option=product_sort_option,
-        )
+    assert mock_route.called
+    assert mock_route.call_count == 1
 
-    assert mock.called
-    assert mock.call_count == 1
+    request: httpx.Request = mock_route.calls[0].request
+    assert str(request.url.copy_with(query=None)) == mock_url
+    assert str(request.url.params) == "marketplace=us&page%5Bsize%5D=5&product_sort_option=-name"
+    assert request.method == "POST"
 
-    history = mock.request_history
-
-    assert len(history) == 1
-    assert history[0].url == f"{mock_url}?marketplace=us&page%5Bsize%5D=5&product_sort_option=-name"
-    assert history[0].query == "marketplace=us&page%5bsize%5d=5&product_sort_option=-name"
-    assert history[0].method == "POST"
-    assert history[0].json() == {
+    request_content = json.loads(request.content)
+    assert request_content == {
         "data": {
             "type": "product_database_query",
             "attributes": {

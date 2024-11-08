@@ -2,8 +2,8 @@
 Jungle Scout Python Client
 ##########################
 
-This is a Python client for the :js_api_docs:`Jungle Scout API <api>`. It is a thin wrapper
-around the Jungle Scout API, and it provides a simple interface for interacting with the API.
+This is a Python client with both synchronous and asynchronous interfaces for interacting with the
+:js_api_docs:`Jungle Scout API <api>`.
 
 .. important::
     See the :js_api_docs:`Jungle Scout API reference <api>` for more information about the
@@ -24,14 +24,14 @@ Import the client and create an instance.
 
 .. code-block:: python
 
-    from junglescout.client import Client
+    from junglescout import ClientSync
     from junglescout.models.parameters import (
         Marketplace,
     )
 
     API_KEY_NAME = "API_KEY_NAME"
     API_KEY = "API_KEY"
-    client = Client(api_key_name=API_KEY_NAME, api_key=API_KEY, marketplace=Marketplace.US)
+    client = ClientSync(api_key_name=API_KEY_NAME, api_key=API_KEY, marketplace=Marketplace.US)
 
 
 Make a request to the API.

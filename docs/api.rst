@@ -2,12 +2,20 @@
 API Reference
 =============
 
-Client
-======
+Synchronous Client
+==================
 
-API Reference for Jungle Scout API.
+API Reference for Synchronous Jungle Scout API.
 
-.. autoclass:: junglescout.client.Client
+.. autoclass:: junglescout.client_sync.ClientSync
+   :members:
+
+Asynchronous Client
+===================
+
+API Reference for Asynchronous Jungle Scout API.
+
+.. autoclass:: junglescout.client_async.ClientAsync
    :members:
 
 Parameters
@@ -27,3 +35,12 @@ References for the responses returned by the Jungle Scout API.
 .. automodule:: junglescout.models.responses
    :members:
    :exclude-members: model_computed_fields, model_config, model_fields, model_required_fields, model_optional_fields, serialize_marketplace, serialize_sort
+
+
+Exceptions
+==========
+
+References for the exceptions raised by the Jungle Scout API.
+
+.. automodule:: junglescout.exceptions
+   :members:

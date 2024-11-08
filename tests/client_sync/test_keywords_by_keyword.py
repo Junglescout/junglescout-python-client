@@ -1,19 +1,14 @@
-import os
+import json
 
+import httpx
 import pytest
-import requests_mock
+import respx
 
-from junglescout.client import Client
 from junglescout.models.parameters import Marketplace, Sort
 from junglescout.models.responses import APIResponse, KeywordByKeyword
 from tests.factories.keywords_by_keyword_factory import (
     generate_keywords_by_keyword_responses,
 )
-
-
-@pytest.fixture()
-def client():
-    return Client(api_key_name=os.environ["API_KEY_NAME"], api_key=os.environ["API_KEY"], marketplace=Marketplace.US)
 
 
 @pytest.mark.parametrize(
@@ -23,26 +18,22 @@ def client():
         ("yoga_mat", generate_keywords_by_keyword_responses(total_items=4)),
     ],
 )
-def test_keywords_by_keywords(client, search_terms, fake_response):
-    with requests_mock.Mocker() as mock:
-        mock_url = f"{client.session.base_url}/keywords/keywords_by_keyword_query"
-        mock.post(
-            mock_url,
-            json=fake_response,
-        )
+@respx.mock
+def test_keywords_by_keywords(client_sync, search_terms, fake_response):
+    mock_url = f"{client_sync.session.base_url}/keywords/keywords_by_keyword_query"
+    mock_route = respx.post(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
+    result = client_sync.keywords_by_keyword(search_terms=search_terms)
 
-        result = client.keywords_by_keyword(search_terms=search_terms)
+    assert mock_route.called
+    assert mock_route.call_count == 1
 
-    assert mock.called
-    assert mock.call_count == 1
+    request: httpx.Request = mock_route.calls[0].request
+    assert str(request.url.copy_with(query=None)) == mock_url
+    assert str(request.url.params) == "marketplace=us"
+    assert request.method == "POST"
 
-    history = mock.request_history
-
-    assert len(history) == 1
-    assert history[0].url == f"{mock_url}?marketplace=us"
-    assert history[0].query == "marketplace=us"
-    assert history[0].method == "POST"
-    assert history[0].json() == {
+    request_content = json.loads(request.content)
+    assert request_content == {
         "data": {
             "type": "keywords_by_keyword_query",
             "attributes": {"search_terms": search_terms, "categories": Marketplace.US.categories},
@@ -74,26 +65,22 @@ def test_keywords_by_keywords(client, search_terms, fake_response):
         ),
     ],
 )
-def test_keywords_by_keywords_headers(client, search_terms, sort_options, fake_response):
-    with requests_mock.Mocker() as mock:
-        mock_url = f"{client.session.base_url}/keywords/keywords_by_keyword_query"
-        mock.post(
-            mock_url,
-            json=fake_response,
-        )
+@respx.mock
+def test_keywords_by_keywords_headers(client_sync, search_terms, sort_options, fake_response):
+    mock_url = f"{client_sync.session.base_url}/keywords/keywords_by_keyword_query"
+    mock_route = respx.post(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
+    result = client_sync.keywords_by_keyword(search_terms=search_terms, sort_option=sort_options)
 
-        result = client.keywords_by_keyword(search_terms=search_terms, sort_option=sort_options)
+    assert mock_route.called
+    assert mock_route.call_count == 1
 
-    assert mock.called
-    assert mock.call_count == 1
+    request: httpx.Request = mock_route.calls[0].request
+    assert str(request.url.copy_with(query=None)) == mock_url
+    assert str(request.url.params) == f"marketplace=us&sort={sort_options.value}"
+    assert request.method == "POST"
 
-    history = mock.request_history
-
-    assert len(history) == 1
-    assert history[0].url == f"{mock_url}?marketplace=us&sort={sort_options.value}"
-    assert history[0].query == f"marketplace=us&sort={sort_options.value}"
-    assert history[0].method == "POST"
-    assert history[0].json() == {
+    request_content = json.loads(request.content)
+    assert request_content == {
         "data": {
             "type": "keywords_by_keyword_query",
             "attributes": {"search_terms": search_terms, "categories": Marketplace.US.categories},

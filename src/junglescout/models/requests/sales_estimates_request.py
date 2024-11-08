@@ -1,12 +1,21 @@
 import re
 from datetime import datetime
-from typing import Dict
+from typing import Dict, Optional
 
-from pydantic import field_validator
+from pydantic import BaseModel, field_validator
 
-from junglescout.models.parameters import Attributes, Params
-from junglescout.models.requests import Method, RequestType
-from junglescout.models.requests.base_request import BaseRequest
+from junglescout.models.parameters import Attributes, Marketplace, Params, Sort
+from junglescout.models.requests.method import Method
+from junglescout.models.requests.request import Request
+from junglescout.session import Session
+
+
+class SalesEstimatesArgs(BaseModel):
+    asin: str
+    start_date: str
+    end_date: str
+    sort_option: Optional[Sort]
+    marketplace: Marketplace
 
 
 class SalesEstimatesParams(Params):
@@ -46,17 +55,26 @@ class SalesEstimatesAttributes(Attributes):
     pass
 
 
-class SalesEstimatesRequest(BaseRequest[SalesEstimatesParams, SalesEstimatesAttributes]):
+class SalesEstimatesRequest(Request[SalesEstimatesArgs, SalesEstimatesParams, SalesEstimatesAttributes]):
     @property
-    def type(self) -> RequestType:
-        return RequestType.SALES_ESTIMATES
+    def url(self) -> str:
+        return self.session.build_url("sales_estimates_query", params=self.params_serialized)
 
     @property
     def method(self) -> Method:
         return Method.GET
 
-    def build_params(self, params: SalesEstimatesParams) -> Dict:  # noqa: PLR6301
-        return params.model_dump(by_alias=True, exclude_none=True)
+    def serialize_params(self) -> Dict:
+        return self.params.model_dump(by_alias=True, exclude_none=True)
 
-    def build_payload(self, attributes: SalesEstimatesAttributes) -> None:  # noqa: PLR6301,ARG002
-        return None
+    @classmethod
+    def from_args(cls, args: SalesEstimatesArgs, session: Session) -> "SalesEstimatesRequest":
+        params = SalesEstimatesParams(
+            marketplace=args.marketplace,
+            sort=args.sort_option,
+            asin=args.asin,
+            start_date=args.start_date,
+            end_date=args.end_date,
+        )
+        attributes = SalesEstimatesAttributes()
+        return cls(params=params, attributes=attributes, session=session)

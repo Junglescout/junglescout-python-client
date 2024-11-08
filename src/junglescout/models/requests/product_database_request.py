@@ -1,8 +1,15 @@
-import json
 from typing import Any, Dict, List, Optional
 
-from pydantic import ValidationInfo, field_serializer, field_validator, model_serializer
+from pydantic import (
+    BaseModel,
+    Field,
+    ValidationInfo,
+    field_serializer,
+    field_validator,
+    model_serializer,
+)
 
+from junglescout.models.default_if_none import DefaultIfNone
 from junglescout.models.parameters import (
     Attributes,
     Marketplace,
@@ -12,8 +19,26 @@ from junglescout.models.parameters import (
     ProductTiers,
     SellerTypes,
 )
-from junglescout.models.requests import Method, RequestType
-from junglescout.models.requests.base_request import BaseRequest
+from junglescout.models.requests.method import Method
+from junglescout.models.requests.request import Request
+from junglescout.session import Session
+
+
+class ProductDatabaseArgs(BaseModel):
+    include_keywords: Optional[List[str]]
+    exclude_keywords: DefaultIfNone[List[str]] = Field(default_factory=list)
+    categories: Optional[List[str]]
+    product_tiers: DefaultIfNone[List[ProductTiers]] = Field(
+        default_factory=lambda: [ProductTiers.OVERSIZE, ProductTiers.STANDARD]
+    )
+    seller_types: DefaultIfNone[List[SellerTypes]] = Field(
+        default_factory=lambda: [SellerTypes.AMZ, SellerTypes.FBA, SellerTypes.FBM]
+    )
+    product_filter_options: Optional[ProductFilterOptions]
+    product_sort_option: Optional[ProductSort]
+    marketplace: Marketplace
+    page_size: DefaultIfNone[int] = Field(default=10)
+    page: Optional[str] = None
 
 
 class ProductDatabaseParams(Params):
@@ -65,19 +90,41 @@ class ProductDatabaseAttributes(Attributes):
         return serialized_model
 
 
-class ProductDatabaseRequest(BaseRequest[ProductDatabaseParams, ProductDatabaseAttributes]):
+class ProductDatabaseRequest(Request[ProductDatabaseArgs, ProductDatabaseParams, ProductDatabaseAttributes]):
     @property
-    def type(self):
-        return RequestType.PRODUCT_DATABASE
+    def url(self) -> str:
+        return self.session.build_url("product_database_query", params=self.params_serialized)
 
     @property
     def method(self) -> Method:
         return Method.POST
 
-    def build_params(self, params: ProductDatabaseParams) -> Dict:  # noqa: PLR6301
-        return params.model_dump(by_alias=True, exclude_none=True)
+    def serialize_params(self) -> Dict:
+        return self.params.model_dump(by_alias=True, exclude_none=True)
 
-    def build_payload(self, attributes: ProductDatabaseAttributes) -> str:
-        return json.dumps(
-            {"data": {"type": self.type.value, "attributes": attributes.model_dump(by_alias=True, exclude_none=True)}}
+    def serialize_payload(self) -> Dict:
+        return {
+            "data": {
+                "type": "product_database_query",
+                "attributes": self.attributes.model_dump(by_alias=True, exclude_none=True),
+            }
+        }
+
+    @classmethod
+    def from_args(cls, args: ProductDatabaseArgs, session: Session) -> "ProductDatabaseRequest":
+        params = ProductDatabaseParams(
+            marketplace=args.marketplace,
+            product_sort_option=args.product_sort_option,
+            page_size=args.page_size,
+            page=args.page,
         )
+        attributes = ProductDatabaseAttributes(
+            marketplace=args.marketplace,
+            include_keywords=args.include_keywords,
+            exclude_keywords=args.exclude_keywords,
+            categories=args.categories,
+            product_tiers=args.product_tiers,
+            seller_types=args.seller_types,
+            product_filter_options=args.product_filter_options,
+        )
+        return cls(params=params, attributes=attributes, session=session)
