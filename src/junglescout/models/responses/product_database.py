@@ -66,6 +66,9 @@ class ProductDatabaseAttributes(BaseModel):
         default=None, description="The approximate 30 day units sold of the product."
     )
     ean_list: Optional[List[int]] = Field(default=None, description="The EAN list of the product.")
+    isbn_list: Optional[List[int]] = Field(default=None, description="The ISBN list of the product.")
+    upc_list: Optional[List[int]] = Field(default=None, description="The UPC list of the product.")
+    gtin_list: Optional[List[int]] = Field(default=None, description="The GTIN list of the product.")
     variant_reviews: Optional[int] = Field(default=None, description="The variant reviews of the product.")
     updated_at: Optional[datetime] = Field(default=..., description="The date the product was last updated.")
     subcategory_ranks: Optional[List[ProductDatabaseSubcategoryRanks]] = Field(
