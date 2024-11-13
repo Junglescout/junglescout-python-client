@@ -3,7 +3,7 @@
 This package contains the Jungle Scout Client package.
 """
 
-__all__ = ["Client", "ClientAsync", "ClientSync"]
+__all__ = ["Client", "ClientAsync", "ClientSync", "__version__"]
 __version__ = "0.4.0"
 
 from .client_async import ClientAsync
