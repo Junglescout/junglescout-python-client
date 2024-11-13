@@ -4,6 +4,7 @@ from typing import Generic, NoReturn, Optional, TypeVar
 
 import httpx
 
+from junglescout import __version__ as junglescout_version
 from junglescout.exceptions import JungleScoutError, JungleScoutHTTPError
 from junglescout.models.parameters import ApiType, Marketplace
 from junglescout.session import Session
@@ -50,6 +51,7 @@ class Client(ABC, Generic[T]):
         return {
             "Accept": "application/vnd.junglescout.v1+json",
             "Content-Type": "application/vnd.api+json",
+            "X-Client-Id": f"python-client-{junglescout_version}",
         }
 
     def _build_url(self, *args, params: Optional[dict] = None) -> str:
