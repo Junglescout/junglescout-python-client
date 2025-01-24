@@ -310,6 +310,7 @@ class ClientSync(Client[SyncSession]):
         self,
         include_keywords: Optional[List[str]] = None,
         exclude_keywords: Optional[List[str]] = None,
+        collapse_by_parent: Optional[bool] = False,
         categories: Optional[List[str]] = None,
         product_tiers: Optional[List[ProductTiers]] = None,
         seller_types: Optional[List[SellerTypes]] = None,
@@ -326,6 +327,7 @@ class ClientSync(Client[SyncSession]):
             exclude_keywords: List of keywords or ASINs to exclude from the search.
             categories: List of categories to filter the search by. Must be valid inside the
                 categories of the selected Marketplace.
+            collapse_by_parent: Collapses the results to return only parent ASINs.
             product_tiers: List of product tiers to filter the search by. Must use the ProductTiers enum.
             seller_types: List of seller types to filter the search by. Must use the SellerTypes enum.
             product_filter_options: Additional product filter options. Must use the ProductFilterOptions class.
@@ -343,6 +345,7 @@ class ClientSync(Client[SyncSession]):
         args = ProductDatabaseArgs(
             include_keywords=include_keywords,
             exclude_keywords=exclude_keywords,
+            collapse_by_parent=collapse_by_parent,
             categories=categories,
             product_tiers=product_tiers,
             seller_types=seller_types,

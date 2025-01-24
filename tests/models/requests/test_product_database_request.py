@@ -21,6 +21,7 @@ def test_product_database_args():
         "page_size": 10,
         "exclude_keywords": [],
         "marketplace": Marketplace.US,
+        "collapse_by_parent": True,
         "product_tiers": [
             ProductTiers.OVERSIZE,
             ProductTiers.STANDARD,
