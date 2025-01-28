@@ -3,9 +3,9 @@ import json
 import httpx
 import pytest
 import respx
+
 from junglescout.models.parameters import Marketplace, Sort
 from junglescout.models.responses import APIResponse, KeywordByKeyword
-
 from tests.factories.keywords_by_keyword_factory import (
     generate_keywords_by_keyword_responses,
 )

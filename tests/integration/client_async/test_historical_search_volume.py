@@ -2,6 +2,7 @@ from datetime import datetime
 
 import pytest
 from httpx import HTTPStatusError
+
 from junglescout import ClientAsync
 from junglescout.exceptions import JungleScoutHTTPError
 from junglescout.models.parameters import Marketplace

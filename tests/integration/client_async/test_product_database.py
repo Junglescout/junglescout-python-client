@@ -1,6 +1,7 @@
 from datetime import datetime
 
 import pytest
+
 from junglescout import ClientAsync
 from junglescout.models.parameters import (
     Marketplace,

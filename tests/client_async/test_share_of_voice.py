@@ -1,8 +1,8 @@
 import httpx
 import pytest
 import respx
-from junglescout.models.parameters import Marketplace
 
+from junglescout.models.parameters import Marketplace
 from tests.factories.share_of_voice_factory import generate_share_of_voice_responses
 
 

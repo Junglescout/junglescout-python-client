@@ -1,8 +1,8 @@
 import httpx
 import pytest
 import respx
-from junglescout.models.responses import APIResponse, SalesEstimates
 
+from junglescout.models.responses import APIResponse, SalesEstimates
 from tests.factories.sales_estimates_factory import generate_sales_estimates_responses
 
 

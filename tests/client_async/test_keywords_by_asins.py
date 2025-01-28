@@ -4,8 +4,8 @@ from datetime import datetime
 import httpx
 import pytest
 import respx
-from junglescout.models.responses import APIResponse, KeywordByASIN
 
+from junglescout.models.responses import APIResponse, KeywordByASIN
 from tests.factories.keyword_by_asin_factory import generate_keywords_by_asin_responses
 
 

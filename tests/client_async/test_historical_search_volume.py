@@ -1,8 +1,8 @@
 import httpx
 import pytest
 import respx
-from junglescout.models.parameters import Marketplace, Sort
 
+from junglescout.models.parameters import Marketplace, Sort
 from tests.factories.historical_search_volume_factory import (
     generate_historical_search_volume_responses,
 )
