@@ -27,6 +27,7 @@ from junglescout.session import Session
 class ProductDatabaseArgs(BaseModel):
     include_keywords: Optional[List[str]]
     exclude_keywords: DefaultIfNone[List[str]] = Field(default_factory=list)
+    collapse_by_parent: Optional[bool] = Field(default=None)
     categories: Optional[List[str]]
     product_tiers: DefaultIfNone[List[ProductTiers]] = Field(
         default_factory=lambda: [ProductTiers.OVERSIZE, ProductTiers.STANDARD]
@@ -43,10 +44,19 @@ class ProductDatabaseArgs(BaseModel):
 
 class ProductDatabaseParams(Params):
     product_sort_option: Optional[ProductSort] = None
+    collapse_by_parent: Optional[bool] = None
 
     @field_serializer("product_sort_option")
     def serialize_product_sort(self, value: Optional[ProductSort]):  # noqa: PLR6301
         return value.value if value else None
+
+    @field_serializer("collapse_by_parent")
+    def serialize_collapse_by_parent(self, value: Optional[bool]):  # noqa: PLR6301
+        if value is True:
+            return "true"
+        if value is False:
+            return "false"
+        return None
 
 
 class ProductDatabaseAttributes(Attributes):
@@ -114,6 +124,7 @@ class ProductDatabaseRequest(Request[ProductDatabaseArgs, ProductDatabaseParams,
     def from_args(cls, args: ProductDatabaseArgs, session: Session) -> "ProductDatabaseRequest":
         params = ProductDatabaseParams(
             marketplace=args.marketplace,
+            collapse_by_parent=args.collapse_by_parent,
             product_sort_option=args.product_sort_option,
             page_size=args.page_size,
             page=args.page,

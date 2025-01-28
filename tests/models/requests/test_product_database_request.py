@@ -8,6 +8,7 @@ def test_product_database_args():
     args = ProductDatabaseArgs(
         include_keywords=None,
         exclude_keywords=None,
+        collapse_by_parent=None,
         categories=None,
         product_tiers=None,
         seller_types=None,
