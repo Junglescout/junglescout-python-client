@@ -356,6 +356,7 @@ class ClientSync(Client[SyncSession]):
             page=page,
         )
         request_instance = ProductDatabaseRequest.from_args(args, self.session)
+
         response = self.session.request(
             request_instance.method.value,
             request_instance.url,

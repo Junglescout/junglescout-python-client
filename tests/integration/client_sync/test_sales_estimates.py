@@ -10,7 +10,7 @@ from junglescout.models.parameters import Marketplace
 def test_sales_estimates(api_keys):
     variant_asin = "B078DZ9BRD"
     client = ClientSync(**api_keys, marketplace=Marketplace.US)
-    response = client.sales_estimates(asin=variant_asin, start_date="2023-01-01", end_date="2023-01-31")
+    response = client.sales_estimates(asin=variant_asin, start_date="2024-01-01", end_date="2024-01-31")
     client.close()
     assert client.is_closed
     assert len(response.data) == 1
@@ -28,7 +28,7 @@ def test_sales_estimates(api_keys):
 def test_sales_estimates_using_context_manager(api_keys):
     variant_asin = "B078DZ9BRD"
     with ClientSync(**api_keys, marketplace=Marketplace.US) as client:
-        response = client.sales_estimates(asin=variant_asin, start_date="2023-01-01", end_date="2023-01-31")
+        response = client.sales_estimates(asin=variant_asin, start_date="2024-01-01", end_date="2024-01-31")
     assert client.is_closed
     assert len(response.data) == 1
     assert response.data[0].id == f"us/{variant_asin}"
@@ -46,7 +46,7 @@ def test_sales_estimates_using_context_manager(api_keys):
 def test_sales_estimates_asin_without_rank_data(api_keys):
     client = ClientSync(**api_keys, marketplace=Marketplace.US)
     with pytest.raises(JungleScoutHTTPError) as exc_info:
-        client.sales_estimates(asin="B0CRMZ9PFR", start_date="2023-01-01", end_date="2023-12-01")
+        client.sales_estimates(asin="B0CRMZ9PFR", start_date="2024-01-01", end_date="2024-12-01")
     client.close()
     assert client.is_closed
     assert isinstance(exc_info.value.httpx_exception, HTTPStatusError)

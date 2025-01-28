@@ -11,7 +11,7 @@ from junglescout.models.parameters import Marketplace
 async def test_sales_estimates(api_keys):
     variant_asin = "B078DZ9BRD"
     client = ClientAsync(**api_keys, marketplace=Marketplace.US)
-    response = await client.sales_estimates(asin=variant_asin, start_date="2023-01-01", end_date="2023-01-31")
+    response = await client.sales_estimates(asin=variant_asin, start_date="2024-01-01", end_date="2024-01-31")
     await client.close()
     assert client.is_closed
     assert len(response.data) == 1
@@ -30,7 +30,7 @@ async def test_sales_estimates(api_keys):
 async def test_sales_estimates_using_context_manager(api_keys):
     variant_asin = "B078DZ9BRD"
     async with ClientAsync(**api_keys, marketplace=Marketplace.US) as client:
-        response = await client.sales_estimates(asin=variant_asin, start_date="2023-01-01", end_date="2023-01-31")
+        response = await client.sales_estimates(asin=variant_asin, start_date="2024-01-01", end_date="2024-01-31")
     assert client.is_closed
     assert len(response.data) == 1
     assert response.data[0].id == f"us/{variant_asin}"
@@ -49,7 +49,7 @@ async def test_sales_estimates_using_context_manager(api_keys):
 async def test_sales_estimates_asin_without_rank_data(api_keys):
     client = ClientAsync(**api_keys, marketplace=Marketplace.US)
     with pytest.raises(JungleScoutHTTPError) as exc_info:
-        await client.sales_estimates(asin="B0CRMZ9PFR", start_date="2023-01-01", end_date="2023-12-01")
+        await client.sales_estimates(asin="B0CRMZ9PFR", start_date="2024-01-01", end_date="2024-12-01")
     await client.close()
     assert client.is_closed
     assert isinstance(exc_info.value.httpx_exception, HTTPStatusError)
