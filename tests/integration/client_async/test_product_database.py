@@ -1,7 +1,6 @@
 from datetime import datetime
 
 import pytest
-
 from junglescout import ClientAsync
 from junglescout.models.parameters import (
     Marketplace,
@@ -11,8 +10,8 @@ from junglescout.models.parameters import (
 )
 
 
-@pytest.mark.integration
-@pytest.mark.asyncio
+@pytest.mark.integration()
+@pytest.mark.asyncio()
 async def test_with_keywords(api_keys):
     client = ClientAsync(**api_keys, marketplace=Marketplace.US)
     response = await client.product_database(
@@ -38,8 +37,8 @@ async def test_with_keywords(api_keys):
     assert isinstance(response.data[0].attributes.updated_at, datetime)
 
 
-@pytest.mark.integration
-@pytest.mark.asyncio
+@pytest.mark.integration()
+@pytest.mark.asyncio()
 async def test_with_keywords_using_context_manager(api_keys):
     async with ClientAsync(**api_keys, marketplace=Marketplace.US) as client:
         response = await client.product_database(
@@ -64,8 +63,8 @@ async def test_with_keywords_using_context_manager(api_keys):
     assert isinstance(response.data[0].attributes.updated_at, datetime)
 
 
-@pytest.mark.integration
-@pytest.mark.asyncio
+@pytest.mark.integration()
+@pytest.mark.asyncio()
 async def test_with_only_keywords(api_keys):
     client = ClientAsync(**api_keys, marketplace=Marketplace.US)
     response = await client.product_database(
@@ -88,8 +87,8 @@ async def test_with_only_keywords(api_keys):
     assert isinstance(response.data[0].attributes.updated_at, datetime)
 
 
-@pytest.mark.integration
-@pytest.mark.asyncio
+@pytest.mark.integration()
+@pytest.mark.asyncio()
 async def test_with_keyword_that_does_not_exist(api_keys):
     keywords = ["thisisnotarealkeywordthisisnotarealkeywordthisisno"]
     client = ClientAsync(**api_keys, marketplace=Marketplace.US)

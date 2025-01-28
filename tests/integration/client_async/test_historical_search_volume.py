@@ -2,14 +2,13 @@ from datetime import datetime
 
 import pytest
 from httpx import HTTPStatusError
-
 from junglescout import ClientAsync
 from junglescout.exceptions import JungleScoutHTTPError
 from junglescout.models.parameters import Marketplace
 
 
-@pytest.mark.integration
-@pytest.mark.asyncio
+@pytest.mark.integration()
+@pytest.mark.asyncio()
 async def test_historical_search_volume(api_keys):
     keyword = "yoga"
     client = ClientAsync(**api_keys, marketplace=Marketplace.US)
@@ -24,8 +23,8 @@ async def test_historical_search_volume(api_keys):
     assert response.data[0].attributes.estimated_exact_search_volume > 0
 
 
-@pytest.mark.integration
-@pytest.mark.asyncio
+@pytest.mark.integration()
+@pytest.mark.asyncio()
 async def test_historical_search_volume_using_context_manager(api_keys):
     keyword = "yoga"
     async with ClientAsync(**api_keys, marketplace=Marketplace.US) as client:
@@ -41,8 +40,8 @@ async def test_historical_search_volume_using_context_manager(api_keys):
     assert response.data[0].attributes.estimated_exact_search_volume > 0
 
 
-@pytest.mark.integration
-@pytest.mark.asyncio
+@pytest.mark.integration()
+@pytest.mark.asyncio()
 async def test_historical_search_volume_with_too_large_of_range(api_keys):
     keyword = "yoga"
     client = ClientAsync(**api_keys, marketplace=Marketplace.US)
@@ -64,8 +63,8 @@ async def test_historical_search_volume_with_too_large_of_range(api_keys):
     }
 
 
-@pytest.mark.integration
-@pytest.mark.asyncio
+@pytest.mark.integration()
+@pytest.mark.asyncio()
 async def test_historical_search_volume_with_keyword_that_does_not_exist(api_keys):
     keyword = "thisisnotarealkeywordthisisnotarealkeywordthisisno"
     client = ClientAsync(**api_keys, marketplace=Marketplace.US)
@@ -75,8 +74,8 @@ async def test_historical_search_volume_with_keyword_that_does_not_exist(api_key
     assert response.data == []
 
 
-@pytest.mark.integration
-@pytest.mark.asyncio
+@pytest.mark.integration()
+@pytest.mark.asyncio()
 async def test_historical_search_volume_with_old_data(api_keys):
     keyword = "yoga mat"
     client = ClientAsync(**api_keys, marketplace=Marketplace.US)

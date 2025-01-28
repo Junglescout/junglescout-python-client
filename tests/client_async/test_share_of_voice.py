@@ -1,8 +1,8 @@
 import httpx
 import pytest
 import respx
-
 from junglescout.models.parameters import Marketplace
+
 from tests.factories.share_of_voice_factory import generate_share_of_voice_responses
 
 
@@ -14,7 +14,7 @@ from tests.factories.share_of_voice_factory import generate_share_of_voice_respo
     ],
 )
 @respx.mock
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_share_of_voice(client_async, keyword, marketplace, fake_response):
     mock_url = f"{client_async.session.base_url}/share_of_voice"
     mock_route = respx.get(mock_url).mock(return_value=httpx.Response(200, json=fake_response))

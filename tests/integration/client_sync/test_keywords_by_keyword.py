@@ -7,7 +7,7 @@ from junglescout import ClientSync
 from junglescout.models.parameters import Marketplace, Sort
 
 
-@pytest.mark.integration
+@pytest.mark.integration()
 def test_search_by_keyword_and_category(api_keys):
     search_term = "yoga"
     client = ClientSync(**api_keys, marketplace=Marketplace.US)
@@ -31,7 +31,7 @@ def test_search_by_keyword_and_category(api_keys):
     assert response.data[0].attributes.country == "us"
 
 
-@pytest.mark.integration
+@pytest.mark.integration()
 def test_search_by_keyword_and_category_using_context_manager(api_keys):
     search_term = "yoga"
     with ClientSync(**api_keys, marketplace=Marketplace.US) as client:
@@ -54,7 +54,7 @@ def test_search_by_keyword_and_category_using_context_manager(api_keys):
     assert response.data[0].attributes.country == "us"
 
 
-@pytest.mark.integration
+@pytest.mark.integration()
 def test_for_categories_that_do_not_exist(api_keys):
     search_term = "yoga"
     non_existent_category = "This does not exist"
@@ -80,7 +80,7 @@ def test_for_categories_that_do_not_exist(api_keys):
     assert client.is_closed
 
 
-@pytest.mark.integration
+@pytest.mark.integration()
 def test_search_by_keyword(api_keys):
     search_term = "Protein Shake"
     client = ClientSync(**api_keys, marketplace=Marketplace.US)

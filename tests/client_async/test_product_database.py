@@ -4,7 +4,6 @@ from datetime import datetime
 import httpx
 import pytest
 import respx
-
 from junglescout.models.parameters import (
     Marketplace,
     ProductFilterOptions,
@@ -13,6 +12,7 @@ from junglescout.models.parameters import (
     SellerTypes,
 )
 from junglescout.models.responses import APIResponse, ProductDatabase
+
 from tests.factories.product_database_factory import generate_product_database_responses
 
 
@@ -24,7 +24,7 @@ from tests.factories.product_database_factory import generate_product_database_r
     ],
 )
 @respx.mock
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_product_database(client_async, include_keywords, exclude_keywords, fake_response):
     mock_url = f"{client_async.session.base_url}/product_database_query"
     mock_route = respx.post(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
@@ -92,7 +92,7 @@ async def test_product_database(client_async, include_keywords, exclude_keywords
     ],
 )
 @respx.mock
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_full_request_product_database(
     client_async,
     include_keywords,
@@ -181,7 +181,7 @@ async def test_full_request_product_database(
     ],
 )
 @respx.mock
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_collapse_by_parent_request_product_database(
     client_async,
     include_keywords,

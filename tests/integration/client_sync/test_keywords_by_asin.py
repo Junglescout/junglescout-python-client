@@ -4,7 +4,7 @@ from junglescout import ClientSync
 from junglescout.models.parameters import FilterOptions, Marketplace, Sort
 
 
-@pytest.mark.integration
+@pytest.mark.integration()
 def test_two_keywords_by_asin(api_keys):
     filter_options = FilterOptions(min_monthly_search_volume_exact=150)
     client = ClientSync(**api_keys, marketplace=Marketplace.US)
@@ -18,7 +18,7 @@ def test_two_keywords_by_asin(api_keys):
     assert response.data is not None
 
 
-@pytest.mark.integration
+@pytest.mark.integration()
 def test_two_keywords_by_asin_using_context_manager(api_keys):
     filter_options = FilterOptions(min_monthly_search_volume_exact=150)
     with ClientSync(**api_keys, marketplace=Marketplace.US) as client:
@@ -31,7 +31,7 @@ def test_two_keywords_by_asin_using_context_manager(api_keys):
     assert response.data is not None
 
 
-@pytest.mark.integration
+@pytest.mark.integration()
 def test_single_asin_with_sparse_data(api_keys):
     client = ClientSync(**api_keys, marketplace=Marketplace.US)
     filter_options = FilterOptions(min_monthly_search_volume_exact=150)

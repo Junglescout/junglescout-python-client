@@ -1,8 +1,8 @@
 import httpx
 import pytest
 import respx
-
 from junglescout.models.responses import APIResponse, SalesEstimates
+
 from tests.factories.sales_estimates_factory import generate_sales_estimates_responses
 
 
@@ -14,7 +14,7 @@ from tests.factories.sales_estimates_factory import generate_sales_estimates_res
     ],
 )
 @respx.mock
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_historical_search_volume(client_async, asin, start_date, end_date, fake_response):
     mock_url = f"{client_async.session.base_url}/sales_estimates_query"
     mock_route = respx.get(mock_url).mock(return_value=httpx.Response(200, json=fake_response))

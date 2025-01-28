@@ -4,8 +4,8 @@ from datetime import datetime
 import httpx
 import pytest
 import respx
-
 from junglescout.models.responses import APIResponse, KeywordByASIN
+
 from tests.factories.keyword_by_asin_factory import generate_keywords_by_asin_responses
 
 
@@ -35,7 +35,7 @@ from tests.factories.keyword_by_asin_factory import generate_keywords_by_asin_re
     ],
 )
 @respx.mock
-@pytest.mark.asyncio
+@pytest.mark.asyncio()
 async def test_keywords_by_asin(client_async, asin, fake_response):
     mock_url = f"{client_async.session.base_url}/keywords/keywords_by_asin_query"
     mock_route = respx.post(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
