@@ -310,7 +310,7 @@ class ClientSync(Client[SyncSession]):
         self,
         include_keywords: Optional[List[str]] = None,
         exclude_keywords: Optional[List[str]] = None,
-        collapse_by_parent: Optional[bool] = False,
+        collapse_by_parent: Optional[bool] = None,
         categories: Optional[List[str]] = None,
         product_tiers: Optional[List[ProductTiers]] = None,
         seller_types: Optional[List[SellerTypes]] = None,

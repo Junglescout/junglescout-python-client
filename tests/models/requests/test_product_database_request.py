@@ -8,6 +8,7 @@ def test_product_database_args():
     args = ProductDatabaseArgs(
         include_keywords=None,
         exclude_keywords=None,
+        collapse_by_parent=None,
         categories=None,
         product_tiers=None,
         seller_types=None,
@@ -21,7 +22,6 @@ def test_product_database_args():
         "page_size": 10,
         "exclude_keywords": [],
         "marketplace": Marketplace.US,
-        "collapse_by_parent": False,
         "product_tiers": [
             ProductTiers.OVERSIZE,
             ProductTiers.STANDARD,

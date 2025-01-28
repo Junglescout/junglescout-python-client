@@ -7,8 +7,8 @@ from junglescout.models.parameters import Marketplace
 from junglescout.models.responses import ShareOfVoiceTopAsins
 
 
-@pytest.mark.integration()
-@pytest.mark.asyncio()
+@pytest.mark.integration
+@pytest.mark.asyncio
 async def test_share_of_voice(api_keys):
     keyword = "yoga mat"
     client = ClientAsync(**api_keys, marketplace=Marketplace.US)
@@ -23,8 +23,8 @@ async def test_share_of_voice(api_keys):
     assert isinstance(response.data.attributes.top_asins[0], ShareOfVoiceTopAsins)
 
 
-@pytest.mark.integration()
-@pytest.mark.asyncio()
+@pytest.mark.integration
+@pytest.mark.asyncio
 async def test_share_of_voice_using_context_manager(api_keys):
     keyword = "yoga mat"
     async with ClientAsync(**api_keys, marketplace=Marketplace.US) as client:
@@ -38,8 +38,8 @@ async def test_share_of_voice_using_context_manager(api_keys):
     assert isinstance(response.data.attributes.top_asins[0], ShareOfVoiceTopAsins)
 
 
-@pytest.mark.integration()
-@pytest.mark.asyncio()
+@pytest.mark.integration
+@pytest.mark.asyncio
 async def test_share_of_voice_with_long_keyword(api_keys):
     keyword = "this is a super long keyword that will raise an error because it is too long and specific"
     client = ClientAsync(**api_keys, marketplace=Marketplace.US)
@@ -61,8 +61,8 @@ async def test_share_of_voice_with_long_keyword(api_keys):
     }
 
 
-@pytest.mark.integration()
-@pytest.mark.asyncio()
+@pytest.mark.integration
+@pytest.mark.asyncio
 async def test_share_of_voice_with_no_results(api_keys):
     keyword = "thisisnotarealkeywordthisisnotarealkeywordthisisno"
     client = ClientAsync(**api_keys, marketplace=Marketplace.US)
