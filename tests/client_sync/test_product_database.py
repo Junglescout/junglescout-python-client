@@ -4,6 +4,7 @@ from datetime import datetime
 import httpx
 import pytest
 import respx
+
 from junglescout.models.parameters import (
     Marketplace,
     ProductFilterOptions,
@@ -12,7 +13,6 @@ from junglescout.models.parameters import (
     SellerTypes,
 )
 from junglescout.models.responses import APIResponse, ProductDatabase
-
 from tests.factories.product_database_factory import generate_product_database_responses
 
 

@@ -1,9 +1,10 @@
 import json
 
 import pytest
+from pydantic import ValidationError
+
 from junglescout import ClientAsync
 from junglescout.models.parameters import Marketplace, Sort
-from pydantic import ValidationError
 
 
 @pytest.mark.integration

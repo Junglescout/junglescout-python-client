@@ -1,4 +1,5 @@
 import pytest
+
 from junglescout import ClientAsync
 from junglescout.models.parameters import FilterOptions, Marketplace, Sort
 
