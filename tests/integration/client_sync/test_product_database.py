@@ -11,7 +11,7 @@ from junglescout.models.parameters import (
 )
 
 
-@pytest.mark.integration()
+@pytest.mark.integration
 def test_with_keywords(api_keys):
     client = ClientSync(**api_keys, marketplace=Marketplace.US)
     response = client.product_database(
@@ -37,7 +37,7 @@ def test_with_keywords(api_keys):
     assert isinstance(response.data[0].attributes.updated_at, datetime)
 
 
-@pytest.mark.integration()
+@pytest.mark.integration
 def test_with_keywords_using_context_manager(api_keys):
     with ClientSync(**api_keys, marketplace=Marketplace.US) as client:
         response = client.product_database(
@@ -62,7 +62,7 @@ def test_with_keywords_using_context_manager(api_keys):
     assert isinstance(response.data[0].attributes.updated_at, datetime)
 
 
-@pytest.mark.integration()
+@pytest.mark.integration
 def test_with_only_keywords(api_keys):
     client = ClientSync(**api_keys, marketplace=Marketplace.US)
     response = client.product_database(
@@ -85,7 +85,7 @@ def test_with_only_keywords(api_keys):
     assert isinstance(response.data[0].attributes.updated_at, datetime)
 
 
-@pytest.mark.integration()
+@pytest.mark.integration
 def test_with_keyword_that_does_not_exist(api_keys):
     keywords = ["thisisnotarealkeywordthisisnotarealkeywordthisisno"]
     client = ClientSync(**api_keys, marketplace=Marketplace.US)

@@ -1,14 +1,13 @@
 import json
 
 import pytest
-from pydantic import ValidationError
-
 from junglescout import ClientAsync
 from junglescout.models.parameters import Marketplace, Sort
+from pydantic import ValidationError
 
 
-@pytest.mark.integration()
-@pytest.mark.asyncio()
+@pytest.mark.integration
+@pytest.mark.asyncio
 async def test_search_by_keyword_and_category(api_keys):
     search_term = "yoga"
     client = ClientAsync(**api_keys, marketplace=Marketplace.US)
@@ -32,8 +31,8 @@ async def test_search_by_keyword_and_category(api_keys):
     assert response.data[0].attributes.country == "us"
 
 
-@pytest.mark.integration()
-@pytest.mark.asyncio()
+@pytest.mark.integration
+@pytest.mark.asyncio
 async def test_search_by_keyword_and_category_using_context_manager(api_keys):
     search_term = "yoga"
     async with ClientAsync(**api_keys, marketplace=Marketplace.US) as client:
@@ -56,8 +55,8 @@ async def test_search_by_keyword_and_category_using_context_manager(api_keys):
     assert response.data[0].attributes.country == "us"
 
 
-@pytest.mark.integration()
-@pytest.mark.asyncio()
+@pytest.mark.integration
+@pytest.mark.asyncio
 async def test_for_categories_that_do_not_exist(api_keys):
     search_term = "yoga"
     non_existent_category = "This does not exist"
@@ -83,8 +82,8 @@ async def test_for_categories_that_do_not_exist(api_keys):
     assert client.is_closed
 
 
-@pytest.mark.integration()
-@pytest.mark.asyncio()
+@pytest.mark.integration
+@pytest.mark.asyncio
 async def test_search_by_keyword(api_keys):
     search_term = "Protein Shake"
     client = ClientAsync(**api_keys, marketplace=Marketplace.US)

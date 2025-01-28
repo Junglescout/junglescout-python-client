@@ -19,7 +19,7 @@ from tests.factories.keywords_by_keyword_factory import (
     ],
 )
 @respx.mock
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_keywords_by_keywords(client_async, search_terms, fake_response):
     mock_url = f"{client_async.session.base_url}/keywords/keywords_by_keyword_query"
     mock_route = respx.post(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
@@ -67,7 +67,7 @@ async def test_keywords_by_keywords(client_async, search_terms, fake_response):
     ],
 )
 @respx.mock
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_keywords_by_keywords_headers(client_async, search_terms, sort_options, fake_response):
     mock_url = f"{client_async.session.base_url}/keywords/keywords_by_keyword_query"
     mock_route = respx.post(mock_url).mock(return_value=httpx.Response(200, json=fake_response))

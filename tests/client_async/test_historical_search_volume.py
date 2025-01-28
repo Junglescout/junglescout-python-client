@@ -16,7 +16,7 @@ from tests.factories.historical_search_volume_factory import (
     ],
 )
 @respx.mock
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_historical_search_volume(client_async, keyword, start_date, end_date, fake_response):
     mock_url = f"{client_async.session.base_url}/keywords/historical_search_volume"
     mock_route = respx.get(mock_url).mock(return_value=httpx.Response(200, json=fake_response))
@@ -57,7 +57,7 @@ async def test_historical_search_volume(client_async, keyword, start_date, end_d
     ],
 )
 @respx.mock
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_historical_search_volume_sort_options(
     client_async, keyword, start_date, end_date, sort_options, marketplace, fake_response
 ):

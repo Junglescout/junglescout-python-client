@@ -6,7 +6,7 @@ from junglescout.exceptions import JungleScoutHTTPError
 from junglescout.models.parameters import Marketplace
 
 
-@pytest.mark.integration()
+@pytest.mark.integration
 def test_sales_estimates(api_keys):
     variant_asin = "B078DZ9BRD"
     client = ClientSync(**api_keys, marketplace=Marketplace.US)
@@ -24,7 +24,7 @@ def test_sales_estimates(api_keys):
     assert len(response.data[0].attributes.data) > 1
 
 
-@pytest.mark.integration()
+@pytest.mark.integration
 def test_sales_estimates_using_context_manager(api_keys):
     variant_asin = "B078DZ9BRD"
     with ClientSync(**api_keys, marketplace=Marketplace.US) as client:
@@ -41,7 +41,7 @@ def test_sales_estimates_using_context_manager(api_keys):
     assert len(response.data[0].attributes.data) > 1
 
 
-@pytest.mark.integration()
+@pytest.mark.integration
 @pytest.mark.skip("This test is skipped because the ASIN currently has rank data.")
 def test_sales_estimates_asin_without_rank_data(api_keys):
     client = ClientSync(**api_keys, marketplace=Marketplace.US)
@@ -55,7 +55,7 @@ def test_sales_estimates_asin_without_rank_data(api_keys):
     assert exc_info.value.httpx_exception.response.json()["errors"][0]["code"] == "MISSING_RANK_DATA"
 
 
-@pytest.mark.integration()
+@pytest.mark.integration
 def test_sales_estimates_asin_with_variants(api_keys):
     parent_asin = "B0CQHGPJS2"
     client = ClientSync(**api_keys, marketplace=Marketplace.US)
