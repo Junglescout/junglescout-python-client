@@ -13,7 +13,7 @@ from junglescout.models.parameters import Marketplace
 async def test_historical_search_volume(api_keys):
     keyword = "yoga"
     client = ClientAsync(**api_keys, marketplace=Marketplace.US)
-    response = await client.historical_search_volume(keyword=keyword, start_date="2023-04-01", end_date="2023-04-30")
+    response = await client.historical_search_volume(keyword=keyword, start_date="2024-04-01", end_date="2024-04-30")
     await client.close()
     assert client.is_closed
     assert len(response.data) > 1
@@ -30,7 +30,7 @@ async def test_historical_search_volume_using_context_manager(api_keys):
     keyword = "yoga"
     async with ClientAsync(**api_keys, marketplace=Marketplace.US) as client:
         response = await client.historical_search_volume(
-            keyword=keyword, start_date="2023-04-01", end_date="2023-04-30"
+            keyword=keyword, start_date="2024-04-01", end_date="2024-04-30"
         )
     assert client.is_closed
     assert len(response.data) > 1
