@@ -25,7 +25,7 @@ class ProductDatabaseFeeBreakdown(BaseModel):
 class ProductDatabaseAttributes(BaseModel):
     """Product database attributes."""
 
-    title: str = Field(default=..., description="The title of the product.")
+    title: Optional[str] = Field(default=..., description="The title of the product.")
     price: Optional[float] = Field(default=None, description="The price of the product.")
     reviews: Optional[int] = Field(default=None, description="The number of reviews for the product.")
     category: Optional[str] = Field(default=None, description="The category of the product.")
