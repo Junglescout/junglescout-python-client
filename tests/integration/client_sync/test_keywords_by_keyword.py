@@ -96,4 +96,5 @@ def test_search_by_keyword(api_keys):
     assert search_term.lower() in response.data[0].id
     assert response.data[0].type == "keywords_by_keyword_result"
     assert response.data[0].attributes.country == "us"
+    assert response.data[0].attributes.name is not None
     assert search_term.lower() in response.data[0].attributes.name
