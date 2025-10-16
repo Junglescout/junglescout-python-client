@@ -33,20 +33,17 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          CURRENT_VERSION=$(poetry run semantic-release --noop version --print-last-released-tag)
-          echo "Current version: ${CURRENT_VERSION}"
-          
           poetry run semantic-release version --no-changelog
-          
+
           NEXT_VERSION=$(poetry run semantic-release --noop version --print-tag)
           echo "Next version: ${NEXT_VERSION}"
-          
-          if [[ "${CURRENT_VERSION}" == "${NEXT_VERSION}" ]]; then
+
+          if curl -s https://pypi.org/pypi/junglescout-client/json | jq -r '.releases | keys[]' | grep -q "^${NEXT_VERSION}$"; then
             echo "SHOULD_PUBLISH=0" >> $GITHUB_ENV
-            echo "No new version to publish"
+            echo "Version ${NEXT_VERSION} already exists on PyPI"
           else
             echo "SHOULD_PUBLISH=1" >> $GITHUB_ENV
-            echo "New version to publish"
+            echo "New version ${NEXT_VERSION} does not exist on PyPI"
           fi
       - name: Publish to PyPI
         if: env.SHOULD_PUBLISH == '1'
