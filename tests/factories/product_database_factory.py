@@ -36,7 +36,7 @@ class AttributesFactory(factory.DictFactory):
     approximate_30_day_revenue = factory.Faker("pyfloat", positive=True)
     approximate_30_day_units_sold = factory.Faker("pyint")
     ean_list = factory.List([fake.random_int(min=0, max=100) for _ in range(2)])
-    isbn_list = factory.List([fake.random_int(min=0, max=100) for _ in range(2)])
+    isbn_list = factory.List([fake.isbn13() if fake.boolean() else fake.isbn10() for _ in range(2)])
     upc_list = factory.List([fake.random_int(min=0, max=100) for _ in range(2)])
     gtin_list = factory.List([fake.random_int(min=0, max=100) for _ in range(2)])
     variant_reviews = factory.Faker("pyint")

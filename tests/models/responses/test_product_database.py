@@ -40,7 +40,7 @@ def test_product_database():
                     "approximate_30_day_revenue": 1,
                     "approximate_30_day_units_sold": 1,
                     "ean_list": [1, 2],
-                    "isbn_list": [1, 2],
+                    "isbn_list": ["0581553128", "038520115X"],
                     "upc_list": [1, 2],
                     "gtin_list": [1, 2],
                     "variant_reviews": 1,
