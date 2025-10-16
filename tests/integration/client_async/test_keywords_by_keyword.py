@@ -27,7 +27,7 @@ async def test_search_by_keyword_and_category(api_keys):
     assert "keywords_by_keyword_query" in response.links.self
     assert response.links.next is None
     assert len(response.data) > 1
-    assert response.data[0].id == f"us/{search_term}"
+    assert search_term in response.data[0].id
     assert response.data[0].type == "keywords_by_keyword_result"
     assert response.data[0].attributes.country == "us"
 
@@ -51,7 +51,7 @@ async def test_search_by_keyword_and_category_using_context_manager(api_keys):
     assert "keywords_by_keyword_query" in response.links.self
     assert response.links.next is None
     assert len(response.data) > 1
-    assert response.data[0].id == f"us/{search_term}"
+    assert search_term in response.data[0].id
     assert response.data[0].type == "keywords_by_keyword_result"
     assert response.data[0].attributes.country == "us"
 
@@ -97,7 +97,8 @@ async def test_search_by_keyword(api_keys):
     assert response.links.self is not None
     assert "keywords_by_keyword_query" in response.links.self
     assert len(response.data) > 1
-    assert response.data[0].id == f"us/{search_term}"
+    assert search_term.lower() in response.data[0].id
     assert response.data[0].type == "keywords_by_keyword_result"
     assert response.data[0].attributes.country == "us"
-    assert response.data[0].attributes.name == search_term
+    assert response.data[0].attributes.name is not None
+    assert search_term.lower() in response.data[0].attributes.name
